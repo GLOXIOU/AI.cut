@@ -1,0 +1,88 @@
+{
+  "name": "ai-cut",
+  "productName": "AI.cut",
+  "version": "1.0.0",
+  "description": "A video editing software powered entirely by AI, featuring capabilities such as motion design and much more.",
+  "license": "MIT",
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/prepare-resources.mjs && vite build",
+    "start": "npm run build && electron .",
+    "app": "electron .",
+    "dist": "npm run build && node scripts/fetch-packs.mjs && electron-builder --win",
+    "postinstall": "node scripts/prepare-resources.mjs",
+    "test:graph": "node scripts/graph-test.mjs",
+    "packs": "node scripts/fetch-packs.mjs"
+  },
+  "build": {
+    "appId": "app.aicut.editor",
+    "productName": "AI.cut",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**",
+      "shared/**",
+      "dist/**",
+      "resources/**",
+      "bin/**",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "bin/**",
+      "resources/**"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "resources/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "fileAssociations": [
+      {
+        "name": "AI.cut project",
+        "ext": "aicut",
+        "description": "AI.cut video project"
+      }
+    ]
+  },
+  "dependencies": {
+    "@fugood/whisper.node": "^1.2.0-rc.2",
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/anton": "^5.3.0",
+    "@fontsource/archivo-black": "^5.3.0",
+    "@fontsource/bangers": "^5.3.0",
+    "@fontsource/bebas-neue": "^5.3.0",
+    "@fontsource/caveat": "^5.3.0",
+    "@fontsource/dm-serif-display": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/lilita-one": "^5.3.0",
+    "@fontsource/luckiest-guy": "^5.3.0",
+    "@fontsource/montserrat": "^5.3.0",
+    "@fontsource/oswald": "^5.3.0",
+    "@fontsource/permanent-marker": "^5.3.0",
+    "@fontsource/playfair-display": "^5.3.0",
+    "@fontsource/poppins": "^5.3.0",
+    "@fontsource/roboto": "^5.3.0",
+    "@fontsource/roboto-mono": "^5.3.0",
+    "@fontsource/rubik": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0",
+    "lottie-web": "^5.13.0",
+    "lucide-react": "^1.71.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "vite": "^8.3.7",
+    "zustand": "^5.1.0"
+  }
+}

@@ -1,0 +1,19 @@
+<div class="bg"></div>
+<div class="es">
+  <div class="title">{{title}}</div>
+  <div class="slots"><div class="slot" style="--i:0"><span>{{left}}</span></div><div class="slot" style="--i:1"><span>{{right}}</span></div></div>
+  <div class="sub"><span class="dot"></span>{{cta}}</div>
+</div>
+<style>
+.bg{position:absolute;inset:0;background:{{background}};animation:fade .6s ease both}
+.es{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--k) * .05)}
+.title{font:900 calc(var(--k) * .075) '{{font}}', Montserrat, sans-serif;color:{{color}};animation:up .7s cubic-bezier(.2,1,.3,1) .15s both}
+.slots{display:flex;gap:calc(var(--w) * .04)}
+.slot{width:calc(var(--w) * .3);aspect-ratio:16/9;border-radius:calc(var(--k) * .02);border:calc(var(--k) * .004) dashed rgba(255,255,255,.5);background:rgba(255,255,255,.06);display:flex;align-items:flex-end;justify-content:center;padding-bottom:calc(var(--k) * .02);animation:up .7s cubic-bezier(.2,1.2,.3,1) both;animation-delay:calc(.35s + var(--i) * .15s)}
+.slot span{font:700 calc(var(--k) * .028) Inter, sans-serif;color:#fff;opacity:.8}
+.sub{display:flex;align-items:center;gap:.6em;font:800 calc(var(--k) * .04) Inter, sans-serif;color:#fff;background:#ff0033;padding:.4em 1em;border-radius:.5em;animation:pop .5s cubic-bezier(.2,1.6,.4,1) .8s both}
+.dot{width:.5em;height:.5em;border-radius:50%;background:#fff}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(50px);opacity:0}}
+@keyframes pop{from{transform:scale(0)}}
+</style>

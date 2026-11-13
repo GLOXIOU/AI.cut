@@ -1,0 +1,23 @@
+<div class="exit"><div class="list">
+  <div class="title">{{title}}</div>
+  <ul id="items"></ul>
+</div></div>
+<style>
+.exit{position:absolute;inset:0;display:flex;align-items:center;justify-content:{{align}};padding:0 9%;animation:out .45s ease-in calc(var(--dur) - .45s) both}
+.list{background:{{background}};padding:calc(var(--k) * .045) calc(var(--k) * .06);border-radius:calc(var(--k) * .025);min-width:40%;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:in .6s cubic-bezier(.2,1,.3,1) both}
+.title{font:800 calc(var(--k) * .055) '{{font}}', Montserrat, sans-serif;color:{{color}};margin-bottom:calc(var(--k) * .02)}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;align-items:center;gap:.6em;font:600 calc(var(--k) * .04) / 1.6 Inter, sans-serif;color:{{color}};animation:li .5s cubic-bezier(.2,1.2,.4,1) both;animation-delay:calc(.35s + var(--i) * {{stagger}}s)}
+li::before{content:'';width:.55em;height:.55em;border-radius:50%;background:{{accent}};box-shadow:0 0 12px {{accent}};flex:none}
+@keyframes in{from{transform:translateY(30px);opacity:0}}
+@keyframes li{from{transform:translateX(-40px);opacity:0}}
+@keyframes out{to{opacity:0;transform:scale(.97)}}
+</style>
+<script>
+(function(){
+  var ul = document.getElementById('items');
+  String(AICUT.params.items || '').split(/\n|;/).map(function(s){ return s.trim(); }).filter(Boolean).forEach(function(s, i){
+    var li = document.createElement('li'); li.textContent = s; li.style.setProperty('--i', i); ul.appendChild(li);
+  });
+})();
+</script>

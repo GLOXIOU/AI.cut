@@ -1,0 +1,11 @@
+<div class="wrap"><div class="pill"><span class="dot"></span><span class="n">{{name}}</span><span class="sep"></span><span class="r">{{title}}</span></div></div>
+<style>
+.wrap{position:absolute;left:6%;bottom:12%;animation:out .4s ease-in calc(var(--dur) - .4s) both}
+.pill{display:flex;align-items:center;gap:calc(var(--k)*.016);background:{{background}};color:{{color}};padding:calc(var(--k)*.016) calc(var(--k)*.03);border-radius:999px;font:600 calc(var(--k)*.034) "{{font}}",Inter,sans-serif;box-shadow:0 calc(var(--k)*.012) calc(var(--k)*.04) rgba(0,0,0,.35);animation:in .6s cubic-bezier(.2,.9,.25,1.1) both}
+.dot{width:calc(var(--k)*.016);height:calc(var(--k)*.016);border-radius:50%;background:{{accent}};animation:pulse 1.2s ease-in-out .6s infinite}
+.sep{width:1px;height:1em;background:currentColor;opacity:.3}
+.r{font-weight:500;opacity:.8}
+@keyframes in{from{transform:translateX(-30%) scale(.9);opacity:0}}
+@keyframes pulse{50%{transform:scale(1.6);opacity:.5}}
+@keyframes out{to{opacity:0;transform:translateY(30%)}}
+</style>

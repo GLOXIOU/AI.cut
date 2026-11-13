@@ -1,0 +1,19 @@
+<div class="exit"><div class="stage">
+  <div class="bar"></div>
+  <h1 id="title">{{title}}</h1>
+  <div class="sub"><span>{{subtitle}}</span></div>
+</div></div>
+<style>
+.exit{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;animation:out .5s cubic-bezier(.7,0,.84,0) calc(var(--dur) - .5s) both}
+.stage{text-align:center;position:relative}
+h1{margin:0;font:900 calc(var(--k) * .13) / 1 '{{font}}', Montserrat, sans-serif;color:{{color}};letter-spacing:-.02em;text-transform:uppercase;text-shadow:0 calc(var(--k) * .012) calc(var(--k) * .04) rgba(0,0,0,.45)}
+h1 .c{display:inline-block;animation:rise .7s cubic-bezier(.2,1.3,.4,1) both;animation-delay:calc(var(--i) * 45ms)}
+.bar{height:calc(var(--k) * .012);width:calc(var(--k) * .22);margin:0 auto calc(var(--k) * .025);background:{{accent}};border-radius:99px;transform-origin:left;animation:grow .6s cubic-bezier(.6,0,.2,1) .15s both}
+.sub{overflow:hidden;margin-top:calc(var(--k) * .02)}
+.sub span{display:inline-block;font:600 calc(var(--k) * .036) / 1.2 Inter, sans-serif;color:{{color}};opacity:.9;letter-spacing:.32em;text-transform:uppercase;animation:up .6s cubic-bezier(.2,.9,.3,1) .45s both}
+@keyframes rise{from{transform:translateY(60%) rotate(8deg);opacity:0}}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes up{from{transform:translateY(110%)}}
+@keyframes out{to{transform:scale(1.1);opacity:0;filter:blur(12px)}}
+</style>
+<script>AICUT.splitText('#title', 'chars');</script>

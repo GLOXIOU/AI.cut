@@ -1,0 +1,16 @@
+<div class="c" id="c"></div>
+<style>.c{position:absolute;left:{{x}}%;top:{{y}}%;border-radius:50%;background:{{color}};transform:translate(-50%,-50%)}</style>
+<script>
+(function(){
+  var c = document.getElementById('c'), W = AICUT.width, H = AICUT.height;
+  var x = (+AICUT.params.x || 50) / 100 * W, y = (+AICUT.params.y || 50) / 100 * H;
+  var R = 2 * Math.max(Math.hypot(x, y), Math.hypot(W - x, y), Math.hypot(x, H - y), Math.hypot(W - x, H - y));
+  AICUT.onFrame(function(t){
+    var D = AICUT.duration, half = D / 2;
+    // grows until it covers the frame at the middle of the clip (put the cut there), then shrinks away
+    var p = t < half ? AICUT.ease.inOut(AICUT.progress(t, 0, half)) : 1 - AICUT.ease.inOut(AICUT.progress(t, half, half));
+    var d = R * p;
+    c.style.width = d + 'px'; c.style.height = d + 'px';
+  });
+})();
+</script>

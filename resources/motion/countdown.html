@@ -1,0 +1,23 @@
+<div class="wrap"><svg viewBox="0 0 200 200" class="ring"><circle cx="100" cy="100" r="88" class="bg"/><circle cx="100" cy="100" r="88" class="fg" id="fg"/></svg><div class="num" id="n"></div></div>
+<style>
+.wrap{position:absolute;left:50%;top:50%;width:calc(var(--k) * .42);height:calc(var(--k) * .42);transform:translate(-50%,-50%)}
+.ring{position:absolute;inset:0;transform:rotate(-90deg)}
+.bg{fill:rgba(0,0,0,.35);stroke:rgba(255,255,255,.2);stroke-width:8}
+.fg{fill:none;stroke:{{color}};stroke-width:10;stroke-linecap:round;stroke-dasharray:553;filter:drop-shadow(0 0 6px {{color}})}
+.num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:900 calc(var(--k) * .22) Montserrat, sans-serif;color:#fff;text-shadow:0 8px 30px rgba(0,0,0,.5)}
+</style>
+<script>
+(function(){
+  var from = Math.max(1, Number(AICUT.params.from) || 3), per = AICUT.duration / (from + (AICUT.params.go ? 1 : 0));
+  var n = document.getElementById('n'), fg = document.getElementById('fg');
+  AICUT.onFrame(function(t){
+    var i = Math.floor(t / per), local = (t - i * per) / per;
+    var val = from - i;
+    n.textContent = val > 0 ? val : (AICUT.params.go || '');
+    var s = 1.35 - 0.35 * AICUT.ease.outBack(Math.min(1, local * 3));
+    n.style.transform = 'scale(' + s + ')';
+    n.style.opacity = Math.min(1, local * 6) * (1 - Math.max(0, local - 0.85) / 0.15);
+    fg.style.strokeDashoffset = 553 * local;
+  });
+})();
+</script>

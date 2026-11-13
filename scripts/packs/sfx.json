@@ -1,0 +1,4201 @@
+{
+ "sounds": [
+  {
+   "id": "camera-shutter",
+   "fr": "Déclencheur photo",
+   "en": "Camera shutter",
+   "cat": "foley",
+   "tags": [
+    "photo",
+    "appareil",
+    "camera",
+    "shutter",
+    "snap",
+    "clic"
+   ],
+   "replaces": "camera-shutter",
+   "title": "Camera shutter analogue film SLR 1/4 01",
+   "author": "cabled_mess",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/cabled_mess/sounds/338220",
+   "url": "https://cdn.freesound.org/previews/338/338220_5450487-hq.mp3",
+   "duration": 0.672,
+   "openverseId": "3b3d0256-4d25-442b-9d84-dc0bb191ede0",
+   "alternates": [
+    {
+     "title": "Camera shutter analogue film SLR 1/4 01",
+     "url": "https://cdn.freesound.org/previews/338/338220_5450487-hq.mp3",
+     "author": "cabled_mess",
+     "landing": "https://freesound.org/people/cabled_mess/sounds/338220"
+    },
+    {
+     "title": "C220 camera shutter release.wav",
+     "url": "https://cdn.freesound.org/previews/125/125318_2266204-hq.mp3",
+     "author": "adeluc4",
+     "landing": "https://freesound.org/people/adeluc4/sounds/125318"
+    }
+   ]
+  },
+  {
+   "id": "applause",
+   "fr": "Applaudissements",
+   "en": "Applause",
+   "cat": "crowd",
+   "tags": [
+    "applause",
+    "applaudissements",
+    "bravo",
+    "public",
+    "audience",
+    "clapping"
+   ],
+   "replaces": "applause",
+   "title": "Applause 2.WAV",
+   "author": "Sandermotions",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Sandermotions/sounds/277021",
+   "url": "https://cdn.freesound.org/previews/277/277021_1402315-hq.mp3",
+   "duration": 6.32,
+   "openverseId": "baf7990c-657a-47ab-83c0-4ec2437095c3",
+   "measure": {
+    "peak": -0.147426,
+    "rms": -23.65464,
+    "floor": -45.554406,
+    "flat": 0,
+    "dur": 6.32
+   },
+   "alternates": [
+    {
+     "title": "Applause 1.WAV",
+     "url": "https://cdn.freesound.org/previews/277/277022_1402315-hq.mp3",
+     "author": "Sandermotions",
+     "landing": "https://freesound.org/people/Sandermotions/sounds/277022"
+    },
+    {
+     "title": "Applause 4.WAV",
+     "url": "https://cdn.freesound.org/previews/277/277019_1402315-hq.mp3",
+     "author": "Sandermotions",
+     "landing": "https://freesound.org/people/Sandermotions/sounds/277019"
+    }
+   ]
+  },
+  {
+   "id": "cash-register",
+   "fr": "Caisse enregistreuse",
+   "en": "Cash register",
+   "cat": "meme",
+   "tags": [
+    "cash",
+    "ka-ching",
+    "argent",
+    "money",
+    "caisse",
+    "vente",
+    "sale"
+   ],
+   "replaces": "cash-register",
+   "title": "Cash register",
+   "author": "MaoDin204",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/MaoDin204/sounds/721774",
+   "url": "https://cdn.freesound.org/previews/721/721774_15555277-hq.mp3",
+   "duration": 1.072,
+   "openverseId": "deafdf72-1f73-4d0a-a849-356212e09e83",
+   "measure": {
+    "peak": -2.741988,
+    "rms": -26.997008,
+    "floor": -123.128515,
+    "flat": 0,
+    "dur": 1.07
+   },
+   "alternates": [
+    {
+     "title": "cash register chching",
+     "url": "https://cdn.freesound.org/previews/728/728224_15719741-hq.mp3",
+     "author": "disman",
+     "landing": "https://freesound.org/people/disman/sounds/728224"
+    },
+    {
+     "title": "Cash Register Print'n'Rip A1",
+     "url": "https://cdn.freesound.org/previews/163/163592_1038806-hq.mp3",
+     "author": "unfa",
+     "landing": "https://freesound.org/people/unfa/sounds/163592"
+    }
+   ]
+  },
+  {
+   "id": "keyboard-typing",
+   "fr": "Frappe clavier",
+   "en": "Keyboard typing",
+   "cat": "foley",
+   "tags": [
+    "clavier",
+    "keyboard",
+    "typing",
+    "ordinateur",
+    "computer",
+    "hacker"
+   ],
+   "replaces": "keyboard-typing",
+   "title": "Keyboard Typing Tapping.wav",
+   "author": "Psykophobia",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Psykophobia/sounds/250390",
+   "url": "https://cdn.freesound.org/previews/250/250390_10476-hq.mp3",
+   "duration": 4.141,
+   "openverseId": "39e8de14-1f16-4a21-baef-1eca318ac275",
+   "measure": {
+    "peak": -6.953246,
+    "rms": -38.741855,
+    "floor": -81.557407,
+    "flat": 0,
+    "dur": 4.14
+   },
+   "alternates": [
+    {
+     "title": "Keyboard Typing 001.wav",
+     "url": "https://cdn.freesound.org/previews/539/539146_6205597-hq.mp3",
+     "author": "ristooooo1",
+     "landing": "https://freesound.org/people/ristooooo1/sounds/539146"
+    }
+   ]
+  },
+  {
+   "id": "typewriter-key",
+   "fr": "Touche machine à écrire",
+   "en": "Typewriter key",
+   "cat": "foley",
+   "tags": [
+    "typewriter",
+    "machine",
+    "a",
+    "ecrire",
+    "touche",
+    "key"
+   ],
+   "replaces": "typewriter-key",
+   "title": "Typewriter snippet 03",
+   "author": "cabled_mess",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/cabled_mess/sounds/360601",
+   "url": "https://cdn.freesound.org/previews/360/360601_5450487-hq.mp3",
+   "duration": 0.685,
+   "openverseId": "45e39673-e775-48d1-82e5-f5f0c5fdcf06",
+   "measure": {
+    "peak": -1.406245,
+    "rms": -24.648158,
+    "floor": -72.900019,
+    "flat": 0,
+    "dur": 0.69
+   },
+   "alternates": [
+    {
+     "title": "Typewriter Ding.wav",
+     "url": "https://cdn.freesound.org/previews/204/204466_3430035-hq.mp3",
+     "author": "NHumphrey",
+     "landing": "https://freesound.org/people/NHumphrey/sounds/204466"
+    },
+    {
+     "title": "Typewriter Bell.wav",
+     "url": "https://cdn.freesound.org/previews/318/318687_1147663-hq.mp3",
+     "author": "ramsamba",
+     "landing": "https://freesound.org/people/ramsamba/sounds/318687"
+    }
+   ]
+  },
+  {
+   "id": "explosion",
+   "fr": "Explosion",
+   "en": "Explosion",
+   "cat": "impact",
+   "tags": [
+    "explosion",
+    "boom",
+    "bombe",
+    "blast",
+    "kaboom"
+   ],
+   "replaces": "explosion",
+   "title": "Swoosh Explosion",
+   "author": "Electroviolence",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Electroviolence/sounds/234555",
+   "url": "https://cdn.freesound.org/previews/234/234555_4238641-hq.mp3",
+   "duration": 4.613,
+   "openverseId": "d541f407-6b6d-4588-b54c-ed30e20b56b6",
+   "measure": {
+    "peak": -2.641026,
+    "rms": -17.305543,
+    "floor": -80.667706,
+    "flat": 0,
+    "dur": 4.61
+   },
+   "alternates": [
+    {
+     "title": "explosion.2.wav",
+     "url": "https://cdn.freesound.org/previews/39/39069_8842-hq.mp3",
+     "author": "alienbomb",
+     "landing": "https://freesound.org/people/alienbomb/sounds/39069"
+    },
+    {
+     "title": "Musket Explosion",
+     "url": "https://cdn.freesound.org/previews/244/244345_1868310-hq.mp3",
+     "author": "Willlewis",
+     "landing": "https://freesound.org/people/Willlewis/sounds/244345"
+    }
+   ]
+  },
+  {
+   "id": "thunder",
+   "fr": "Tonnerre",
+   "en": "Thunder",
+   "cat": "impact",
+   "tags": [
+    "tonnerre",
+    "thunder",
+    "orage",
+    "storm"
+   ],
+   "replaces": "thunder",
+   "title": "Forest Thunder",
+   "author": "Electroviolence",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Electroviolence/sounds/234536",
+   "url": "https://cdn.freesound.org/previews/234/234536_4238641-hq.mp3",
+   "duration": 13.704,
+   "openverseId": "24a0f536-4bd5-42d0-9334-0347768d08d0",
+   "measure": {
+    "peak": -1.879675,
+    "rms": -25.457811,
+    "floor": -88.737018,
+    "flat": 0,
+    "dur": 13.7
+   },
+   "alternates": [
+    {
+     "title": "Thunder rumbling, underwater, outdoors_Thunder rumbling.aif",
+     "url": "https://cdn.freesound.org/previews/151/151854_2094213-hq.mp3",
+     "author": "carroll27",
+     "landing": "https://freesound.org/people/carroll27/sounds/151854"
+    }
+   ]
+  },
+  {
+   "id": "punch-heavy",
+   "fr": "Coup de poing",
+   "en": "Punch",
+   "cat": "impact",
+   "tags": [
+    "punch",
+    "coup",
+    "poing",
+    "frappe",
+    "fight",
+    "bagarre"
+   ],
+   "replaces": "punch-heavy",
+   "title": "Punch (2)",
+   "author": "johnfolker",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/johnfolker/sounds/269232",
+   "url": "https://cdn.freesound.org/previews/269/269232_5094889-hq.mp3",
+   "duration": 0.513,
+   "openverseId": "78e01551-1b79-4e69-96dc-ed4bccf49a20",
+   "measure": {
+    "peak": 2.056022,
+    "rms": -15.355584,
+    "floor": -78.660656,
+    "flat": 0,
+    "dur": 0.51
+   },
+   "alternates": [
+    {
+     "title": "Punch (4)",
+     "url": "https://cdn.freesound.org/previews/269/269230_5094889-hq.mp3",
+     "author": "johnfolker",
+     "landing": "https://freesound.org/people/johnfolker/sounds/269230"
+    },
+    {
+     "title": "Punch #1.mp3",
+     "url": "https://cdn.freesound.org/previews/162/162370_2572735-hq.mp3",
+     "author": "lewisisminted",
+     "landing": "https://freesound.org/people/lewisisminted/sounds/162370"
+    }
+   ]
+  },
+  {
+   "id": "hit-punch",
+   "fr": "Coup sec",
+   "en": "Punch hit",
+   "cat": "impact",
+   "tags": [
+    "punch",
+    "hit",
+    "coup",
+    "impact"
+   ],
+   "replaces": "hit-punch",
+   "title": "whip02.wav",
+   "author": "snowflakes",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/snowflakes/sounds/72190",
+   "url": "https://cdn.freesound.org/previews/72/72190_1070711-hq.mp3",
+   "duration": 0.669,
+   "openverseId": "6f89faae-61ba-47fd-bd9e-a1a0b7c0f62f",
+   "measure": {
+    "peak": -1.498493,
+    "rms": -22.459846,
+    "floor": -87.909395,
+    "flat": 0,
+    "dur": 0.67
+   },
+   "alternates": [
+    {
+     "title": "whip01.wav",
+     "url": "https://cdn.freesound.org/previews/72/72189_1070711-hq.mp3",
+     "author": "snowflakes",
+     "landing": "https://freesound.org/people/snowflakes/sounds/72189"
+    },
+    {
+     "title": "whip03.wav",
+     "url": "https://cdn.freesound.org/previews/72/72191_1070711-hq.mp3",
+     "author": "snowflakes",
+     "landing": "https://freesound.org/people/snowflakes/sounds/72191"
+    }
+   ]
+  },
+  {
+   "id": "whistle",
+   "fr": "Sifflet d'arbitre",
+   "en": "Referee whistle",
+   "cat": "foley",
+   "tags": [
+    "sifflet",
+    "whistle",
+    "arbitre",
+    "referee",
+    "sport"
+   ],
+   "replaces": "whistle",
+   "title": "Referee whistle sound.wav",
+   "author": "Rosa-Orenes256",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Rosa-Orenes256/sounds/538422",
+   "url": "https://cdn.freesound.org/previews/538/538422_11966684-hq.mp3",
+   "duration": 0.535,
+   "openverseId": "b56a3101-0237-4787-a1bb-27386b83cae4",
+   "measure": {
+    "peak": -5.57963,
+    "rms": -13.014517,
+    "floor": -47.885104,
+    "flat": 0,
+    "dur": 0.54
+   },
+   "alternates": []
+  },
+  {
+   "id": "page-turn",
+   "fr": "Page tournée",
+   "en": "Page turn",
+   "cat": "foley",
+   "tags": [
+    "page",
+    "livre",
+    "book",
+    "papier",
+    "paper",
+    "flip"
+   ],
+   "replaces": "page-turn",
+   "title": "Page Turn (2)",
+   "author": "OwlStorm",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/OwlStorm/sounds/151221",
+   "url": "https://cdn.freesound.org/previews/151/151221_140737-hq.mp3",
+   "duration": 1.809,
+   "openverseId": "960333f8-f192-456d-9a84-9cccfed08e7f",
+   "measure": {
+    "peak": -23.247173,
+    "rms": -44.570296,
+    "floor": -73.928532,
+    "flat": 0,
+    "dur": 1.81
+   },
+   "alternates": [
+    {
+     "title": "Page Turn 04.wav",
+     "url": "https://cdn.freesound.org/previews/397/397551_6142149-hq.mp3",
+     "author": "MATRIXXX_",
+     "landing": "https://freesound.org/people/MATRIXXX_/sounds/397551"
+    },
+    {
+     "title": "Page Turn 1",
+     "url": "https://cdn.freesound.org/previews/144/144110_401105-hq.mp3",
+     "author": "gfrog",
+     "landing": "https://freesound.org/people/gfrog/sounds/144110"
+    }
+   ]
+  },
+  {
+   "id": "pop-cork",
+   "fr": "Bouchon de champagne",
+   "en": "Cork pop",
+   "cat": "foley",
+   "tags": [
+    "bouchon",
+    "champagne",
+    "cork",
+    "pop",
+    "fete",
+    "celebration"
+   ],
+   "replaces": "pop-cork",
+   "title": "Champagne Cork",
+   "author": "KenRT",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/KenRT/sounds/392624",
+   "url": "https://cdn.freesound.org/previews/392/392624_5440319-hq.mp3",
+   "duration": 0.666,
+   "openverseId": "881df2d2-10c0-4956-bc6e-32ffece5742c",
+   "measure": {
+    "peak": -0.40538,
+    "rms": -18.186141,
+    "floor": -74.171387,
+    "flat": 0,
+    "dur": 0.67
+   },
+   "alternates": [
+    {
+     "title": "pop4.wav",
+     "url": "https://cdn.freesound.org/previews/266/266966_1657381-hq.mp3",
+     "author": "muel2002",
+     "landing": "https://freesound.org/people/muel2002/sounds/266966"
+    },
+    {
+     "title": "pop1.wav",
+     "url": "https://cdn.freesound.org/previews/266/266965_1657381-hq.mp3",
+     "author": "muel2002",
+     "landing": "https://freesound.org/people/muel2002/sounds/266965"
+    }
+   ]
+  },
+  {
+   "id": "clock-ticking",
+   "fr": "Horloge tic-tac",
+   "en": "Clock ticking",
+   "cat": "foley",
+   "tags": [
+    "horloge",
+    "clock",
+    "tic",
+    "tac",
+    "tick",
+    "temps",
+    "suspense"
+   ],
+   "replaces": "clock-ticking",
+   "title": "Clock Ticking",
+   "author": "BenjaminNelan",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/BenjaminNelan/sounds/321084",
+   "url": "https://cdn.freesound.org/previews/321/321084_1196020-hq.mp3",
+   "duration": 4,
+   "openverseId": "7a1bb8c4-4bb1-4edf-8abc-9b59920850ad",
+   "measure": {
+    "peak": -4.18736,
+    "rms": -35.329242,
+    "floor": -87.458082,
+    "flat": 0,
+    "dur": 4
+   },
+   "alternates": [
+    {
+     "title": "Clock Tick",
+     "url": "https://cdn.freesound.org/previews/398/398275_2351866-hq.mp3",
+     "author": "FlashTrauma",
+     "landing": "https://freesound.org/people/FlashTrauma/sounds/398275"
+    },
+    {
+     "title": "Clock Ticking",
+     "url": "https://cdn.freesound.org/previews/459/459998_6253486-hq.mp3",
+     "author": "florianreichelt",
+     "landing": "https://freesound.org/people/florianreichelt/sounds/459998"
+    }
+   ]
+  },
+  {
+   "id": "snap",
+   "fr": "Claquement de doigts",
+   "en": "Finger snap",
+   "cat": "foley",
+   "tags": [
+    "claquement",
+    "doigts",
+    "snap",
+    "finger",
+    "magie"
+   ],
+   "replaces": "snap",
+   "title": "Click / Finger Snap",
+   "author": "OwlStorm",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/OwlStorm/sounds/151214",
+   "url": "https://cdn.freesound.org/previews/151/151214_140737-hq.mp3",
+   "duration": 0.318,
+   "openverseId": "e1284aa5-3b2e-432a-9486-6584a9862327",
+   "measure": {
+    "peak": -3.501978,
+    "rms": -33.661703,
+    "floor": -71.746108,
+    "flat": 0,
+    "dur": 0.32
+   },
+   "alternates": [
+    {
+     "title": "Finger Snap 02",
+     "url": "https://cdn.freesound.org/previews/137/137104_880637-hq.mp3",
+     "author": "chaosportal",
+     "landing": "https://freesound.org/people/chaosportal/sounds/137104"
+    },
+    {
+     "title": "Finger snap (recording)",
+     "url": "https://cdn.freesound.org/previews/387/387082_7219680-hq.mp3",
+     "author": "TKhelkar",
+     "landing": "https://freesound.org/people/TKhelkar/sounds/387082"
+    }
+   ]
+  },
+  {
+   "id": "sword-unsheath",
+   "fr": "Épée dégainée",
+   "en": "Sword unsheath",
+   "cat": "foley",
+   "tags": [
+    "epee",
+    "sword",
+    "lame",
+    "blade",
+    "schwing",
+    "metal"
+   ],
+   "replaces": "sword-unsheath",
+   "title": "unsheath_sword.wav",
+   "author": "Qat",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Qat/sounds/107589",
+   "url": "https://cdn.freesound.org/previews/107/107589_1855536-hq.mp3",
+   "duration": 1.013,
+   "openverseId": "7c17208f-78df-4689-be1f-fcd4bb777d5c",
+   "measure": {
+    "peak": -2.677989,
+    "rms": -23.230124,
+    "floor": -78.930669,
+    "flat": 0,
+    "dur": 1.01
+   },
+   "alternates": [
+    {
+     "title": "Sword Unsheath",
+     "url": "https://cdn.freesound.org/previews/276/276872_1989929-hq.mp3",
+     "author": "lucabia",
+     "landing": "https://freesound.org/people/lucabia/sounds/276872"
+    },
+    {
+     "title": "Unsheathed blade",
+     "url": "https://cdn.freesound.org/previews/320/320521_2906614-hq.mp3",
+     "author": "deleted_user_2906614",
+     "landing": "https://freesound.org/people/deleted_user_2906614/sounds/320521"
+    }
+   ]
+  },
+  {
+   "id": "record-scratch",
+   "fr": "Scratch de vinyle",
+   "en": "Record scratch",
+   "cat": "meme",
+   "tags": [
+    "scratch",
+    "vinyle",
+    "record",
+    "stop",
+    "dj",
+    "meme"
+   ],
+   "replaces": "record-scratch",
+   "title": "Record Scratch #4",
+   "author": "musicvision31",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/musicvision31/sounds/431777",
+   "url": "https://cdn.freesound.org/previews/431/431777_817038-hq.mp3",
+   "duration": 1.876,
+   "openverseId": "4a313d5d-4a68-43a8-99fa-e185e9909460",
+   "measure": {
+    "peak": 0.768731,
+    "rms": -15.407245,
+    "floor": -55.511048,
+    "flat": 0,
+    "dur": 1.88
+   },
+   "alternates": [
+    {
+     "title": "Record Scratch #2",
+     "url": "https://cdn.freesound.org/previews/431/431773_817038-hq.mp3",
+     "author": "musicvision31",
+     "landing": "https://freesound.org/people/musicvision31/sounds/431773"
+    },
+    {
+     "title": "Record Scratch #3",
+     "url": "https://cdn.freesound.org/previews/431/431778_817038-hq.mp3",
+     "author": "musicvision31",
+     "landing": "https://freesound.org/people/musicvision31/sounds/431778"
+    }
+   ]
+  },
+  {
+   "id": "crickets",
+   "fr": "Criquets (silence gênant)",
+   "en": "Crickets (awkward silence)",
+   "cat": "meme",
+   "tags": [
+    "criquets",
+    "crickets",
+    "silence",
+    "gene",
+    "awkward",
+    "meme"
+   ],
+   "replaces": "crickets",
+   "title": "crickets",
+   "author": "FreethinkerAnon",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/FreethinkerAnon/sounds/129678",
+   "url": "https://cdn.freesound.org/previews/129/129678_2362707-hq.mp3",
+   "duration": 15.589,
+   "openverseId": "277dd229-ee25-4eb5-8b5a-f7fb0e2ea2fe",
+   "measure": {
+    "peak": -15.967016,
+    "rms": -31.182734,
+    "floor": -24.846974,
+    "flat": 0,
+    "dur": 15.58
+   },
+   "alternates": [
+    {
+     "title": "Cricket - Grillo",
+     "url": "https://cdn.freesound.org/previews/543/543965_4517415-hq.mp3",
+     "author": "Lunevix",
+     "landing": "https://freesound.org/people/Lunevix/sounds/543965"
+    }
+   ]
+  },
+  {
+   "id": "airhorn",
+   "fr": "Klaxon (airhorn)",
+   "en": "Air horn",
+   "cat": "meme",
+   "tags": [
+    "airhorn",
+    "klaxon",
+    "mlg",
+    "meme",
+    "horn",
+    "fete"
+   ],
+   "replaces": "airhorn",
+   "title": "Industrial Air Horn",
+   "author": "mcpable",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/mcpable/sounds/131930",
+   "url": "https://cdn.freesound.org/previews/131/131930_1542102-hq.mp3",
+   "duration": 2.571,
+   "openverseId": "d2c87ca6-ec3e-4963-9407-5684c36cfadc",
+   "measure": {
+    "peak": -4.518962,
+    "rms": -18.339807,
+    "floor": -69.745319,
+    "flat": 0,
+    "dur": 2.57
+   },
+   "alternates": [
+    {
+     "title": "Air Horn Hype.wav",
+     "url": "https://cdn.freesound.org/previews/581/581334_11304525-hq.mp3",
+     "author": "zar.265",
+     "landing": "https://freesound.org/people/zar.265/sounds/581334"
+    },
+    {
+     "title": "Bicycle air horn 001 (2).wav",
+     "url": "https://cdn.freesound.org/previews/539/539144_6205597-hq.mp3",
+     "author": "ristooooo1",
+     "landing": "https://freesound.org/people/ristooooo1/sounds/539144"
+    }
+   ]
+  },
+  {
+   "id": "sad-trombone",
+   "fr": "Trombone triste",
+   "en": "Sad trombone",
+   "cat": "meme",
+   "tags": [
+    "trombone",
+    "triste",
+    "fail",
+    "echec",
+    "wah",
+    "wah",
+    "rate",
+    "meme"
+   ],
+   "replaces": "sad-trombone",
+   "title": "wah wah sad trombone.wav",
+   "author": "kirbydx",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/kirbydx/sounds/175409",
+   "url": "https://cdn.freesound.org/previews/175/175409_1326576-hq.mp3",
+   "duration": 5.205,
+   "openverseId": "8541b72b-f50e-496f-a2bb-5422fdb43258",
+   "measure": {
+    "peak": -3.202491,
+    "rms": -18.963641,
+    "floor": -64.820147,
+    "flat": 0,
+    "dur": 5.21
+   },
+   "alternates": [
+    {
+     "title": "horn_fail_wahwah_1.wav",
+     "url": "https://cdn.freesound.org/previews/362/362206_6629901-hq.mp3",
+     "author": "TaranP",
+     "landing": "https://freesound.org/people/TaranP/sounds/362206"
+    },
+    {
+     "title": "Fail Jingle (layer 1)",
+     "url": "https://cdn.freesound.org/previews/181/181354_1038806-hq.mp3",
+     "author": "unfa",
+     "landing": "https://freesound.org/people/unfa/sounds/181354"
+    }
+   ]
+  },
+  {
+   "id": "rimshot",
+   "fr": "Ba-dum-tss",
+   "en": "Rimshot",
+   "cat": "meme",
+   "tags": [
+    "rimshot",
+    "ba",
+    "dum",
+    "tss",
+    "blague",
+    "joke",
+    "batterie"
+   ],
+   "replaces": "rimshot",
+   "title": "Ba-dum tss",
+   "author": "SoundMaker25",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/SoundMaker25/sounds/534937",
+   "url": "https://cdn.freesound.org/previews/534/534937_11812154-hq.mp3",
+   "duration": 10.4,
+   "openverseId": "dfd0df2d-ac10-47a9-9adb-12b10a45971b",
+   "alternates": [
+    {
+     "title": "RimShot-f2.wav",
+     "url": "https://cdn.freesound.org/previews/404/404857_413392-hq.mp3",
+     "author": "gnuoctathorpe",
+     "landing": "https://freesound.org/people/gnuoctathorpe/sounds/404857"
+    },
+    {
+     "title": "RimShot-f.wav",
+     "url": "https://cdn.freesound.org/previews/404/404858_413392-hq.mp3",
+     "author": "gnuoctathorpe",
+     "landing": "https://freesound.org/people/gnuoctathorpe/sounds/404858"
+    }
+   ],
+   "maxDur": 2.6
+  },
+  {
+   "id": "boxing-bell",
+   "fr": "Cloche de boxe",
+   "en": "Boxing bell",
+   "cat": "meme",
+   "tags": [
+    "cloche",
+    "boxe",
+    "boxing",
+    "bell",
+    "ring",
+    "round",
+    "combat"
+   ],
+   "replaces": "boxing-bell",
+   "title": "R07-13-Crowd and Boxing Bell.wav",
+   "author": "craigsmith",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/craigsmith/sounds/486210",
+   "url": "https://cdn.freesound.org/previews/486/486210_2524442-hq.mp3",
+   "duration": 5.614,
+   "openverseId": "7d6b5fb1-e740-4937-ac5e-c8c83767fd70",
+   "measure": {
+    "peak": -13.718821,
+    "rms": -28.15977,
+    "floor": -62.122844,
+    "flat": 0,
+    "dur": 5.61
+   },
+   "alternates": [
+    {
+     "title": "Toy Piano Key (G#)",
+     "url": "https://cdn.freesound.org/previews/363/363161_5225777-hq.mp3",
+     "author": "Sirkoto51",
+     "landing": "https://freesound.org/people/Sirkoto51/sounds/363161"
+    },
+    {
+     "title": "spieluhr6.wav",
+     "url": "https://cdn.freesound.org/previews/157/157277_2461172-hq.mp3",
+     "author": "baujahr66",
+     "landing": "https://freesound.org/people/baujahr66/sounds/157277"
+    }
+   ]
+  },
+  {
+   "id": "drumroll",
+   "fr": "Roulement de tambour",
+   "en": "Drum roll",
+   "cat": "drums",
+   "tags": [
+    "roulement",
+    "tambour",
+    "drumroll",
+    "suspense",
+    "revelation"
+   ],
+   "replaces": "drumroll",
+   "title": "13 drum roll 01.wav",
+   "author": "zuluonedrop",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/zuluonedrop/sounds/255051",
+   "url": "https://cdn.freesound.org/previews/255/255051_3028938-hq.mp3",
+   "duration": 3.079,
+   "openverseId": "01639f4d-da46-46bd-b124-03f115df3b01",
+   "measure": {
+    "peak": -0.138334,
+    "rms": -18.380735,
+    "floor": -60.542034,
+    "flat": 0,
+    "dur": 3.08
+   },
+   "alternates": [
+    {
+     "title": "Sting, rimshot, drum roll (smooth)",
+     "url": "https://cdn.freesound.org/previews/440/440829_1575452-hq.mp3",
+     "author": "tlwmdbt",
+     "landing": "https://freesound.org/people/tlwmdbt/sounds/440829"
+    },
+    {
+     "title": "buzz roll.wav",
+     "url": "https://cdn.freesound.org/previews/77/77305_1105584-hq.mp3",
+     "author": "bigjoedrummer",
+     "landing": "https://freesound.org/people/bigjoedrummer/sounds/77305"
+    }
+   ]
+  },
+  {
+   "id": "water-drop",
+   "fr": "Goutte d'eau",
+   "en": "Water drop",
+   "cat": "foley",
+   "tags": [
+    "goutte",
+    "eau",
+    "water",
+    "drop",
+    "bloop"
+   ],
+   "replaces": "water-drop",
+   "title": "Single Water Drop",
+   "author": "paespedro",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/paespedro/sounds/174718",
+   "url": "https://cdn.freesound.org/previews/174/174718_1850811-hq.mp3",
+   "duration": 0.471,
+   "openverseId": "3b3af210-56e8-45be-882c-3005e07557bb",
+   "measure": {
+    "peak": -1.977134,
+    "rms": -23.849153,
+    "floor": -70.417768,
+    "flat": 0,
+    "dur": 0.47
+   },
+   "alternates": [
+    {
+     "title": "Water Drop Sound.wav",
+     "url": "https://cdn.freesound.org/previews/165/165206_1053041-hq.mp3",
+     "author": "metaepitome",
+     "landing": "https://freesound.org/people/metaepitome/sounds/165206"
+    },
+    {
+     "title": "water drop 3.aif",
+     "url": "https://cdn.freesound.org/previews/273/273868_1031833-hq.mp3",
+     "author": "beskhu",
+     "landing": "https://freesound.org/people/beskhu/sounds/273868"
+    }
+   ]
+  },
+  {
+   "id": "heartbeat",
+   "fr": "Battements de cœur",
+   "en": "Heartbeat",
+   "cat": "ambience",
+   "tags": [
+    "coeur",
+    "heartbeat",
+    "battement",
+    "stress",
+    "suspense"
+   ],
+   "replaces": "heartbeat",
+   "title": "Futuristic Heartbeat 60 bpm.wav",
+   "author": "_MC5_",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/_MC5_/sounds/524936",
+   "url": "https://cdn.freesound.org/previews/524/524936_332618-hq.mp3",
+   "duration": 6,
+   "openverseId": "551901c6-a6b4-4154-a770-f1e7e00cfb14",
+   "measure": {
+    "peak": -0.995853,
+    "rms": -12.30082,
+    "floor": -87.995124,
+    "flat": 0,
+    "dur": 6
+   },
+   "alternates": [
+    {
+     "title": "Human Heartbeat (60 BPM)",
+     "url": "https://cdn.freesound.org/previews/213/213181_3635427-hq.mp3",
+     "author": "FenrirFangs",
+     "landing": "https://freesound.org/people/FenrirFangs/sounds/213181"
+    },
+    {
+     "title": "Four Heartbeats HQ_BeatSmith.wav",
+     "url": "https://cdn.freesound.org/previews/22/22416_120830-hq.mp3",
+     "author": "Lunardrive",
+     "landing": "https://freesound.org/people/Lunardrive/sounds/22416"
+    }
+   ]
+  },
+  {
+   "id": "phone-vibrate",
+   "fr": "Téléphone qui vibre",
+   "en": "Phone vibrate",
+   "cat": "ui",
+   "tags": [
+    "telephone",
+    "phone",
+    "vibreur",
+    "vibrate",
+    "notification"
+   ],
+   "replaces": "phone-vibrate",
+   "title": "phone vibration buzz sound",
+   "author": "Sanderboah",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Sanderboah/sounds/615788",
+   "url": "https://cdn.freesound.org/previews/615/615788_13017680-hq.mp3",
+   "duration": 2.696,
+   "openverseId": "2fe0763d-9eaf-4598-bc5f-ba4b5457be5d",
+   "measure": {
+    "peak": -18.271292,
+    "rms": -27.604566,
+    "floor": -72.030081,
+    "flat": 0,
+    "dur": 2.7
+   },
+   "alternates": [
+    {
+     "title": "Phone vibration",
+     "url": "https://cdn.freesound.org/previews/515/515295_9159316-hq.mp3",
+     "author": "Breviceps",
+     "landing": "https://freesound.org/people/Breviceps/sounds/515295"
+    }
+   ]
+  },
+  {
+   "id": "alarm",
+   "fr": "Réveil",
+   "en": "Alarm clock",
+   "cat": "ui",
+   "tags": [
+    "reveil",
+    "alarme",
+    "alarm",
+    "clock",
+    "matin"
+   ],
+   "replaces": "alarm",
+   "title": "Generic Alarm Clock",
+   "author": "Yoyodaman234",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Yoyodaman234/sounds/223176",
+   "url": "https://cdn.freesound.org/previews/223/223176_2792951-hq.mp3",
+   "duration": 4.501,
+   "openverseId": "4d7f5c4a-cec8-4fb5-b94b-fce12806f140",
+   "measure": {
+    "peak": -0.332223,
+    "rms": -11.484086,
+    "floor": -109.877533,
+    "flat": 0,
+    "dur": 4.5
+   },
+   "alternates": [
+    {
+     "title": "alarm clock short.wav",
+     "url": "https://cdn.freesound.org/previews/219/219244_4082826-hq.mp3",
+     "author": "ZyryTSounds",
+     "landing": "https://freesound.org/people/ZyryTSounds/sounds/219244"
+    },
+    {
+     "title": "Alarm Clock",
+     "url": "https://cdn.freesound.org/previews/509/509684_9814504-hq.mp3",
+     "author": "dcloh",
+     "landing": "https://freesound.org/people/dcloh/sounds/509684"
+    }
+   ]
+  },
+  {
+   "id": "glass-break",
+   "fr": "Verre brisé",
+   "en": "Glass break",
+   "cat": "foley",
+   "tags": [
+    "verre",
+    "glass",
+    "casse",
+    "break",
+    "shatter"
+   ],
+   "title": "Glass Breaking",
+   "author": "ToxicFilmzSRsounds",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/ToxicFilmzSRsounds/sounds/378568",
+   "url": "https://cdn.freesound.org/previews/378/378568_7020227-hq.mp3",
+   "duration": 2.246,
+   "openverseId": "be301ec2-88a4-4810-97b5-a9a9c3045194",
+   "measure": {
+    "peak": 3.283722,
+    "rms": -20.069662,
+    "floor": -117.81069,
+    "flat": 0,
+    "dur": 2.25
+   },
+   "alternates": [
+    {
+     "title": "ZXAudiocraft - Glass - Break 005.wav",
+     "url": "https://cdn.freesound.org/previews/521/521341_11532980-hq.mp3",
+     "author": "zxaudiocraft",
+     "landing": "https://freesound.org/people/zxaudiocraft/sounds/521341"
+    },
+    {
+     "title": "ZXAudiocraft - Glass - Break 017.wav",
+     "url": "https://cdn.freesound.org/previews/521/521340_11532980-hq.mp3",
+     "author": "zxaudiocraft",
+     "landing": "https://freesound.org/people/zxaudiocraft/sounds/521340"
+    }
+   ]
+  },
+  {
+   "id": "door-knock",
+   "fr": "On frappe à la porte",
+   "en": "Door knock",
+   "cat": "foley",
+   "tags": [
+    "porte",
+    "door",
+    "toc",
+    "toc",
+    "knock"
+   ],
+   "title": "Door knocking (Angry).wav",
+   "author": "Macif",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Macif/sounds/194365",
+   "url": "https://cdn.freesound.org/previews/194/194365_3035766-hq.mp3",
+   "duration": 2.116,
+   "openverseId": "846d6a69-b4ec-4943-a220-2c114520da6f",
+   "measure": {
+    "peak": -0.210174,
+    "rms": -21.721294,
+    "floor": -83.063075,
+    "flat": 0,
+    "dur": 2.12
+   },
+   "alternates": [
+    {
+     "title": "Door Knock - with urgency.wav",
+     "url": "https://cdn.freesound.org/previews/144/144510_92661-hq.mp3",
+     "author": "FreqMan",
+     "landing": "https://freesound.org/people/FreqMan/sounds/144510"
+    },
+    {
+     "title": "Door Knock - 42.wav",
+     "url": "https://cdn.freesound.org/previews/193/193873_3276562-hq.mp3",
+     "author": "Ligidium",
+     "landing": "https://freesound.org/people/Ligidium/sounds/193873"
+    }
+   ]
+  },
+  {
+   "id": "door-creak",
+   "fr": "Porte qui grince",
+   "en": "Creaky door",
+   "cat": "foley",
+   "tags": [
+    "porte",
+    "grince",
+    "creak",
+    "door",
+    "horreur"
+   ],
+   "title": "DOOR CREAKS CLOSES 2.wav",
+   "author": "HowardV",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/HowardV/sounds/393798",
+   "url": "https://cdn.freesound.org/previews/393/393798_1654262-hq.mp3",
+   "duration": 4.578,
+   "openverseId": "edea77c2-d283-485e-9726-a38426ce61f3",
+   "measure": {
+    "peak": -4.832782,
+    "rms": -26.058146,
+    "floor": -64.395231,
+    "flat": 0,
+    "dur": 4.58
+   },
+   "alternates": [
+    {
+     "title": "Spooky Door Creak A.wav",
+     "url": "https://cdn.freesound.org/previews/119/119791_1990688-hq.mp3",
+     "author": "lmbubec",
+     "landing": "https://freesound.org/people/lmbubec/sounds/119791"
+    },
+    {
+     "title": "Wooden door creaking",
+     "url": "https://cdn.freesound.org/previews/367/367052_6090639-hq.mp3",
+     "author": "TheBuilder15",
+     "landing": "https://freesound.org/people/TheBuilder15/sounds/367052"
+    }
+   ]
+  },
+  {
+   "id": "door-slam",
+   "fr": "Porte claquée",
+   "en": "Door slam",
+   "cat": "foley",
+   "tags": [
+    "porte",
+    "claque",
+    "slam",
+    "door"
+   ],
+   "title": "Door slam far.aiff",
+   "author": "kd_jack",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/kd_jack/sounds/217796",
+   "url": "https://cdn.freesound.org/previews/217/217796_1560047-hq.mp3",
+   "duration": 1.687,
+   "openverseId": "4b47bc4b-7a0f-4035-a908-5703de6edb25",
+   "measure": {
+    "peak": -2.897759,
+    "rms": -22.446872,
+    "floor": -60.43209,
+    "flat": 0,
+    "dur": 1.69
+   },
+   "alternates": [
+    {
+     "title": "Door Slam 01",
+     "url": "https://cdn.freesound.org/previews/137/137083_880637-hq.mp3",
+     "author": "chaosportal",
+     "landing": "https://freesound.org/people/chaosportal/sounds/137083"
+    },
+    {
+     "title": "Wooden Door Slamming Close.wav",
+     "url": "https://cdn.freesound.org/previews/389/389810_6136319-hq.mp3",
+     "author": "krnash",
+     "landing": "https://freesound.org/people/krnash/sounds/389810"
+    }
+   ]
+  },
+  {
+   "id": "footsteps",
+   "fr": "Bruits de pas",
+   "en": "Footsteps",
+   "cat": "foley",
+   "tags": [
+    "pas",
+    "footsteps",
+    "marche",
+    "walking"
+   ],
+   "title": "Footsteps Metallic Muffled Louder.wav",
+   "author": "RutgerMuller",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/RutgerMuller/sounds/50724",
+   "url": "https://cdn.freesound.org/previews/50/50724_179538-hq.mp3",
+   "duration": 5.655,
+   "openverseId": "28b087a0-5d75-41c1-aa9e-78d10b1e9ab6",
+   "measure": {
+    "peak": -0.363234,
+    "rms": -22.354534,
+    "floor": -69.573543,
+    "flat": 0,
+    "dur": 5.66
+   },
+   "alternates": [
+    {
+     "title": "Footsteps on Wooden Floor.aif",
+     "url": "https://cdn.freesound.org/previews/119/119914_1990698-hq.mp3",
+     "author": "ftpalad",
+     "landing": "https://freesound.org/people/ftpalad/sounds/119914"
+    }
+   ]
+  },
+  {
+   "id": "zipper",
+   "fr": "Fermeture éclair",
+   "en": "Zipper",
+   "cat": "foley",
+   "tags": [
+    "fermeture",
+    "eclair",
+    "zip",
+    "zipper"
+   ],
+   "title": "Zipper Regular Pull 02",
+   "author": "Rudmer_Rotteveel",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Rudmer_Rotteveel/sounds/536233",
+   "url": "https://cdn.freesound.org/previews/536/536233_4921277-hq.mp3",
+   "duration": 0.964,
+   "openverseId": "64a65924-e435-46ad-9c8d-067b0c0a834d",
+   "measure": {
+    "peak": -14.815784,
+    "rms": -34.66341,
+    "floor": -70.808513,
+    "flat": 0,
+    "dur": 0.96
+   },
+   "alternates": [
+    {
+     "title": "Zipper Fast Pull 01",
+     "url": "https://cdn.freesound.org/previews/536/536235_4921277-hq.mp3",
+     "author": "Rudmer_Rotteveel",
+     "landing": "https://freesound.org/people/Rudmer_Rotteveel/sounds/536235"
+    },
+    {
+     "title": "Zipper Zip",
+     "url": "https://cdn.freesound.org/previews/324/324659_2901073-hq.mp3",
+     "author": "uEffects",
+     "landing": "https://freesound.org/people/uEffects/sounds/324659"
+    }
+   ]
+  },
+  {
+   "id": "paper-crumple",
+   "fr": "Papier froissé",
+   "en": "Paper crumple",
+   "cat": "foley",
+   "tags": [
+    "papier",
+    "froisse",
+    "paper",
+    "crumple"
+   ],
+   "title": "Paper Crumpling",
+   "author": "Ezcah",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Ezcah/sounds/248178",
+   "url": "https://cdn.freesound.org/previews/248/248178_1900515-hq.mp3",
+   "duration": 2.989,
+   "openverseId": "dd45319c-f669-4f58-961e-ef4065e432c6",
+   "measure": {
+    "peak": -0.240802,
+    "rms": -29.455767,
+    "floor": -75.74218,
+    "flat": 0,
+    "dur": 2.99
+   },
+   "alternates": [
+    {
+     "title": "paper - crumple 01.wav",
+     "url": "https://cdn.freesound.org/previews/398/398898_5923045-hq.mp3",
+     "author": "Anthousai",
+     "landing": "https://freesound.org/people/Anthousai/sounds/398898"
+    },
+    {
+     "title": "paper - crumple 02.wav",
+     "url": "https://cdn.freesound.org/previews/398/398897_5923045-hq.mp3",
+     "author": "Anthousai",
+     "landing": "https://freesound.org/people/Anthousai/sounds/398897"
+    }
+   ]
+  },
+  {
+   "id": "pencil-writing",
+   "fr": "Écriture au crayon",
+   "en": "Pencil writing",
+   "cat": "foley",
+   "tags": [
+    "crayon",
+    "ecrire",
+    "pencil",
+    "writing"
+   ],
+   "title": "Pencil Writing 1_6",
+   "author": "Joao_Janz",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Joao_Janz/sounds/485314",
+   "url": "https://cdn.freesound.org/previews/485/485314_9961300-hq.mp3",
+   "duration": 5.5,
+   "openverseId": "f34ff086-65be-4f64-a5c7-aedbf6188e02",
+   "measure": {
+    "peak": -7.315809,
+    "rms": -33.887613,
+    "floor": -123.877344,
+    "flat": 0,
+    "dur": 5.5
+   },
+   "alternates": [
+    {
+     "title": "scribble.mp3",
+     "url": "https://cdn.freesound.org/previews/82/82610_1316563-hq.mp3",
+     "author": "indigosierra",
+     "landing": "https://freesound.org/people/indigosierra/sounds/82610"
+    },
+    {
+     "title": "Pencil writing on paper (7 strokes)",
+     "url": "https://cdn.freesound.org/previews/632/632476_3008343-hq.mp3",
+     "author": "ani_music",
+     "landing": "https://freesound.org/people/ani_music/sounds/632476"
+    }
+   ]
+  },
+  {
+   "id": "mouse-click",
+   "fr": "Clic de souris",
+   "en": "Mouse click",
+   "cat": "ui",
+   "tags": [
+    "souris",
+    "clic",
+    "mouse",
+    "click",
+    "ordinateur"
+   ],
+   "title": "mouse click",
+   "author": "Weak_Hero",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Weak_Hero/sounds/790532",
+   "url": "https://cdn.freesound.org/previews/790/790532_13194336-hq.mp3",
+   "duration": 0.416,
+   "openverseId": "18d9feb0-dc05-4330-bcd5-35335b3273f0",
+   "measure": {
+    "peak": -2.18599,
+    "rms": -29.600516,
+    "floor": -78.218022,
+    "flat": 0,
+    "dur": 0.42
+   },
+   "alternates": [
+    {
+     "title": "left mouse click",
+     "url": "https://cdn.freesound.org/previews/172/172503_898521-hq.mp3",
+     "author": "Gee-Jay",
+     "landing": "https://freesound.org/people/Gee-Jay/sounds/172503"
+    },
+    {
+     "title": "mouse-click-double-00.flac",
+     "url": "https://cdn.freesound.org/previews/534/534104_11830391-hq.mp3",
+     "author": "pbimal",
+     "landing": "https://freesound.org/people/pbimal/sounds/534104"
+    }
+   ]
+  },
+  {
+   "id": "soda-open",
+   "fr": "Canette ouverte",
+   "en": "Soda can open",
+   "cat": "foley",
+   "tags": [
+    "canette",
+    "soda",
+    "can",
+    "ouvrir",
+    "boisson"
+   ],
+   "title": "Soda can - Open",
+   "author": "Khrinx",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Khrinx/sounds/333697",
+   "url": "https://cdn.freesound.org/previews/333/333697_1187042-hq.mp3",
+   "duration": 2.339,
+   "openverseId": "48e781de-b6ab-416a-8121-e56d4540a218",
+   "measure": {
+    "peak": 0.070649,
+    "rms": -25.564974,
+    "floor": -74.667124,
+    "flat": 0,
+    "dur": 2.34
+   },
+   "alternates": [
+    {
+     "title": "Open the can",
+     "url": "https://cdn.freesound.org/previews/504/504140_10756146-hq.mp3",
+     "author": "Mateusz_Chenc",
+     "landing": "https://freesound.org/people/Mateusz_Chenc/sounds/504140"
+    },
+    {
+     "title": "Opening a can of soda",
+     "url": "https://cdn.freesound.org/previews/386/386887_3094998-hq.mp3",
+     "author": "michorvath",
+     "landing": "https://freesound.org/people/michorvath/sounds/386887"
+    }
+   ]
+  },
+  {
+   "id": "crunch",
+   "fr": "Croc (manger)",
+   "en": "Crunch",
+   "cat": "human",
+   "tags": [
+    "croc",
+    "crunch",
+    "manger",
+    "eat",
+    "chips"
+   ],
+   "title": "Hard Candy / Bone Crunch",
+   "author": "cliftonmcarlson",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/cliftonmcarlson/sounds/392883",
+   "url": "https://cdn.freesound.org/previews/392/392883_3530854-hq.mp3",
+   "duration": 1.103,
+   "openverseId": "c0e51c8b-dd06-4a3f-b5ce-253db578e46f",
+   "measure": {
+    "peak": -1.599667,
+    "rms": -28.549919,
+    "floor": -213.709905,
+    "flat": 0,
+    "dur": 1.1
+   },
+   "alternates": [
+    {
+     "title": "Bone Crunch Fast.wav",
+     "url": "https://cdn.freesound.org/previews/192/192146_2969885-hq.mp3",
+     "author": "BrassKnucklesFilms",
+     "landing": "https://freesound.org/people/BrassKnucklesFilms/sounds/192146"
+    },
+    {
+     "title": "Plastic Crunch",
+     "url": "https://cdn.freesound.org/previews/321/321486_5485024-hq.mp3",
+     "author": "dslrguide",
+     "landing": "https://freesound.org/people/dslrguide/sounds/321486"
+    }
+   ]
+  },
+  {
+   "id": "glass-clink",
+   "fr": "Trinquer",
+   "en": "Glass clink",
+   "cat": "foley",
+   "tags": [
+    "trinquer",
+    "cheers",
+    "verre",
+    "glass",
+    "clink",
+    "sante"
+   ],
+   "title": "Glass Clinking 2 - Amplified.mp3",
+   "author": "antwash",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/antwash/sounds/118562",
+   "url": "https://cdn.freesound.org/previews/118/118562_2124559-hq.mp3",
+   "duration": 1.933,
+   "openverseId": "b62177f6-ee3a-4d9d-9263-08a48a36e2b9",
+   "measure": {
+    "peak": -0.856542,
+    "rms": -26.263821,
+    "floor": -75.272609,
+    "flat": 0,
+    "dur": 1.93
+   },
+   "alternates": [
+    {
+     "title": "Wine glass clink deeper.wav",
+     "url": "https://cdn.freesound.org/previews/178/178178_971447-hq.mp3",
+     "author": "lmr9",
+     "landing": "https://freesound.org/people/lmr9/sounds/178178"
+    },
+    {
+     "title": "wine glass clink",
+     "url": "https://cdn.freesound.org/previews/573/573157_12947664-hq.mp3",
+     "author": "fleurescence",
+     "landing": "https://freesound.org/people/fleurescence/sounds/573157"
+    }
+   ]
+  },
+  {
+   "id": "elevator-ding",
+   "fr": "Ding d'ascenseur",
+   "en": "Elevator ding",
+   "cat": "ui",
+   "tags": [
+    "ascenseur",
+    "elevator",
+    "ding",
+    "cloche"
+   ],
+   "title": "Elevator ding at Arenco Tower, Dubai",
+   "author": "qd42",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/qd42/sounds/539574",
+   "url": "https://cdn.freesound.org/previews/539/539574_3775755-hq.mp3",
+   "duration": 2.369,
+   "openverseId": "a684f80d-b283-4a2c-a88f-3f7982f9dac9",
+   "measure": {
+    "peak": -5.887535,
+    "rms": -20.528496,
+    "floor": -38.681681,
+    "flat": 0,
+    "dur": 2.37
+   },
+   "alternates": [
+    {
+     "title": "Elevator Ding",
+     "url": "https://cdn.freesound.org/previews/588/588718_13288396-hq.mp3",
+     "author": "collierhs_colinlib",
+     "landing": "https://freesound.org/people/collierhs_colinlib/sounds/588718"
+    },
+    {
+     "title": "Elevator Ping 02.wav",
+     "url": "https://cdn.freesound.org/previews/514/514865_6142149-hq.mp3",
+     "author": "MATRIXXX_",
+     "landing": "https://freesound.org/people/MATRIXXX_/sounds/514865"
+    }
+   ]
+  },
+  {
+   "id": "coins",
+   "fr": "Pièces de monnaie",
+   "en": "Coins",
+   "cat": "meme",
+   "tags": [
+    "pieces",
+    "monnaie",
+    "coins",
+    "argent",
+    "money"
+   ],
+   "title": "Coins",
+   "author": "Mateusz_Chenc",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Mateusz_Chenc/sounds/512216",
+   "url": "https://cdn.freesound.org/previews/512/512216_10756146-hq.mp3",
+   "duration": 0.441,
+   "openverseId": "48a3cf26-f793-464a-a91a-905bc1cf9d08",
+   "measure": {
+    "peak": -0.342724,
+    "rms": -23.756855,
+    "floor": -68.90354,
+    "flat": 0,
+    "dur": 0.44
+   },
+   "alternates": [
+    {
+     "title": "Coins Shuffle",
+     "url": "https://cdn.freesound.org/previews/492/492017_10632984-hq.mp3",
+     "author": "adgawrhbshbffsfgvsrf",
+     "landing": "https://freesound.org/people/adgawrhbshbffsfgvsrf/sounds/492017"
+    },
+    {
+     "title": "Coin Pickup Sound V 0.2",
+     "url": "https://cdn.freesound.org/previews/347/347174_6324381-hq.mp3",
+     "author": "Davidsraba",
+     "landing": "https://freesound.org/people/Davidsraba/sounds/347174"
+    }
+   ]
+  },
+  {
+   "id": "money-count",
+   "fr": "Billets comptés",
+   "en": "Money counting",
+   "cat": "meme",
+   "tags": [
+    "billets",
+    "argent",
+    "money",
+    "compter",
+    "riche"
+   ],
+   "title": "Counting Me Shillings.mp3",
+   "author": "husky70",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/husky70/sounds/161315",
+   "url": "https://cdn.freesound.org/previews/161/161315_2840087-hq.mp3",
+   "duration": 6.129,
+   "openverseId": "9c7cbf3b-9fa1-4979-90a6-dbb7cd8ee746",
+   "measure": {
+    "peak": -0.055745,
+    "rms": -20.500478,
+    "floor": -77.77871,
+    "flat": 0,
+    "dur": 6.13
+   },
+   "alternates": [
+    {
+     "title": "counting 5 bills.wav",
+     "url": "https://cdn.freesound.org/previews/181/181763_3153523-hq.mp3",
+     "author": "keweldog",
+     "landing": "https://freesound.org/people/keweldog/sounds/181763"
+    },
+    {
+     "title": "dollar bills flipping counting.wav",
+     "url": "https://cdn.freesound.org/previews/40/40952_424982-hq.mp3",
+     "author": "hopflog",
+     "landing": "https://freesound.org/people/hopflog/sounds/40952"
+    }
+   ]
+  },
+  {
+   "id": "laugh-track",
+   "fr": "Rires enregistrés",
+   "en": "Laugh track",
+   "cat": "crowd",
+   "tags": [
+    "rires",
+    "public",
+    "laugh",
+    "track",
+    "sitcom",
+    "drole",
+    "lol"
+   ],
+   "title": "Laugh 4 among themselves.wav",
+   "author": "jayfrosting",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/jayfrosting/sounds/333394",
+   "url": "https://cdn.freesound.org/previews/333/333394_5884138-hq.mp3",
+   "duration": 8.333,
+   "openverseId": "8121a295-64cd-4339-9002-fd57b150d926",
+   "measure": {
+    "peak": -5.259549,
+    "rms": -23.769042,
+    "floor": -50.005876,
+    "flat": 0,
+    "dur": 8.33
+   },
+   "alternates": [
+    {
+     "title": "Crowd laughing and clapping inside a bar in Chile (Valparaiso)",
+     "url": "https://cdn.freesound.org/previews/397/397034_1661766-hq.mp3",
+     "author": "felix.blume",
+     "landing": "https://freesound.org/people/felix.blume/sounds/397034"
+    },
+    {
+     "title": "Crowd laugh.wav",
+     "url": "https://cdn.freesound.org/previews/324/324894_2104797-hq.mp3",
+     "author": "deleted_user_2104797",
+     "landing": "https://freesound.org/people/deleted_user_2104797/sounds/324894"
+    }
+   ]
+  },
+  {
+   "id": "crowd-aww",
+   "fr": "Public « Ooooh » attendri",
+   "en": "Crowd aww",
+   "cat": "crowd",
+   "tags": [
+    "aww",
+    "public",
+    "attendri",
+    "mignon",
+    "cute"
+   ],
+   "title": "awwwww.mp3",
+   "author": "WhisperPotato",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/WhisperPotato/sounds/547589",
+   "url": "https://cdn.freesound.org/previews/547/547589_4755077-hq.mp3",
+   "duration": 1.164,
+   "openverseId": "b3898e06-f499-4086-b673-3018328a58e8",
+   "measure": {
+    "peak": -3.6082,
+    "rms": -17.92834,
+    "floor": -56.980003,
+    "flat": 0,
+    "dur": 1.16
+   },
+   "alternates": [
+    {
+     "title": "aww.wav",
+     "url": "https://cdn.freesound.org/previews/124/124996_687791-hq.mp3",
+     "author": "phmiller42",
+     "landing": "https://freesound.org/people/phmiller42/sounds/124996"
+    }
+   ]
+  },
+  {
+   "id": "crowd-ooh",
+   "fr": "Public « Wouhou ! »",
+   "en": "Crowd woo",
+   "cat": "crowd",
+   "tags": [
+    "ooh",
+    "wow",
+    "public",
+    "surpris",
+    "impressionne"
+   ],
+   "title": "Whoo1.wav",
+   "author": "ehohnke",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/ehohnke/sounds/242233",
+   "url": "https://cdn.freesound.org/previews/242/242233_1492908-hq.mp3",
+   "duration": 5.99,
+   "openverseId": "c8d0e053-6719-4bcb-94b9-b815cab3d8d7",
+   "alternates": [
+    {
+     "title": "awwwww.mp3",
+     "url": "https://cdn.freesound.org/previews/547/547589_4755077-hq.mp3",
+     "author": "WhisperPotato",
+     "landing": "https://freesound.org/people/WhisperPotato/sounds/547589"
+    },
+    {
+     "title": "aww.wav",
+     "url": "https://cdn.freesound.org/previews/124/124996_687791-hq.mp3",
+     "author": "phmiller42",
+     "landing": "https://freesound.org/people/phmiller42/sounds/124996"
+    }
+   ]
+  },
+  {
+   "id": "crowd-cheer",
+   "fr": "Foule en liesse",
+   "en": "Crowd cheering",
+   "cat": "crowd",
+   "tags": [
+    "foule",
+    "cheer",
+    "acclamation",
+    "victoire",
+    "fete"
+   ],
+   "title": "BerlinGameScene.com Crowd Cheer 4",
+   "author": "BerlinGameScene",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/BerlinGameScene/sounds/267246",
+   "url": "https://cdn.freesound.org/previews/267/267246_5052946-hq.mp3",
+   "duration": 7.106,
+   "openverseId": "7b96ad8f-f838-43f0-9cec-8bff2d241718",
+   "measure": {
+    "peak": -3.975052,
+    "rms": -21.125795,
+    "floor": -64.009511,
+    "flat": 0,
+    "dur": 7.11
+   },
+   "alternates": [
+    {
+     "title": "BerlinGameScene.com Crowd Cheer 2",
+     "url": "https://cdn.freesound.org/previews/267/267248_5052946-hq.mp3",
+     "author": "BerlinGameScene",
+     "landing": "https://freesound.org/people/BerlinGameScene/sounds/267248"
+    },
+    {
+     "title": "Medium crowd cheering 02",
+     "url": "https://cdn.freesound.org/previews/400/400586_3372256-hq.mp3",
+     "author": "misjoc",
+     "landing": "https://freesound.org/people/misjoc/sounds/400586"
+    }
+   ]
+  },
+  {
+   "id": "crowd-boo",
+   "fr": "Huées",
+   "en": "Crowd booing",
+   "cat": "crowd",
+   "tags": [
+    "huees",
+    "boo",
+    "booing",
+    "public",
+    "mecontent"
+   ],
+   "title": "Boo 7 Get Off The Stage No You Didn't.wav",
+   "author": "jayfrosting",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/jayfrosting/sounds/333407",
+   "url": "https://cdn.freesound.org/previews/333/333407_5884138-hq.mp3",
+   "duration": 5.216,
+   "openverseId": "ab1391f6-da9f-428b-8ffa-075ed9faaf62",
+   "measure": {
+    "peak": -4.798789,
+    "rms": -18.712941,
+    "floor": -50.080481,
+    "flat": 0,
+    "dur": 5.22
+   },
+   "alternates": [
+    {
+     "title": "Boo 2 disgusted.wav",
+     "url": "https://cdn.freesound.org/previews/333/333390_5884138-hq.mp3",
+     "author": "jayfrosting",
+     "landing": "https://freesound.org/people/jayfrosting/sounds/333390"
+    },
+    {
+     "title": "Boo 1 very angry.wav",
+     "url": "https://cdn.freesound.org/previews/333/333391_5884138-hq.mp3",
+     "author": "jayfrosting",
+     "landing": "https://freesound.org/people/jayfrosting/sounds/333391"
+    }
+   ]
+  },
+  {
+   "id": "kids-yay",
+   "fr": "Enfants « Yay ! »",
+   "en": "Kids yay",
+   "cat": "crowd",
+   "tags": [
+    "enfants",
+    "yay",
+    "kids",
+    "hourra",
+    "joie"
+   ],
+   "title": "yay.mp3",
+   "author": "Disarmenemyships",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Disarmenemyships/sounds/563845",
+   "url": "https://cdn.freesound.org/previews/563/563845_11121005-hq.mp3",
+   "duration": 2.412,
+   "openverseId": "a2211d5d-4fb7-4691-a347-b142acc39680",
+   "measure": {
+    "peak": -0.011246,
+    "rms": -10.107499,
+    "floor": -38.943755,
+    "flat": 0,
+    "dur": 2.41
+   },
+   "alternates": []
+  },
+  {
+   "id": "gasp",
+   "fr": "Souffle surpris",
+   "en": "Gasp",
+   "cat": "human",
+   "tags": [
+    "souffle",
+    "surprise",
+    "gasp",
+    "choc",
+    "oh"
+   ],
+   "title": "Man gasp of breath",
+   "author": "ckvoiceover",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/ckvoiceover/sounds/401333",
+   "url": "https://cdn.freesound.org/previews/401/401333_6652552-hq.mp3",
+   "duration": 1.172,
+   "openverseId": "b542a97b-905a-40c0-b0f7-b93385c30f63",
+   "measure": {
+    "peak": -0.184776,
+    "rms": -18.129374,
+    "floor": -64.258464,
+    "flat": 0,
+    "dur": 1.17
+   },
+   "alternates": [
+    {
+     "title": "Male Gasp 1.wav",
+     "url": "https://cdn.freesound.org/previews/344/344407_4986214-hq.mp3",
+     "author": "jawbutch",
+     "landing": "https://freesound.org/people/jawbutch/sounds/344407"
+    },
+    {
+     "title": "Male Gasp 4.wav",
+     "url": "https://cdn.freesound.org/previews/344/344415_4986214-hq.mp3",
+     "author": "jawbutch",
+     "landing": "https://freesound.org/people/jawbutch/sounds/344415"
+    }
+   ]
+  },
+  {
+   "id": "scream",
+   "fr": "Cri",
+   "en": "Scream",
+   "cat": "human",
+   "tags": [
+    "cri",
+    "scream",
+    "hurlement",
+    "peur"
+   ],
+   "title": "Scream",
+   "author": "claracarpintero",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/claracarpintero/sounds/219856",
+   "url": "https://cdn.freesound.org/previews/219/219856_4095110-hq.mp3",
+   "duration": 1.195,
+   "openverseId": "6ea79cfc-1b45-4510-a654-ebf13ee64490",
+   "measure": {
+    "peak": -17.980913,
+    "rms": -30.795061,
+    "floor": -81.86497,
+    "flat": 0,
+    "dur": 1.2
+   },
+   "alternates": [
+    {
+     "title": "Female scream 02",
+     "url": "https://cdn.freesound.org/previews/169/169811_1122547-hq.mp3",
+     "author": "missozzy",
+     "landing": "https://freesound.org/people/missozzy/sounds/169811"
+    },
+    {
+     "title": "Wounded man scream",
+     "url": "https://cdn.freesound.org/previews/221/221544_4096172-hq.mp3",
+     "author": "joseppujol",
+     "landing": "https://freesound.org/people/joseppujol/sounds/221544"
+    }
+   ]
+  },
+  {
+   "id": "evil-laugh",
+   "fr": "Rire maléfique",
+   "en": "Evil laugh",
+   "cat": "human",
+   "tags": [
+    "rire",
+    "malefique",
+    "evil",
+    "laugh",
+    "mechant",
+    "villain"
+   ],
+   "title": "Deep Evil Laugh",
+   "author": "DRFX",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/DRFX/sounds/350679",
+   "url": "https://cdn.freesound.org/previews/350/350679_5106192-hq.mp3",
+   "duration": 2.69,
+   "openverseId": "34bf013f-ef74-4126-a307-90806f74d4cb",
+   "measure": {
+    "peak": -0.891662,
+    "rms": -16.249362,
+    "floor": -83.263115,
+    "flat": 0,
+    "dur": 2.69
+   },
+   "alternates": [
+    {
+     "title": "Female Evil Laugh",
+     "url": "https://cdn.freesound.org/previews/219/219778_3298571-hq.mp3",
+     "author": "MadamVicious",
+     "landing": "https://freesound.org/people/MadamVicious/sounds/219778"
+    },
+    {
+     "title": "Evil Laugh",
+     "url": "https://cdn.freesound.org/previews/401/401332_6652552-hq.mp3",
+     "author": "ckvoiceover",
+     "landing": "https://freesound.org/people/ckvoiceover/sounds/401332"
+    }
+   ]
+  },
+  {
+   "id": "baby-laugh",
+   "fr": "Rire de bébé",
+   "en": "Baby laugh",
+   "cat": "human",
+   "tags": [
+    "bebe",
+    "rire",
+    "baby",
+    "laugh",
+    "mignon"
+   ],
+   "title": "babygiggle.mp3",
+   "author": "jamesmbock",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/jamesmbock/sounds/458645",
+   "url": "https://cdn.freesound.org/previews/458/458645_6996390-hq.mp3",
+   "duration": 1.874,
+   "openverseId": "be840c63-d8a9-488a-b9a2-1660d9f3c70e",
+   "measure": {
+    "peak": -27.079698,
+    "rms": -39.307573,
+    "floor": -143.000756,
+    "flat": 0,
+    "dur": 1.87
+   },
+   "alternates": [
+    {
+     "title": "C2_baby-laughing-04.mp3",
+     "url": "https://cdn.freesound.org/previews/371/371302_5302340-hq.mp3",
+     "author": "Iamgiorgio",
+     "landing": "https://freesound.org/people/Iamgiorgio/sounds/371302"
+    },
+    {
+     "title": "Furby Baby Laugh",
+     "url": "https://cdn.freesound.org/previews/722/722365_12447505-hq.mp3",
+     "author": "chinyyyere",
+     "landing": "https://freesound.org/people/chinyyyere/sounds/722365"
+    }
+   ]
+  },
+  {
+   "id": "fart",
+   "fr": "Pet",
+   "en": "Fart",
+   "cat": "human",
+   "tags": [
+    "pet",
+    "prout",
+    "fart",
+    "meme",
+    "drole"
+   ],
+   "title": "Fart 01",
+   "author": "Ezcah",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Ezcah/sounds/242004",
+   "url": "https://cdn.freesound.org/previews/242/242004_1900515-hq.mp3",
+   "duration": 1.977,
+   "openverseId": "4d773b7f-1c89-4fc6-9c49-d3d4e2bf324d",
+   "measure": {
+    "peak": -0.121168,
+    "rms": -24.09748,
+    "floor": -42.358634,
+    "flat": 0,
+    "dur": 1.98
+   },
+   "alternates": [
+    {
+     "title": "Fart 2",
+     "url": "https://cdn.freesound.org/previews/445/445999_9159316-hq.mp3",
+     "author": "Breviceps",
+     "landing": "https://freesound.org/people/Breviceps/sounds/445999"
+    },
+    {
+     "title": "Fart 3",
+     "url": "https://cdn.freesound.org/previews/446/446000_9159316-hq.mp3",
+     "author": "Breviceps",
+     "landing": "https://freesound.org/people/Breviceps/sounds/446000"
+    }
+   ]
+  },
+  {
+   "id": "burp",
+   "fr": "Rot",
+   "en": "Burp",
+   "cat": "human",
+   "tags": [
+    "rot",
+    "burp"
+   ],
+   "title": "Burp Low.wav",
+   "author": "baidonovan",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/baidonovan/sounds/187333",
+   "url": "https://cdn.freesound.org/previews/187/187333_3297044-hq.mp3",
+   "duration": 0.818,
+   "openverseId": "b01127bf-7760-4e27-8182-17684fd388e2",
+   "measure": {
+    "peak": -13.476812,
+    "rms": -31.438429,
+    "floor": -67.135091,
+    "flat": 0,
+    "dur": 0.82
+   },
+   "alternates": [
+    {
+     "title": "Burp 12",
+     "url": "https://cdn.freesound.org/previews/399/399750_5077031-hq.mp3",
+     "author": "tehteho",
+     "landing": "https://freesound.org/people/tehteho/sounds/399750"
+    },
+    {
+     "title": "Loud Burp",
+     "url": "https://cdn.freesound.org/previews/214/214451_3201007-hq.mp3",
+     "author": "AquaChannel",
+     "landing": "https://freesound.org/people/AquaChannel/sounds/214451"
+    }
+   ]
+  },
+  {
+   "id": "kiss",
+   "fr": "Bisou",
+   "en": "Kiss",
+   "cat": "human",
+   "tags": [
+    "bisou",
+    "kiss",
+    "smack",
+    "amour",
+    "love"
+   ],
+   "title": "Kiss 13.wav",
+   "author": "deleted_user_2104797",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/deleted_user_2104797/sounds/166152",
+   "url": "https://cdn.freesound.org/previews/166/166152_2104797-hq.mp3",
+   "duration": 1.255,
+   "openverseId": "a0bc511e-9f4c-42f1-9367-64feed345231",
+   "measure": {
+    "peak": -11.850692,
+    "rms": -41.676711,
+    "floor": -68.822017,
+    "flat": 0,
+    "dur": 1.26
+   },
+   "alternates": [
+    {
+     "title": "kisses",
+     "url": "https://cdn.freesound.org/previews/419/419020_2755230-hq.mp3",
+     "author": "lantiphon",
+     "landing": "https://freesound.org/people/lantiphon/sounds/419020"
+    },
+    {
+     "title": "Short kiss",
+     "url": "https://cdn.freesound.org/previews/344/344209_91362-hq.mp3",
+     "author": "Vospi",
+     "landing": "https://freesound.org/people/Vospi/sounds/344209"
+    }
+   ]
+  },
+  {
+   "id": "wolf-whistle",
+   "fr": "Sifflement admiratif",
+   "en": "Wolf whistle",
+   "cat": "human",
+   "tags": [
+    "sifflement",
+    "wolf",
+    "whistle",
+    "wow"
+   ],
+   "title": "whistle .wav",
+   "author": "ripper351",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/ripper351/sounds/151091",
+   "url": "https://cdn.freesound.org/previews/151/151091_1897373-hq.mp3",
+   "duration": 1.105,
+   "openverseId": "5fedd80e-1647-4175-91fd-e7285f59231f",
+   "measure": {
+    "peak": -1.362612,
+    "rms": -17.579877,
+    "floor": -65.466346,
+    "flat": 0,
+    "dur": 1.11
+   },
+   "alternates": []
+  },
+  {
+   "id": "sneeze",
+   "fr": "Éternuement",
+   "en": "Sneeze",
+   "cat": "human",
+   "tags": [
+    "eternuement",
+    "sneeze",
+    "atchoum"
+   ],
+   "title": "Female Sneeze",
+   "author": "domvoice",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/domvoice/sounds/150231",
+   "url": "https://cdn.freesound.org/previews/150/150231_2564020-hq.mp3",
+   "duration": 1.277,
+   "openverseId": "ab188f05-4056-4c95-b7f2-7728db760e57",
+   "measure": {
+    "peak": -7.388421,
+    "rms": -24.868114,
+    "floor": -59.779378,
+    "flat": 0,
+    "dur": 1.28
+   },
+   "alternates": [
+    {
+     "title": "Sneeze 02.aiff",
+     "url": "https://cdn.freesound.org/previews/167/167641_1868848-hq.mp3",
+     "author": "SoundCollectah",
+     "landing": "https://freesound.org/people/SoundCollectah/sounds/167641"
+    },
+    {
+     "title": "Sneeze 03.aiff",
+     "url": "https://cdn.freesound.org/previews/167/167640_1868848-hq.mp3",
+     "author": "SoundCollectah",
+     "landing": "https://freesound.org/people/SoundCollectah/sounds/167640"
+    }
+   ]
+  },
+  {
+   "id": "yawn",
+   "fr": "Bâillement",
+   "en": "Yawn",
+   "cat": "human",
+   "tags": [
+    "baillement",
+    "yawn",
+    "fatigue",
+    "ennui"
+   ],
+   "title": "Yawning Man.mp3",
+   "author": "husky70",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/husky70/sounds/157303",
+   "url": "https://cdn.freesound.org/previews/157/157303_2840087-hq.mp3",
+   "duration": 5.537,
+   "openverseId": "8e0e5431-1db9-477c-9dee-ea88bf951808",
+   "measure": {
+    "peak": -8.810074,
+    "rms": -29.58193,
+    "floor": -79.298246,
+    "flat": 0,
+    "dur": 5.54
+   },
+   "alternates": [
+    {
+     "title": "single yawn",
+     "url": "https://cdn.freesound.org/previews/579/579666_12062247-hq.mp3",
+     "author": "sherby168",
+     "landing": "https://freesound.org/people/sherby168/sounds/579666"
+    },
+    {
+     "title": "Yawning 2",
+     "url": "https://cdn.freesound.org/previews/566/566324_10435241-hq.mp3",
+     "author": "njjjjjjjjjjjjjjjjjjjjjjjj",
+     "landing": "https://freesound.org/people/njjjjjjjjjjjjjjjjjjjjjjjj/sounds/566324"
+    }
+   ]
+  },
+  {
+   "id": "snore",
+   "fr": "Ronflement",
+   "en": "Snoring",
+   "cat": "human",
+   "tags": [
+    "ronflement",
+    "snore",
+    "dormir",
+    "sleep"
+   ],
+   "title": "Fast Snore .wav",
+   "author": "bsmacbride",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/bsmacbride/sounds/108519",
+   "url": "https://cdn.freesound.org/previews/108/108519_1338699-hq.mp3",
+   "duration": 5,
+   "openverseId": "0b72d643-a838-4106-9dd3-c2badaa16a60",
+   "measure": {
+    "peak": -16.816555,
+    "rms": -35.031718,
+    "floor": -67.708283,
+    "flat": 0,
+    "dur": 5
+   },
+   "alternates": [
+    {
+     "title": "snoring",
+     "url": "https://cdn.freesound.org/previews/577/577384_11490791-hq.mp3",
+     "author": "Podcapocalipsis",
+     "landing": "https://freesound.org/people/Podcapocalipsis/sounds/577384"
+    }
+   ]
+  },
+  {
+   "id": "slap",
+   "fr": "Gifle",
+   "en": "Slap",
+   "cat": "impact",
+   "tags": [
+    "gifle",
+    "claque",
+    "slap"
+   ],
+   "title": "Slap 3",
+   "author": "ihitokage",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/ihitokage/sounds/395348",
+   "url": "https://cdn.freesound.org/previews/395/395348_1675920-hq.mp3",
+   "duration": 0.561,
+   "openverseId": "0819f83a-d2d8-408f-ad82-88240ee7a1b4",
+   "measure": {
+    "peak": 0.575491,
+    "rms": -24.934846,
+    "floor": -36.359332,
+    "flat": 0,
+    "dur": 0.56
+   },
+   "alternates": [
+    {
+     "title": "justa slap smack",
+     "url": "https://cdn.freesound.org/previews/582/582265_13132168-hq.mp3",
+     "author": "rocketpancake",
+     "landing": "https://freesound.org/people/rocketpancake/sounds/582265"
+    },
+    {
+     "title": "Slapping",
+     "url": "https://cdn.freesound.org/previews/567/567605_12435826-hq.mp3",
+     "author": "oldhiccup",
+     "landing": "https://freesound.org/people/oldhiccup/sounds/567605"
+    }
+   ]
+  },
+  {
+   "id": "body-fall",
+   "fr": "Chute",
+   "en": "Body fall",
+   "cat": "impact",
+   "tags": [
+    "chute",
+    "tomber",
+    "fall",
+    "body"
+   ],
+   "title": "Body falling on the ground 2",
+   "author": "ihitokage",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/ihitokage/sounds/395325",
+   "url": "https://cdn.freesound.org/previews/395/395325_1675920-hq.mp3",
+   "duration": 1.667,
+   "openverseId": "ccadf267-8097-4a90-b56f-a4cc7a4eeae7",
+   "measure": {
+    "peak": 0.005383,
+    "rms": -23.256448,
+    "floor": -38.346349,
+    "flat": 0,
+    "dur": 1.67
+   },
+   "alternates": [
+    {
+     "title": "Body falling on the ground 1",
+     "url": "https://cdn.freesound.org/previews/395/395331_1675920-hq.mp3",
+     "author": "ihitokage",
+     "landing": "https://freesound.org/people/ihitokage/sounds/395331"
+    },
+    {
+     "title": "Body Fall Over.wav",
+     "url": "https://cdn.freesound.org/previews/82/82027_1178110-hq.mp3",
+     "author": "raubana",
+     "landing": "https://freesound.org/people/raubana/sounds/82027"
+    }
+   ]
+  },
+  {
+   "id": "metal-pipe",
+   "fr": "Tuyau en métal (mème)",
+   "en": "Metal pipe falling",
+   "cat": "meme",
+   "tags": [
+    "metal",
+    "pipe",
+    "tuyau",
+    "clang",
+    "meme",
+    "chute"
+   ],
+   "title": "Metal Pipe Falling on Concrete in Basement 2.aif",
+   "author": "RutgerMuller",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/RutgerMuller/sounds/104354",
+   "url": "https://cdn.freesound.org/previews/104/104354_179538-hq.mp3",
+   "duration": 2.488,
+   "openverseId": "320c8638-abdf-4cf1-ae9c-0ae7c925d98d",
+   "measure": {
+    "peak": -0.258666,
+    "rms": -23.343979,
+    "floor": -83.562266,
+    "flat": 0,
+    "dur": 2.49
+   },
+   "alternates": [
+    {
+     "title": "Metallic Pipe Hits on Concrete in Basement.aif",
+     "url": "https://cdn.freesound.org/previews/104/104373_179538-hq.mp3",
+     "author": "RutgerMuller",
+     "landing": "https://freesound.org/people/RutgerMuller/sounds/104373"
+    },
+    {
+     "title": "Metal pipe on concrete.wav",
+     "url": "https://cdn.freesound.org/previews/164/164572_2104797-hq.mp3",
+     "author": "deleted_user_2104797",
+     "landing": "https://freesound.org/people/deleted_user_2104797/sounds/164572"
+    }
+   ]
+  },
+  {
+   "id": "deep-boom",
+   "fr": "Boom grave",
+   "en": "Deep boom",
+   "cat": "meme",
+   "tags": [
+    "boom",
+    "grave",
+    "bass",
+    "vine",
+    "meme",
+    "impact",
+    "revelation"
+   ],
+   "title": "Bass Impact - Ki_01.mp3",
+   "author": "Kievinay",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Kievinay/sounds/512389",
+   "url": "https://cdn.freesound.org/previews/512/512389_3997858-hq.mp3",
+   "duration": 3.935,
+   "openverseId": "d946174b-650a-4ef5-ba65-2b11686aa732",
+   "measure": {
+    "peak": -0.263232,
+    "rms": -17.957447,
+    "floor": -76.116436,
+    "flat": 0,
+    "dur": 3.94
+   },
+   "alternates": [
+    {
+     "title": "Deep Boom",
+     "url": "https://cdn.freesound.org/previews/539/539968_12029332-hq.mp3",
+     "author": "Za-Games",
+     "landing": "https://freesound.org/people/Za-Games/sounds/539968"
+    },
+    {
+     "title": "whoosh+boom.wav",
+     "url": "https://cdn.freesound.org/previews/118/118934_643327-hq.mp3",
+     "author": "Capashen",
+     "landing": "https://freesound.org/people/Capashen/sounds/118934"
+    }
+   ]
+  },
+  {
+   "id": "dramatic-sting",
+   "fr": "Effet dramatique",
+   "en": "Dramatic sting",
+   "cat": "meme",
+   "tags": [
+    "dramatique",
+    "dramatic",
+    "sting",
+    "choc",
+    "revelation"
+   ],
+   "title": "spooky 02.mp3",
+   "author": "nomiqbomi",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/nomiqbomi/sounds/651025",
+   "url": "https://cdn.freesound.org/previews/651/651025_10522382-hq.mp3",
+   "duration": 4.063,
+   "openverseId": "43dd23cf-72f9-4411-b267-b48537e13447",
+   "measure": {
+    "peak": -8.116497,
+    "rms": -28.265541,
+    "floor": -100.873352,
+    "flat": 0,
+    "dur": 4.06
+   },
+   "alternates": [
+    {
+     "title": "Dramatic 1.wav",
+     "url": "https://cdn.freesound.org/previews/122/122076_2220589-hq.mp3",
+     "author": "Lisnmusic",
+     "landing": "https://freesound.org/people/Lisnmusic/sounds/122076"
+    },
+    {
+     "title": "spooky 14.mp3",
+     "url": "https://cdn.freesound.org/previews/651/651034_10522382-hq.mp3",
+     "author": "nomiqbomi",
+     "landing": "https://freesound.org/people/nomiqbomi/sounds/651034"
+    }
+   ]
+  },
+  {
+   "id": "horror-sting",
+   "fr": "Effet horreur",
+   "en": "Horror sting",
+   "cat": "meme",
+   "tags": [
+    "horreur",
+    "horror",
+    "peur",
+    "scary",
+    "jump",
+    "scare"
+   ],
+   "title": "spooky 02.mp3",
+   "author": "nomiqbomi",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/nomiqbomi/sounds/651025",
+   "url": "https://cdn.freesound.org/previews/651/651025_10522382-hq.mp3",
+   "duration": 4.063,
+   "openverseId": "43dd23cf-72f9-4411-b267-b48537e13447",
+   "measure": {
+    "peak": -8.116497,
+    "rms": -28.265541,
+    "floor": -100.873352,
+    "flat": 0,
+    "dur": 4.06
+   },
+   "alternates": [
+    {
+     "title": "Metal Spring Pluck (Horror/Suspense Sting)",
+     "url": "https://cdn.freesound.org/previews/540/540213_12029332-hq.mp3",
+     "author": "Za-Games",
+     "landing": "https://freesound.org/people/Za-Games/sounds/540213"
+    },
+    {
+     "title": "Horror terror noise",
+     "url": "https://cdn.freesound.org/previews/580/580319_5487341-hq.mp3",
+     "author": "SamsterBirdies",
+     "landing": "https://freesound.org/people/SamsterBirdies/sounds/580319"
+    }
+   ]
+  },
+  {
+   "id": "angel-choir",
+   "fr": "Chœur céleste",
+   "en": "Angelic choir",
+   "cat": "magic",
+   "tags": [
+    "choeur",
+    "ange",
+    "angel",
+    "celeste",
+    "heaven",
+    "divin",
+    "ahh"
+   ],
+   "title": "Haaaa Epiphany Choir",
+   "author": "daalvinz",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/daalvinz/sounds/394226",
+   "url": "https://cdn.freesound.org/previews/394/394226_1847127-hq.mp3",
+   "duration": 4,
+   "openverseId": "05853bf4-2e05-4489-80ab-3db813c8fc6a",
+   "measure": {
+    "peak": -0.55915,
+    "rms": -16.049153,
+    "floor": -87.668111,
+    "flat": 0,
+    "dur": 4
+   },
+   "alternates": [
+    {
+     "title": "Dark Choir 01.wav",
+     "url": "https://cdn.freesound.org/previews/207/207809_3863330-hq.mp3",
+     "author": "Exsomniel",
+     "landing": "https://freesound.org/people/Exsomniel/sounds/207809"
+    },
+    {
+     "title": "Spooky Singing Choir",
+     "url": "https://cdn.freesound.org/previews/147/147881_713831-hq.mp3",
+     "author": "xSylviaMoonx",
+     "landing": "https://freesound.org/people/xSylviaMoonx/sounds/147881"
+    }
+   ]
+  },
+  {
+   "id": "harp-gliss",
+   "fr": "Harpe (rêve)",
+   "en": "Harp glissando",
+   "cat": "magic",
+   "tags": [
+    "harpe",
+    "harp",
+    "reve",
+    "dream",
+    "flashback"
+   ],
+   "title": "Flashback Sound.wav",
+   "author": "sidequesting",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/sidequesting/sounds/541546",
+   "url": "https://cdn.freesound.org/previews/541/541546_10247258-hq.mp3",
+   "duration": 5.404,
+   "openverseId": "084fd67c-4dad-4756-8b95-e2fa2fa95f5a",
+   "measure": {
+    "peak": -21.39565,
+    "rms": -39.432133,
+    "floor": null,
+    "flat": 0,
+    "dur": 5.4
+   },
+   "alternates": []
+  },
+  {
+   "id": "magic-wand",
+   "fr": "Baguette magique",
+   "en": "Magic wand",
+   "cat": "magic",
+   "tags": [
+    "magie",
+    "magic",
+    "baguette",
+    "wand",
+    "sort",
+    "spell"
+   ],
+   "title": "Sound Effect Magic.mp3",
+   "author": "LittleRainySeasons",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/LittleRainySeasons/sounds/345058",
+   "url": "https://cdn.freesound.org/previews/345/345058_5865517-hq.mp3",
+   "duration": 1.503,
+   "openverseId": "1033027f-20a6-44f1-a706-70395f2210ab",
+   "measure": {
+    "peak": -0.060098,
+    "rms": -11.740226,
+    "floor": -54.129443,
+    "flat": 0,
+    "dur": 1.5
+   },
+   "alternates": [
+    {
+     "title": "Magic spell (small positive)",
+     "url": "https://cdn.freesound.org/previews/506/506939_717697-hq.mp3",
+     "author": "Nakhas",
+     "landing": "https://freesound.org/people/Nakhas/sounds/506939"
+    },
+    {
+     "title": "Sparkling Star 01.wav",
+     "url": "https://cdn.freesound.org/previews/462/462095_6142149-hq.mp3",
+     "author": "MATRIXXX_",
+     "landing": "https://freesound.org/people/MATRIXXX_/sounds/462095"
+    }
+   ]
+  },
+  {
+   "id": "gong",
+   "fr": "Gong",
+   "en": "Gong",
+   "cat": "meme",
+   "tags": [
+    "gong",
+    "annonce",
+    "asie"
+   ],
+   "title": "anime gong 1.wav",
+   "author": "Logicogonist",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Logicogonist/sounds/264047",
+   "url": "https://cdn.freesound.org/previews/264/264047_3797507-hq.mp3",
+   "duration": 4.981,
+   "openverseId": "cb498e53-a9f2-420d-9c7f-d8e3cad34bae",
+   "measure": {
+    "peak": -3.86893,
+    "rms": -22.360202,
+    "floor": -122.36585,
+    "flat": 0,
+    "dur": 4.98
+   },
+   "alternates": [
+    {
+     "title": "Gong 002.wav",
+     "url": "https://cdn.freesound.org/previews/361/361494_1431924-hq.mp3",
+     "author": "tec_studio",
+     "landing": "https://freesound.org/people/tec_studio/sounds/361494"
+    },
+    {
+     "title": "Gong 001.wav",
+     "url": "https://cdn.freesound.org/previews/361/361495_1431924-hq.mp3",
+     "author": "tec_studio",
+     "landing": "https://freesound.org/people/tec_studio/sounds/361495"
+    }
+   ]
+  },
+  {
+   "id": "party-horn",
+   "fr": "Langue de belle-mère",
+   "en": "Party horn",
+   "cat": "meme",
+   "tags": [
+    "fete",
+    "party",
+    "horn",
+    "anniversaire"
+   ],
+   "title": "Party horn.wav",
+   "author": "audiosmedia",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/audiosmedia/sounds/170583",
+   "url": "https://cdn.freesound.org/previews/170/170583_1146698-hq.mp3",
+   "duration": 1.784,
+   "openverseId": "84ecbc3b-8f6c-426a-bc6d-bbed51022e63",
+   "measure": {
+    "peak": -0.201576,
+    "rms": -15.149636,
+    "floor": -73.000473,
+    "flat": 0,
+    "dur": 1.78
+   },
+   "alternates": []
+  },
+  {
+   "id": "party-popper",
+   "fr": "Canon à confettis",
+   "en": "Party popper",
+   "cat": "meme",
+   "tags": [
+    "confettis",
+    "party",
+    "popper",
+    "fete"
+   ],
+   "title": "partypopper.flac",
+   "author": "Streety",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Streety/sounds/26349",
+   "url": "https://cdn.freesound.org/previews/26/26349_56897-hq.mp3",
+   "duration": 0.609,
+   "openverseId": "c14946e2-94e4-4c35-a975-b0328a571b0c",
+   "measure": {
+    "peak": 0.070847,
+    "rms": -17.262552,
+    "floor": -40.759502,
+    "flat": 0,
+    "dur": 0.61
+   },
+   "alternates": []
+  },
+  {
+   "id": "fireworks",
+   "fr": "Feu d'artifice",
+   "en": "Fireworks",
+   "cat": "meme",
+   "tags": [
+    "feu",
+    "artifice",
+    "fireworks",
+    "fete",
+    "celebration"
+   ],
+   "title": "fireworks exploding 1.wav",
+   "author": "soundmary",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/soundmary/sounds/117616",
+   "url": "https://cdn.freesound.org/previews/117/117616_1160789-hq.mp3",
+   "duration": 5.486,
+   "openverseId": "6396bca2-ee10-452e-a292-0f7e1081be68",
+   "measure": {
+    "peak": 1.957003,
+    "rms": -13.014157,
+    "floor": -36.717932,
+    "flat": 0,
+    "dur": 5.49
+   },
+   "alternates": []
+  },
+  {
+   "id": "wrong-buzzer",
+   "fr": "Buzzer mauvaise réponse",
+   "en": "Wrong answer buzzer",
+   "cat": "meme",
+   "tags": [
+    "faux",
+    "wrong",
+    "buzzer",
+    "erreur",
+    "mauvaise",
+    "reponse",
+    "quiz"
+   ],
+   "title": "buzzer.wav",
+   "author": "hypocore",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/hypocore/sounds/164090",
+   "url": "https://cdn.freesound.org/previews/164/164090_2975503-hq.mp3",
+   "duration": 1.529,
+   "openverseId": "34122497-a530-465e-abbf-542a9fc1757c",
+   "measure": {
+    "peak": -13.282017,
+    "rms": -25.087139,
+    "floor": -63.643488,
+    "flat": 0,
+    "dur": 1.53
+   },
+   "alternates": [
+    {
+     "title": "buzzer2.wav",
+     "url": "https://cdn.freesound.org/previews/164/164089_2975503-hq.mp3",
+     "author": "hypocore",
+     "landing": "https://freesound.org/people/hypocore/sounds/164089"
+    },
+    {
+     "title": "Wrong Answer",
+     "url": "https://cdn.freesound.org/previews/648/648462_11771918-hq.mp3",
+     "author": "-Andreas",
+     "landing": "https://freesound.org/people/-Andreas/sounds/648462"
+    }
+   ]
+  },
+  {
+   "id": "correct-ding",
+   "fr": "Bonne réponse",
+   "en": "Correct answer",
+   "cat": "ui",
+   "tags": [
+    "correct",
+    "bonne",
+    "reponse",
+    "vrai",
+    "quiz",
+    "ding"
+   ],
+   "title": "Correct Answer / That's Right!",
+   "author": "Beetlemuse",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Beetlemuse/sounds/528957",
+   "url": "https://cdn.freesound.org/previews/528/528957_10334845-hq.mp3",
+   "duration": 0.728,
+   "openverseId": "59594111-13c9-44c0-b440-622f0a64300e",
+   "measure": {
+    "peak": -10.477806,
+    "rms": -25.967877,
+    "floor": -84.18168,
+    "flat": 0,
+    "dur": 0.73
+   },
+   "alternates": [
+    {
+     "title": "and the correct answer is.wav",
+     "url": "https://cdn.freesound.org/previews/523/523633_57789-hq.mp3",
+     "author": "cognito perceptu",
+     "landing": "https://freesound.org/people/cognito%20perceptu/sounds/523633"
+    },
+    {
+     "title": "and the correct answer is b.wav",
+     "url": "https://cdn.freesound.org/previews/523/523644_57789-hq.mp3",
+     "author": "cognito perceptu",
+     "landing": "https://freesound.org/people/cognito%20perceptu/sounds/523644"
+    }
+   ]
+  },
+  {
+   "id": "boing-real",
+   "fr": "Boing (guimbarde)",
+   "en": "Boing",
+   "cat": "cartoon",
+   "tags": [
+    "boing",
+    "ressort",
+    "spring",
+    "rebond",
+    "cartoon"
+   ],
+   "title": "Funny Boing",
+   "author": "se2001",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/se2001/sounds/543641",
+   "url": "https://cdn.freesound.org/previews/543/543641_8472935-hq.mp3",
+   "duration": 0.931,
+   "openverseId": "8b3a5d49-0c95-4c64-9de5-14ca59027e9c",
+   "measure": {
+    "peak": -29.910637,
+    "rms": -43.757208,
+    "floor": -83.755607,
+    "flat": 0,
+    "dur": 0.93
+   },
+   "alternates": [
+    {
+     "title": "Boing Spring Mouth harp downward 1.wav",
+     "url": "https://cdn.freesound.org/previews/334/334031_2064400-hq.mp3",
+     "author": "pan14",
+     "landing": "https://freesound.org/people/pan14/sounds/334031"
+    },
+    {
+     "title": "Boing 2",
+     "url": "https://cdn.freesound.org/previews/540/540790_11537497-hq.mp3",
+     "author": "magnuswaker",
+     "landing": "https://freesound.org/people/magnuswaker/sounds/540790"
+    }
+   ]
+  },
+  {
+   "id": "slide-whistle",
+   "fr": "Sifflet à coulisse",
+   "en": "Slide whistle",
+   "cat": "cartoon",
+   "tags": [
+    "sifflet",
+    "coulisse",
+    "slide",
+    "whistle",
+    "cartoon"
+   ],
+   "title": "classic dizzy take slide whistle.wav",
+   "author": "martian",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/martian/sounds/403002",
+   "url": "https://cdn.freesound.org/previews/403/403002_84709-hq.mp3",
+   "duration": 1.083,
+   "openverseId": "496efff7-9d9e-44ed-b602-e970546290c8",
+   "measure": {
+    "peak": -9.925468,
+    "rms": -25.311764,
+    "floor": null,
+    "flat": 0,
+    "dur": 1.08
+   },
+   "alternates": [
+    {
+     "title": "slide whistle.wav",
+     "url": "https://cdn.freesound.org/previews/586/586529_9341034-hq.mp3",
+     "author": "jcookvoice",
+     "landing": "https://freesound.org/people/jcookvoice/sounds/586529"
+    },
+    {
+     "title": "bird 3 d.mp3",
+     "url": "https://cdn.freesound.org/previews/170/170815_377731-hq.mp3",
+     "author": "esperar",
+     "landing": "https://freesound.org/people/esperar/sounds/170815"
+    }
+   ]
+  },
+  {
+   "id": "cartoon-fall",
+   "fr": "Chute cartoon",
+   "en": "Cartoon fall",
+   "cat": "cartoon",
+   "tags": [
+    "chute",
+    "cartoon",
+    "fall",
+    "sifflement"
+   ],
+   "title": "Bomb Dropping.wav",
+   "author": "morganpurkis",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/morganpurkis/sounds/398255",
+   "url": "https://cdn.freesound.org/previews/398/398255_5937039-hq.mp3",
+   "duration": 5.396,
+   "openverseId": "5503c50f-be58-4da2-ba49-caaba9933790",
+   "measure": {
+    "peak": -0.217488,
+    "rms": -14.673309,
+    "floor": -70.386386,
+    "flat": 0,
+    "dur": 5.4
+   },
+   "alternates": [
+    {
+     "title": "Brewer Harp.mp3",
+     "url": "https://cdn.freesound.org/previews/653/653739_7123687-hq.mp3",
+     "author": "Streetpoptunez",
+     "landing": "https://freesound.org/people/Streetpoptunez/sounds/653739"
+    },
+    {
+     "title": "VASELLI_Chloe_2018_fallAndSplash.wav",
+     "url": "https://cdn.freesound.org/previews/428/428618_907124-hq.mp3",
+     "author": "iut_Paris8",
+     "landing": "https://freesound.org/people/iut_Paris8/sounds/428618"
+    }
+   ]
+  },
+  {
+   "id": "cartoon-run",
+   "fr": "Course cartoon",
+   "en": "Cartoon running",
+   "cat": "cartoon",
+   "tags": [
+    "course",
+    "cartoon",
+    "run",
+    "fuite"
+   ],
+   "title": "Funny Running Footsteps Slip into Glass Bottles and Crash.wav",
+   "author": "WannyManny",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/WannyManny/sounds/609936",
+   "url": "https://cdn.freesound.org/previews/609/609936_13497056-hq.mp3",
+   "duration": 4.838,
+   "openverseId": "40db5408-88d5-4a30-b81f-dec38b67d18d",
+   "measure": {
+    "peak": -0.210142,
+    "rms": -16.110292,
+    "floor": -74.810154,
+    "flat": 0,
+    "dur": 4.84
+   },
+   "alternates": [
+    {
+     "title": "Chạy Trốn 0 - 240 bpm",
+     "url": "https://cdn.freesound.org/previews/702/702333_7554526-hq.mp3",
+     "author": "SieuAmThanh",
+     "landing": "https://freesound.org/people/SieuAmThanh/sounds/702333"
+    },
+    {
+     "title": "17-Corriendo.wav",
+     "url": "https://cdn.freesound.org/previews/430/430524_7673667-hq.mp3",
+     "author": "citeyo1",
+     "landing": "https://freesound.org/people/citeyo1/sounds/430524"
+    }
+   ]
+  },
+  {
+   "id": "squeaky-toy",
+   "fr": "Jouet qui couine",
+   "en": "Squeaky toy",
+   "cat": "cartoon",
+   "tags": [
+    "couine",
+    "squeak",
+    "jouet",
+    "toy",
+    "canard"
+   ],
+   "title": "Squeaky Toy #4",
+   "author": "Breviceps",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Breviceps/sounds/483922",
+   "url": "https://cdn.freesound.org/previews/483/483922_9159316-hq.mp3",
+   "duration": 1.253,
+   "openverseId": "a24645c5-1b7d-442f-8018-d17e7f28f89b",
+   "measure": {
+    "peak": -2.795475,
+    "rms": -24.87086,
+    "floor": -53.314417,
+    "flat": 0,
+    "dur": 1.25
+   },
+   "alternates": [
+    {
+     "title": "Squeaky Toy 2.wav",
+     "url": "https://cdn.freesound.org/previews/448/448817_9253703-hq.mp3",
+     "author": "arc241",
+     "landing": "https://freesound.org/people/arc241/sounds/448817"
+    },
+    {
+     "title": "Squeaky Toy 6.wav",
+     "url": "https://cdn.freesound.org/previews/448/448821_9253703-hq.mp3",
+     "author": "arc241",
+     "landing": "https://freesound.org/people/arc241/sounds/448821"
+    }
+   ]
+  },
+  {
+   "id": "cartoon-slip",
+   "fr": "Glissade",
+   "en": "Slip",
+   "cat": "cartoon",
+   "tags": [
+    "glissade",
+    "slip",
+    "banane",
+    "chute"
+   ],
+   "title": "Slips air release v3",
+   "author": "mcpable",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/mcpable/sounds/131932",
+   "url": "https://cdn.freesound.org/previews/131/131932_1542102-hq.mp3",
+   "duration": 2.571,
+   "openverseId": "0a5f6562-53a0-4db7-b7b9-46d826fa521f",
+   "measure": {
+    "peak": -3.652835,
+    "rms": -27.997094,
+    "floor": -60.938491,
+    "flat": 0,
+    "dur": 2.57
+   },
+   "alternates": [
+    {
+     "title": "Cartoon Quick Zip 02",
+     "url": "https://cdn.freesound.org/previews/541/541507_8472935-hq.mp3",
+     "author": "se2001",
+     "landing": "https://freesound.org/people/se2001/sounds/541507"
+    },
+    {
+     "title": "Awawawaw - cartoon-like slip vocal sfx",
+     "url": "https://cdn.freesound.org/previews/711/711794_10323256-hq.mp3",
+     "author": "A_kn",
+     "landing": "https://freesound.org/people/A_kn/sounds/711794"
+    }
+   ]
+  },
+  {
+   "id": "bonk-real",
+   "fr": "Bonk (coup sur la tête)",
+   "en": "Bonk",
+   "cat": "cartoon",
+   "tags": [
+    "bonk",
+    "coup",
+    "tete",
+    "head"
+   ],
+   "title": "#9 Thump.wav",
+   "author": "LittleLuigi",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/LittleLuigi/sounds/364790",
+   "url": "https://cdn.freesound.org/previews/364/364790_6460155-hq.mp3",
+   "duration": 0.766,
+   "openverseId": "cfa1e5a9-a841-4a0f-a72f-8662bcc1e240",
+   "measure": {
+    "peak": -8.677257,
+    "rms": -32.515943,
+    "floor": -88.169169,
+    "flat": 0,
+    "dur": 0.77
+   },
+   "alternates": [
+    {
+     "title": "water bottle snare 15 (bonk).wav",
+     "url": "https://cdn.freesound.org/previews/8/8838_7364-hq.mp3",
+     "author": "Churd-Tzu",
+     "landing": "https://freesound.org/people/Churd-Tzu/sounds/8838"
+    },
+    {
+     "title": "Bonk.wav",
+     "url": "https://cdn.freesound.org/previews/458/458572_9571654-hq.mp3",
+     "author": "facklere",
+     "landing": "https://freesound.org/people/facklere/sounds/458572"
+    }
+   ]
+  },
+  {
+   "id": "duck-quack",
+   "fr": "Canard",
+   "en": "Duck quack",
+   "cat": "animals",
+   "tags": [
+    "canard",
+    "duck",
+    "coin",
+    "coin",
+    "quack"
+   ],
+   "title": "Duck Quacking Twice",
+   "author": "Owen_Garcia",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Owen_Garcia/sounds/719109",
+   "url": "https://cdn.freesound.org/previews/719/719109_11244040-hq.mp3",
+   "duration": 0.54,
+   "openverseId": "fdb5dfdf-6b95-49c5-8d5d-7a614995459c",
+   "measure": {
+    "peak": -12.436617,
+    "rms": -30.842733,
+    "floor": -55.602139,
+    "flat": 0,
+    "dur": 0.54
+   },
+   "alternates": [
+    {
+     "title": "Cartoon - Duck Quack",
+     "url": "https://cdn.freesound.org/previews/445/445960_9159316-hq.mp3",
+     "author": "Breviceps",
+     "landing": "https://freesound.org/people/Breviceps/sounds/445960"
+    },
+    {
+     "title": "Duck Quacking Loudly Three Times",
+     "url": "https://cdn.freesound.org/previews/719/719114_11244040-hq.mp3",
+     "author": "Owen_Garcia",
+     "landing": "https://freesound.org/people/Owen_Garcia/sounds/719114"
+    }
+   ]
+  },
+  {
+   "id": "goat",
+   "fr": "Chèvre",
+   "en": "Goat",
+   "cat": "animals",
+   "tags": [
+    "chevre",
+    "goat",
+    "beee",
+    "meme"
+   ],
+   "title": "Goat Sound 2.wav",
+   "author": "Erokia",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Erokia/sounds/188182",
+   "url": "https://cdn.freesound.org/previews/188/188182_9497060-hq.mp3",
+   "duration": 0.942,
+   "openverseId": "26daf320-3978-44cd-a1a1-1ffb6c79e472",
+   "measure": {
+    "peak": -0.198711,
+    "rms": -25.736089,
+    "floor": -43.969707,
+    "flat": 0,
+    "dur": 0.94
+   },
+   "alternates": [
+    {
+     "title": "C4 G lgf goat singl.melo.wav",
+     "url": "https://cdn.freesound.org/previews/253/253871_4690538-hq.mp3",
+     "author": "beagle007",
+     "landing": "https://freesound.org/people/beagle007/sounds/253871"
+    },
+    {
+     "title": "Nigerian Dwarf Buck Goat",
+     "url": "https://cdn.freesound.org/previews/677/677220_14166079-hq.mp3",
+     "author": "satoristudios3",
+     "landing": "https://freesound.org/people/satoristudios3/sounds/677220"
+    }
+   ]
+  },
+  {
+   "id": "chicken",
+   "fr": "Poule",
+   "en": "Chicken",
+   "cat": "animals",
+   "tags": [
+    "poule",
+    "chicken",
+    "cot",
+    "cot"
+   ],
+   "title": "Chicken Scream - Soft",
+   "author": "Henlord",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Henlord/sounds/413823",
+   "url": "https://cdn.freesound.org/previews/413/413823_8126390-hq.mp3",
+   "duration": 1.724,
+   "openverseId": "8393972d-2eff-40c8-a66f-b6cb56622e5a",
+   "measure": {
+    "peak": -1.205651,
+    "rms": -20.382946,
+    "floor": -65.367838,
+    "flat": 0,
+    "dur": 1.72
+   },
+   "alternates": [
+    {
+     "title": "Chicken imitation",
+     "url": "https://cdn.freesound.org/previews/170/170808_377731-hq.mp3",
+     "author": "esperar",
+     "landing": "https://freesound.org/people/esperar/sounds/170808"
+    },
+    {
+     "title": "Chicken Single Alarm Call",
+     "url": "https://cdn.freesound.org/previews/316/316920_4921277-hq.mp3",
+     "author": "Rudmer_Rotteveel",
+     "landing": "https://freesound.org/people/Rudmer_Rotteveel/sounds/316920"
+    }
+   ]
+  },
+  {
+   "id": "rooster",
+   "fr": "Coq",
+   "en": "Rooster",
+   "cat": "animals",
+   "tags": [
+    "coq",
+    "rooster",
+    "cocorico",
+    "matin"
+   ],
+   "title": "Cock Rooster Cockerel Scream Sound.wav",
+   "author": "featherstar",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/featherstar/sounds/411424",
+   "url": "https://cdn.freesound.org/previews/411/411424_3842632-hq.mp3",
+   "duration": 3.5,
+   "openverseId": "99d4648a-1770-476f-85e4-77cbaa399b91",
+   "measure": {
+    "peak": -11.808615,
+    "rms": -24.92784,
+    "floor": -88.365946,
+    "flat": 0,
+    "dur": 3.5
+   },
+   "alternates": [
+    {
+     "title": "Rooster Crowing_27112016 [Processed]",
+     "url": "https://cdn.freesound.org/previews/391/391313_5450487-hq.mp3",
+     "author": "cabled_mess",
+     "landing": "https://freesound.org/people/cabled_mess/sounds/391313"
+    },
+    {
+     "title": "Rooster Crow 2",
+     "url": "https://cdn.freesound.org/previews/435/435507_1196020-hq.mp3",
+     "author": "BenjaminNelan",
+     "landing": "https://freesound.org/people/BenjaminNelan/sounds/435507"
+    }
+   ]
+  },
+  {
+   "id": "cat-meow",
+   "fr": "Miaulement",
+   "en": "Cat meow",
+   "cat": "animals",
+   "tags": [
+    "chat",
+    "cat",
+    "miaou",
+    "meow"
+   ],
+   "title": "Cat meow 3",
+   "author": "fthgurdy",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/fthgurdy/sounds/528194",
+   "url": "https://cdn.freesound.org/previews/528/528194_3302313-hq.mp3",
+   "duration": 1.274,
+   "openverseId": "3dfd8c93-f1ec-467e-b9d8-15c76121e9dc",
+   "measure": {
+    "peak": -22.720564,
+    "rms": -35.881034,
+    "floor": -50.858679,
+    "flat": 0,
+    "dur": 1.27
+   },
+   "alternates": [
+    {
+     "title": "Cat meow",
+     "url": "https://cdn.freesound.org/previews/256/256452_4754386-hq.mp3",
+     "author": "philsapphire",
+     "landing": "https://freesound.org/people/philsapphire/sounds/256452"
+    },
+    {
+     "title": "cat meow II",
+     "url": "https://cdn.freesound.org/previews/110/110010_1537422-hq.mp3",
+     "author": "tuberatanka",
+     "landing": "https://freesound.org/people/tuberatanka/sounds/110010"
+    }
+   ]
+  },
+  {
+   "id": "dog-bark",
+   "fr": "Aboiement",
+   "en": "Dog bark",
+   "cat": "animals",
+   "tags": [
+    "chien",
+    "dog",
+    "ouaf",
+    "aboiement",
+    "bark"
+   ],
+   "title": "Single Dog Bark",
+   "author": "kwahmah_02",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/kwahmah_02/sounds/277058",
+   "url": "https://cdn.freesound.org/previews/277/277058_4486188-hq.mp3",
+   "duration": 0.389,
+   "openverseId": "e7f5374d-361a-4881-a662-bbeee8a2f029",
+   "measure": {
+    "peak": -2.188537,
+    "rms": -14.629104,
+    "floor": -92.658008,
+    "flat": 0,
+    "dur": 0.39
+   },
+   "alternates": [
+    {
+     "title": "Small dog bark",
+     "url": "https://cdn.freesound.org/previews/484/484297_1738686-hq.mp3",
+     "author": "giddster",
+     "landing": "https://freesound.org/people/giddster/sounds/484297"
+    },
+    {
+     "title": "Dog barks",
+     "url": "https://cdn.freesound.org/previews/498/498394_10816113-hq.mp3",
+     "author": "16FVolejnikovaA",
+     "landing": "https://freesound.org/people/16FVolejnikovaA/sounds/498394"
+    }
+   ]
+  },
+  {
+   "id": "cow-moo",
+   "fr": "Vache",
+   "en": "Cow moo",
+   "cat": "animals",
+   "tags": [
+    "vache",
+    "cow",
+    "meuh",
+    "moo"
+   ],
+   "title": "Cow - Moo 5 - 96kHz.wav",
+   "author": "JarredGibb",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/JarredGibb/sounds/233134",
+   "url": "https://cdn.freesound.org/previews/233/233134_4056007-hq.mp3",
+   "duration": 2.968,
+   "openverseId": "d267f9f3-0a07-43ab-ac34-d4770a503fdc",
+   "measure": {
+    "peak": -0.053297,
+    "rms": -12.469706,
+    "floor": -55.688874,
+    "flat": 0,
+    "dur": 2.97
+   },
+   "alternates": [
+    {
+     "title": "Cow - Moo 2 - 96kHz.wav",
+     "url": "https://cdn.freesound.org/previews/233/233129_4056007-hq.mp3",
+     "author": "JarredGibb",
+     "landing": "https://freesound.org/people/JarredGibb/sounds/233129"
+    },
+    {
+     "title": "Cow moo #3",
+     "url": "https://cdn.freesound.org/previews/513/513557_2898771-hq.mp3",
+     "author": "spurioustransients",
+     "landing": "https://freesound.org/people/spurioustransients/sounds/513557"
+    }
+   ]
+  },
+  {
+   "id": "car-horn",
+   "fr": "Klaxon de voiture",
+   "en": "Car horn",
+   "cat": "foley",
+   "tags": [
+    "klaxon",
+    "voiture",
+    "car",
+    "horn",
+    "honk"
+   ],
+   "title": "Car Horn",
+   "author": "danlucaz",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/danlucaz/sounds/517673",
+   "url": "https://cdn.freesound.org/previews/517/517673_9996727-hq.mp3",
+   "duration": 2.03,
+   "openverseId": "d09313f6-9def-431b-aed5-9fce907fbaa8",
+   "measure": {
+    "peak": -12.120543,
+    "rms": -18.332433,
+    "floor": -66.385294,
+    "flat": 0,
+    "dur": 2.03
+   },
+   "alternates": [
+    {
+     "title": "Car Horn Beeps.mp3",
+     "url": "https://cdn.freesound.org/previews/254/254678_1835926-hq.mp3",
+     "author": "hsaunier10",
+     "landing": "https://freesound.org/people/hsaunier10/sounds/254678"
+    },
+    {
+     "title": "Car horn short.wav",
+     "url": "https://cdn.freesound.org/previews/534/534926_2898771-hq.mp3",
+     "author": "spurioustransients",
+     "landing": "https://freesound.org/people/spurioustransients/sounds/534926"
+    }
+   ]
+  },
+  {
+   "id": "bike-bell",
+   "fr": "Sonnette de vélo",
+   "en": "Bicycle bell",
+   "cat": "foley",
+   "tags": [
+    "sonnette",
+    "velo",
+    "bike",
+    "bell"
+   ],
+   "title": "BikeBell3.wav",
+   "author": "RoofDog",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/RoofDog/sounds/78968",
+   "url": "https://cdn.freesound.org/previews/78/78968_1227539-hq.mp3",
+   "duration": 2.473,
+   "openverseId": "b8849a7f-46fb-433c-9dee-205980450dcc",
+   "measure": {
+    "peak": -12.177971,
+    "rms": -41.604389,
+    "floor": -72.403269,
+    "flat": 0,
+    "dur": 2.47
+   },
+   "alternates": [
+    {
+     "title": "Bicycle Bell C6.wav",
+     "url": "https://cdn.freesound.org/previews/536/536554_1391542-hq.mp3",
+     "author": "gis_sweden",
+     "landing": "https://freesound.org/people/gis_sweden/sounds/536554"
+    },
+    {
+     "title": "bike bell",
+     "url": "https://cdn.freesound.org/previews/547/547408_7593167-hq.mp3",
+     "author": "Ian_G",
+     "landing": "https://freesound.org/people/Ian_G/sounds/547408"
+    }
+   ]
+  },
+  {
+   "id": "rocket-launch",
+   "fr": "Décollage de fusée",
+   "en": "Rocket launch",
+   "cat": "impact",
+   "tags": [
+    "fusee",
+    "rocket",
+    "decollage",
+    "launch"
+   ],
+   "title": "Rocket launch",
+   "author": "Bryce835",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Bryce835/sounds/728264",
+   "url": "https://cdn.freesound.org/previews/728/728264_8779949-hq.mp3",
+   "duration": 11.037,
+   "openverseId": "febec6ba-4b6d-4ffd-86c9-87ae01fd6394",
+   "measure": {
+    "peak": -1.278295,
+    "rms": -13.692824,
+    "floor": -78.147846,
+    "flat": 0,
+    "dur": 11.04
+   },
+   "alternates": [
+    {
+     "title": "Rocket launch #2",
+     "url": "https://cdn.freesound.org/previews/728/728263_8779949-hq.mp3",
+     "author": "Bryce835",
+     "landing": "https://freesound.org/people/Bryce835/sounds/728263"
+    },
+    {
+     "title": "Bottle Rocket Launch #2.wav",
+     "url": "https://cdn.freesound.org/previews/695/695731_8779949-hq.mp3",
+     "author": "Bryce835",
+     "landing": "https://freesound.org/people/Bryce835/sounds/695731"
+    }
+   ]
+  },
+  {
+   "id": "sword-clash",
+   "fr": "Choc d'épées",
+   "en": "Sword clash",
+   "cat": "impact",
+   "tags": [
+    "epee",
+    "sword",
+    "clash",
+    "combat"
+   ],
+   "title": "Swords Clash - High Quality #2",
+   "author": "Christopherderp",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Christopherderp/sounds/364530",
+   "url": "https://cdn.freesound.org/previews/364/364530_3908740-hq.mp3",
+   "duration": 1.865,
+   "openverseId": "a9fe37d9-1231-4acc-be19-fcab7dc71207",
+   "measure": {
+    "peak": 1.898832,
+    "rms": -18.721459,
+    "floor": -62.583424,
+    "flat": 0,
+    "dur": 1.87
+   },
+   "alternates": [
+    {
+     "title": "Swords Clash - High Quality #1",
+     "url": "https://cdn.freesound.org/previews/364/364529_3908740-hq.mp3",
+     "author": "Christopherderp",
+     "landing": "https://freesound.org/people/Christopherderp/sounds/364529"
+    },
+    {
+     "title": "Swords Clash and Slide 2",
+     "url": "https://cdn.freesound.org/previews/342/342393_3908740-hq.mp3",
+     "author": "Christopherderp",
+     "landing": "https://freesound.org/people/Christopherderp/sounds/342393"
+    }
+   ]
+  },
+  {
+   "id": "whoosh-real",
+   "fr": "Whoosh (réel)",
+   "en": "Whoosh (real)",
+   "cat": "transition",
+   "tags": [
+    "whoosh",
+    "souffle",
+    "air",
+    "transition"
+   ],
+   "title": "hi speed electronic whoosh 1.wav",
+   "author": "martian",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/martian/sounds/19307",
+   "url": "https://cdn.freesound.org/previews/19/19307_84709-hq.mp3",
+   "duration": 0.926,
+   "openverseId": "7150994d-1aa7-47f2-bbad-75eebcce8643",
+   "measure": {
+    "peak": -3.02051,
+    "rms": -20.678699,
+    "floor": -84.180544,
+    "flat": 0,
+    "dur": 0.93
+   },
+   "alternates": [
+    {
+     "title": "Backwards Whoosh",
+     "url": "https://cdn.freesound.org/previews/446/446010_7079899-hq.mp3",
+     "author": "SlavicMagic",
+     "landing": "https://freesound.org/people/SlavicMagic/sounds/446010"
+    },
+    {
+     "title": "Swosh swoosh whoosh air sound, free, high quality",
+     "url": "https://cdn.freesound.org/previews/60/60026_71257-hq.mp3",
+     "author": "qubodup",
+     "landing": "https://freesound.org/people/qubodup/sounds/60026"
+    }
+   ]
+  },
+  {
+   "id": "swoosh-real",
+   "fr": "Swish (réel)",
+   "en": "Swish (real)",
+   "cat": "transition",
+   "tags": [
+    "swish",
+    "swoosh",
+    "rapide",
+    "transition"
+   ],
+   "title": "Knife Swish 2.wav",
+   "author": "jawbutch",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/jawbutch/sounds/344408",
+   "url": "https://cdn.freesound.org/previews/344/344408_4986214-hq.mp3",
+   "duration": 0.917,
+   "openverseId": "2aeffeb3-a80d-43a4-9e49-3360e75b8ab3",
+   "measure": {
+    "peak": -16.917839,
+    "rms": -39.651408,
+    "floor": -78.357583,
+    "flat": 0,
+    "dur": 0.92
+   },
+   "alternates": [
+    {
+     "title": "Knife Swish 1.wav",
+     "url": "https://cdn.freesound.org/previews/344/344403_4986214-hq.mp3",
+     "author": "jawbutch",
+     "landing": "https://freesound.org/people/jawbutch/sounds/344403"
+    },
+    {
+     "title": "Funny Swish",
+     "url": "https://cdn.freesound.org/previews/388/388005_6479820-hq.mp3",
+     "author": "deleted_user_6479820",
+     "landing": "https://freesound.org/people/deleted_user_6479820/sounds/388005"
+    }
+   ]
+  },
+  {
+   "id": "impact-real",
+   "fr": "Impact cinéma",
+   "en": "Cinematic impact",
+   "cat": "impact",
+   "tags": [
+    "impact",
+    "cinema",
+    "trailer",
+    "hit",
+    "boom"
+   ],
+   "title": "Cinematic Impact",
+   "author": "Rizzard",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Rizzard/sounds/559387",
+   "url": "https://cdn.freesound.org/previews/559/559387_10825267-hq.mp3",
+   "duration": 4,
+   "openverseId": "2e291c8c-cde5-4f35-bffe-1fc00c45e23d",
+   "measure": {
+    "peak": -0.253194,
+    "rms": -20.080673,
+    "floor": -80.640232,
+    "flat": 0,
+    "dur": 4
+   },
+   "alternates": [
+    {
+     "title": "PUNCH-BOXING-01.wav",
+     "url": "https://cdn.freesound.org/previews/348/348244_4067257-hq.mp3",
+     "author": "newagesoup",
+     "landing": "https://freesound.org/people/newagesoup/sounds/348244"
+    },
+    {
+     "title": "PUNCH-BOXING-04.wav",
+     "url": "https://cdn.freesound.org/previews/348/348241_4067257-hq.mp3",
+     "author": "newagesoup",
+     "landing": "https://freesound.org/people/newagesoup/sounds/348241"
+    }
+   ]
+  },
+  {
+   "id": "pop-mouth",
+   "fr": "Pop (bouche)",
+   "en": "Mouth pop",
+   "cat": "ui",
+   "tags": [
+    "pop",
+    "bouche",
+    "mouth",
+    "apparition"
+   ],
+   "title": "Mouth pop",
+   "author": "fleurescence",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/fleurescence/sounds/573153",
+   "url": "https://cdn.freesound.org/previews/573/573153_12947664-hq.mp3",
+   "duration": 0.236,
+   "openverseId": "d789256d-1482-4e3e-bc1c-fcd95b399726",
+   "measure": {
+    "peak": -0.254852,
+    "rms": -18.136285,
+    "floor": -73.673464,
+    "flat": 0,
+    "dur": 0.24
+   },
+   "alternates": [
+    {
+     "title": "Mouth pop",
+     "url": "https://cdn.freesound.org/previews/258/258269_4824549-hq.mp3",
+     "author": "jcallison",
+     "landing": "https://freesound.org/people/jcallison/sounds/258269"
+    },
+    {
+     "title": "Mouth pop 1",
+     "url": "https://cdn.freesound.org/previews/691/691906_5309408-hq.mp3",
+     "author": "hollandm",
+     "landing": "https://freesound.org/people/hollandm/sounds/691906"
+    }
+   ]
+  },
+  {
+   "id": "heart-monitor",
+   "fr": "Moniteur cardiaque",
+   "en": "Heart monitor",
+   "cat": "foley",
+   "tags": [
+    "hopital",
+    "moniteur",
+    "cardiaque",
+    "heart",
+    "monitor",
+    "bip"
+   ],
+   "title": "HL2 Style Flatline Tone",
+   "author": "NoonerBear",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/NoonerBear/sounds/581549",
+   "url": "https://cdn.freesound.org/previews/581/581549_3670066-hq.mp3",
+   "duration": 6.924,
+   "openverseId": "603b00f3-c28f-40ab-8331-fc78ee42bd01",
+   "measure": {
+    "peak": 0.973291,
+    "rms": -7.032641,
+    "floor": -74.926768,
+    "flat": 0,
+    "dur": 6.92
+   },
+   "alternates": [
+    {
+     "title": "paisaje-sonoro-uem-maquina04.wav",
+     "url": "https://cdn.freesound.org/previews/485/485527_10405630-hq.mp3",
+     "author": "anabellanoguera1",
+     "landing": "https://freesound.org/people/anabellanoguera1/sounds/485527"
+    },
+    {
+     "title": "my baby's heartbeat.wav",
+     "url": "https://cdn.freesound.org/previews/31/31785_235403-hq.mp3",
+     "author": "n8daly",
+     "landing": "https://freesound.org/people/n8daly/sounds/31785"
+    }
+   ]
+  },
+  {
+   "id": "texting",
+   "fr": "Écrire un SMS",
+   "en": "Phone typing",
+   "cat": "ui",
+   "tags": [
+    "sms",
+    "texto",
+    "message",
+    "telephone",
+    "typing"
+   ],
+   "title": "Typing.wav",
+   "author": "sound pro",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/sound%20pro/sounds/609585",
+   "url": "https://cdn.freesound.org/previews/609/609585_1368223-hq.mp3",
+   "duration": 6.109,
+   "openverseId": "ee801d69-2fb0-46c3-a105-f403e4d78aa6",
+   "measure": {
+    "peak": -5.320782,
+    "rms": -33.00168,
+    "floor": -80.873087,
+    "flat": 0,
+    "dur": 6.11
+   },
+   "alternates": [
+    {
+     "title": "Typing on an iPhone.mp3",
+     "url": "https://cdn.freesound.org/previews/365/365543_5407590-hq.mp3",
+     "author": "Caitlin_100",
+     "landing": "https://freesound.org/people/Caitlin_100/sounds/365543"
+    },
+    {
+     "title": "texting button presses 003.WAV",
+     "url": "https://cdn.freesound.org/previews/60/60396_564398-hq.mp3",
+     "author": "uwesoundboiz",
+     "landing": "https://freesound.org/people/uwesoundboiz/sounds/60396"
+    }
+   ]
+  },
+  {
+   "id": "rain",
+   "fr": "Pluie",
+   "en": "Rain",
+   "cat": "ambience",
+   "tags": [
+    "pluie",
+    "rain",
+    "ambiance",
+    "meteo"
+   ],
+   "title": "Rain Thunder.mp3",
+   "author": "Nimlos",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/Nimlos/sounds/359151",
+   "url": "https://cdn.freesound.org/previews/359/359151_4710044-hq.mp3",
+   "duration": 19.005,
+   "openverseId": "96c9e107-8e1d-48cf-9682-ce030e2bb7ee",
+   "measure": {
+    "peak": -0.616223,
+    "rms": -22.906713,
+    "floor": -77.111311,
+    "flat": 0,
+    "dur": 19.01
+   },
+   "alternates": [
+    {
+     "title": "rain stick.wav",
+     "url": "https://cdn.freesound.org/previews/21/21567_72710-hq.mp3",
+     "author": "nytro",
+     "landing": "https://freesound.org/people/nytro/sounds/21567"
+    },
+    {
+     "title": "Big rain drops (2).MP3",
+     "url": "https://cdn.freesound.org/previews/396/396483_313780-hq.mp3",
+     "author": "macdaddyno1",
+     "landing": "https://freesound.org/people/macdaddyno1/sounds/396483"
+    }
+   ]
+  },
+  {
+   "id": "city",
+   "fr": "Ville",
+   "en": "City ambience",
+   "cat": "ambience",
+   "tags": [
+    "ville",
+    "city",
+    "rue",
+    "traffic",
+    "ambiance"
+   ],
+   "title": "Skateboard jumping city ambience",
+   "author": "murkertrer",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/murkertrer/sounds/168731",
+   "url": "https://cdn.freesound.org/previews/168/168731_489348-hq.mp3",
+   "duration": 9.13,
+   "openverseId": "7e3a1d32-ed68-4eb0-be10-d609de0996c8",
+   "measure": {
+    "peak": -0.179996,
+    "rms": -23.299966,
+    "floor": -51.853811,
+    "flat": 0,
+    "dur": 9.12
+   },
+   "alternates": [
+    {
+     "title": "City Ambience",
+     "url": "https://cdn.freesound.org/previews/166/166171_2321357-hq.mp3",
+     "author": "Drillfire414",
+     "landing": "https://freesound.org/people/Drillfire414/sounds/166171"
+    },
+    {
+     "title": "CITY AMBIENCE for CLEAN LOOP.wav",
+     "url": "https://cdn.freesound.org/previews/325/325506_5600514-hq.mp3",
+     "author": "ListenTonyBoy",
+     "landing": "https://freesound.org/people/ListenTonyBoy/sounds/325506"
+    }
+   ]
+  },
+  {
+   "id": "forest",
+   "fr": "Forêt et oiseaux",
+   "en": "Forest birds",
+   "cat": "ambience",
+   "tags": [
+    "foret",
+    "oiseaux",
+    "birds",
+    "nature",
+    "ambiance"
+   ],
+   "title": "Forest Birds & Plane",
+   "author": "VKProduktion",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/VKProduktion/sounds/344968",
+   "url": "https://cdn.freesound.org/previews/344/344968_4034520-hq.mp3",
+   "duration": 14.235,
+   "openverseId": "f286f148-8f67-46c2-b322-1044f6c171d5",
+   "measure": {
+    "peak": -36.633663,
+    "rms": -52.954967,
+    "floor": -51.403447,
+    "flat": 0,
+    "dur": 14.24
+   },
+   "alternates": [
+    {
+     "title": "summer, forest, birds, atmosphere, ambience",
+     "url": "https://cdn.freesound.org/previews/712/712552_15101941-hq.mp3",
+     "author": "FALL-E",
+     "landing": "https://freesound.org/people/FALL-E/sounds/712552"
+    },
+    {
+     "title": "Forest birds 2.WAV",
+     "url": "https://cdn.freesound.org/previews/278/278870_1402315-hq.mp3",
+     "author": "Sandermotions",
+     "landing": "https://freesound.org/people/Sandermotions/sounds/278870"
+    }
+   ]
+  },
+  {
+   "id": "ocean",
+   "fr": "Vagues",
+   "en": "Ocean waves",
+   "cat": "ambience",
+   "tags": [
+    "mer",
+    "ocean",
+    "vagues",
+    "waves",
+    "plage",
+    "beach"
+   ],
+   "title": "Water wave Beach Field-recording 200815_0036.wav",
+   "author": "szegvari",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/szegvari/sounds/530699",
+   "url": "https://cdn.freesound.org/previews/530/530699_2282212-hq.mp3",
+   "duration": 21.315,
+   "openverseId": "b2a5f07d-ae85-4115-aca4-a6ea791e1454",
+   "measure": {
+    "peak": -8.093027,
+    "rms": -34.860648,
+    "floor": -36.744393,
+    "flat": 0,
+    "dur": 21.32
+   },
+   "alternates": [
+    {
+     "title": "Water wave Beach Peoples Field-recording 200815_0036.wav",
+     "url": "https://cdn.freesound.org/previews/530/530706_2282212-hq.mp3",
+     "author": "szegvari",
+     "landing": "https://freesound.org/people/szegvari/sounds/530706"
+    },
+    {
+     "title": "Water wave Beach Peoples ships Field-recording 200815_0037.wav",
+     "url": "https://cdn.freesound.org/previews/530/530705_2282212-hq.mp3",
+     "author": "szegvari",
+     "landing": "https://freesound.org/people/szegvari/sounds/530705"
+    }
+   ]
+  },
+  {
+   "id": "fire-crackle",
+   "fr": "Feu de camp",
+   "en": "Campfire",
+   "cat": "ambience",
+   "tags": [
+    "feu",
+    "fire",
+    "camp",
+    "crepitement"
+   ],
+   "title": "fire crackling, fireplace, BBQ",
+   "author": "AlexanderChe",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/AlexanderChe/sounds/410404",
+   "url": "https://cdn.freesound.org/previews/410/410404_6598647-hq.mp3",
+   "duration": 16.652,
+   "openverseId": "24f8a696-7fd2-437c-bf0d-790e5c085459",
+   "measure": {
+    "peak": -3.104256,
+    "rms": -48.379926,
+    "floor": -67.898542,
+    "flat": 0,
+    "dur": 16.65
+   },
+   "alternates": [
+    {
+     "title": "Fire Crackling",
+     "url": "https://cdn.freesound.org/previews/166/166258_2732842-hq.mp3",
+     "author": "hpnguyen52",
+     "landing": "https://freesound.org/people/hpnguyen52/sounds/166258"
+    },
+    {
+     "title": "Fire crackling",
+     "url": "https://cdn.freesound.org/previews/558/558983_12398429-hq.mp3",
+     "author": "cyberthilop",
+     "landing": "https://freesound.org/people/cyberthilop/sounds/558983"
+    }
+   ]
+  },
+  {
+   "id": "restaurant",
+   "fr": "Brouhaha",
+   "en": "Crowd chatter",
+   "cat": "ambience",
+   "tags": [
+    "brouhaha",
+    "foule",
+    "chatter",
+    "restaurant",
+    "bar",
+    "ambiance"
+   ],
+   "title": "Crowd Ouch.wav",
+   "author": "deleted_user_2104797",
+   "license": "CC0 1.0",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "landing": "https://freesound.org/people/deleted_user_2104797/sounds/324897",
+   "url": "https://cdn.freesound.org/previews/324/324897_2104797-hq.mp3",
+   "duration": 17.845,
+   "openverseId": "34ddf56b-5e6c-4bf2-b30f-e24a2763a654",
+   "measure": {
+    "peak": -2.84707,
+    "rms": -21.55366,
+    "floor": null,
+    "flat": 0,
+    "dur": 17.85
+   },
+   "alternates": [
+    {
+     "title": "Indoor adult murmur, couple.wav",
+     "url": "https://cdn.freesound.org/previews/260/260124_1480854-hq.mp3",
+     "author": "SpliceSound",
+     "landing": "https://freesound.org/people/SpliceSound/sounds/260124"
+    },
+    {
+     "title": "Indoor adult murmur, medium group.wav",
+     "url": "https://cdn.freesound.org/previews/260/260122_1480854-hq.mp3",
+     "author": "SpliceSound",
+     "landing": "https://freesound.org/people/SpliceSound/sounds/260122"
+    }
+   ]
+  }
+ ]
+}

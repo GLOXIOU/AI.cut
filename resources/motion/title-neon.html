@@ -1,0 +1,10 @@
+<div class="exit"><div class="neon" id="n">{{text}}</div></div>
+<style>
+.exit{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;animation:out .45s ease-in calc(var(--dur) - .45s) both}
+.neon{font:700 calc(var(--k) * .12) '{{font}}', Poppins, sans-serif;color:#fff;letter-spacing:.04em;padding:.1em .4em;border:calc(var(--k) * .006) solid #fff;border-radius:.25em;
+  text-shadow:0 0 .05em #fff,0 0 .15em {{color}},0 0 .4em {{color}},0 0 .8em {{color}};
+  box-shadow:0 0 .1em #fff inset,0 0 .4em {{color}},0 0 .4em {{color}} inset,0 0 1em {{color}};
+  animation:flicker 1.4s linear both}
+@keyframes flicker{0%{opacity:0}8%{opacity:1}10%{opacity:.2}14%{opacity:1}20%{opacity:.35}24%,100%{opacity:1}}
+@keyframes out{to{opacity:0;transform:scale(.96)}}
+</style>

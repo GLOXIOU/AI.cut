@@ -1,0 +1,21 @@
+<div class="st" id="st"><div class="e" id="e">{{emoji}}</div><div class="cap" id="cap">{{caption}}</div></div>
+<style>
+.st{position:absolute;left:{{x}}%;top:{{y}}%;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-50%)}
+.e{font-size:calc(var(--k)*{{size}}/1080);line-height:1;font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;filter:drop-shadow(0 calc(var(--k)*.012) calc(var(--k)*.02) rgba(0,0,0,.35))}
+.cap{margin-top:calc(var(--k)*.01);font:900 calc(var(--k)*.045) "{{font}}",Inter,sans-serif;color:#fff;background:{{accent}};padding:.12em .5em;border-radius:.35em;text-transform:uppercase;transform:rotate(-4deg)}
+.cap:empty{display:none}
+</style>
+<script>
+(function(){
+  var st = document.getElementById('st'), e = document.getElementById('e'), cap = document.getElementById('cap');
+  AICUT.onFrame(function(t){
+    var D = AICUT.duration;
+    var a = AICUT.ease.outElastic(AICUT.progress(t, 0, 0.7));
+    var out = AICUT.ease.in(AICUT.progress(t, D - 0.3, 0.3));
+    var wig = Math.sin(t * 5.2) * 6 * AICUT.progress(t, 0.5, 0.3);
+    e.style.transform = 'scale(' + (a * (1 - out)) + ') rotate(' + wig + 'deg)';
+    cap.style.opacity = AICUT.progress(t, 0.35, 0.2) * (1 - out);
+    cap.style.transform = 'rotate(-4deg) scale(' + (0.7 + 0.3 * AICUT.ease.outBack(AICUT.progress(t, 0.35, 0.35))) + ')';
+  });
+})();
+</script>

@@ -1,0 +1,15 @@
+<div class="exit"><div class="lt">
+  <div class="name">{{name}}</div>
+  <div class="rule"></div>
+  <div class="role">{{title}}</div>
+</div></div>
+<style>
+.exit{position:absolute;left:7%;bottom:11%;animation:out .45s ease-in calc(var(--dur) - .45s) both}
+.lt{color:{{color}};text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.name{font:700 calc(var(--k) * .045) '{{font}}', Inter, sans-serif;animation:fade .7s ease .1s both}
+.rule{height:2px;width:calc(var(--k) * .35);background:{{accent}};margin:calc(var(--k) * .012) 0;transform-origin:left;animation:grow .8s cubic-bezier(.6,0,.2,1) both}
+.role{font:400 calc(var(--k) * .028) Inter, sans-serif;letter-spacing:.18em;text-transform:uppercase;opacity:.85;animation:fade .7s ease .35s both}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes out{to{opacity:0}}
+</style>

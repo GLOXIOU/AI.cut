@@ -1,0 +1,24 @@
+<div id="root"></div>
+<style>
+#root{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.w{position:absolute;font:900 calc(var(--k) * {{size}} / 1080) / 1 '{{font}}', Anton, sans-serif;text-transform:uppercase;color:{{color}};text-align:center;max-width:88%;
+  -webkit-text-stroke:calc(var(--k) * .006) #000;paint-order:stroke fill;text-shadow:0 calc(var(--k) * .01) calc(var(--k) * .03) rgba(0,0,0,.5);opacity:0}
+.w.hl{color:{{accent}}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, words = String(P.text || '').split(/\s+/).filter(Boolean), root = document.getElementById('root');
+  var els = words.map(function(w, i){ var d = document.createElement('div'); d.className = 'w' + (i % 3 === 1 ? ' hl' : ''); d.textContent = w; root.appendChild(d); return d; });
+  var per = AICUT.duration / Math.max(1, words.length);
+  AICUT.onFrame(function(t){
+    var idx = Math.min(words.length - 1, Math.floor(t / per));
+    els.forEach(function(el, i){
+      if (i !== idx) { el.style.opacity = 0; return; }
+      var p = AICUT.progress(t - i * per, 0, Math.min(.18, per * .5));
+      var s = AICUT.lerp(1.5, 1, AICUT.ease.outBack(p));
+      el.style.opacity = Math.min(1, p * 2);
+      el.style.transform = 'scale(' + s + ') rotate(' + (i % 2 ? 2 : -2) * (1 - p) + 'deg)';
+    });
+  });
+})();
+</script>

@@ -1,0 +1,13 @@
+<div class="wrap" id="wrap"><div class="t" id="t">{{title}}</div><div class="line"></div><div class="s">{{subtitle}}</div></div>
+<style>
+.wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:{{align}};justify-content:center;padding:0 9%;color:{{color}};animation:out .5s ease-in calc(var(--dur) - .5s) both}
+.t{font:{{weight}} calc(var(--k)*{{size}}/1080) "{{font}}",Inter,sans-serif;letter-spacing:-.02em;line-height:1}
+.t span{display:inline-block;animation:in .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.035s)}
+.line{height:calc(var(--k)*.005);background:{{accent}};margin:calc(var(--k)*.03) 0 calc(var(--k)*.022);width:calc(var(--k)*.22);transform-origin:left;animation:grow .8s cubic-bezier(.6,0,.2,1) .25s both}
+.s{font:500 calc(var(--k)*{{size}}/1080*.3) Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;opacity:.85;animation:fade .7s ease-out .55s both}
+@keyframes in{from{opacity:0;filter:blur(12px);transform:translateY(.25em)}}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes fade{from{opacity:0;transform:translateY(.4em)}}
+@keyframes out{to{opacity:0;filter:blur(8px)}}
+</style>
+<script>AICUT.splitText('#t','chars');</script>

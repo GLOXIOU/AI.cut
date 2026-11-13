@@ -1,0 +1,21 @@
+<div class="card"><div class="lbl">{{label}}</div><div class="num" id="num">0</div><div class="delta" id="delta">{{delta}}</div></div>
+<style>
+.card{position:absolute;left:{{x}}%;top:{{y}}%;transform:translate(-50%,-50%);background:{{background}};color:{{color}};border-radius:calc(var(--k)*.03);padding:calc(var(--k)*.035) calc(var(--k)*.05);min-width:calc(var(--k)*.36);font-family:"{{font}}",Inter,sans-serif;box-shadow:0 calc(var(--k)*.02) calc(var(--k)*.06) rgba(0,0,0,.35);animation:in .55s cubic-bezier(.2,.9,.25,1.08) both, out .4s ease-in calc(var(--dur) - .4s) both}
+.lbl{font-size:calc(var(--k)*.028);font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:.12em}
+.num{font-size:calc(var(--k)*.12);font-weight:900;letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums}
+.delta{display:inline-block;font-size:calc(var(--k)*.03);font-weight:800;color:{{accentText}};background:{{accent}};padding:.15em .55em;border-radius:99px;animation:pop .4s cubic-bezier(.2,1.5,.4,1) 1.3s both}
+@keyframes in{from{opacity:0;transform:translate(-50%,-40%) scale(.94)}}
+@keyframes pop{from{opacity:0;transform:scale(.4)}}
+@keyframes out{to{opacity:0;transform:translate(-50%,-58%)}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, el = document.getElementById('num');
+  var to = Number(P.value) || 0, dec = Number(P.decimals) || 0;
+  var fmt = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  AICUT.onFrame(function(t){
+    var p = AICUT.ease.out(AICUT.progress(t, 0.25, 1.1));
+    el.textContent = (P.prefix || '') + fmt.format(to * p) + (P.suffix || '');
+  });
+})();
+</script>

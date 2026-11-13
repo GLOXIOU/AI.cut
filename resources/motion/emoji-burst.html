@@ -1,0 +1,28 @@
+<div id="root"></div>
+<style>#root{position:absolute;inset:0;overflow:hidden}.e{position:absolute;left:0;top:0;will-change:transform;line-height:1}</style>
+<script>
+(function(){
+  var P = AICUT.params, W = AICUT.width, H = AICUT.height, k = Math.min(W, H) / 1080;
+  var emojis = Array.from(String(P.emoji || '🔥')).filter(function(c){ return c.trim(); });
+  var n = Math.max(1, Math.min(80, Number(P.count) || 18)), cx = Number(P.x) * W, cy = Number(P.y) * H;
+  var seed = 7; function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  var root = document.getElementById('root'), parts = [];
+  for (var i = 0; i < n; i++) {
+    var d = document.createElement('div'); d.className = 'e'; d.textContent = emojis[i % emojis.length];
+    d.style.fontSize = ((Number(P.size) || 80) * k * (0.6 + rnd() * 0.8)) + 'px';
+    root.appendChild(d);
+    var ang = -Math.PI / 2 + (rnd() - 0.5) * Math.PI * (Number(P.spread) || 1.6), sp = (0.7 + rnd() * 0.6) * H * 0.9;
+    parts.push({ el: d, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, rot: (rnd() - 0.5) * 720, delay: rnd() * 0.25 });
+  }
+  var g = H * 1.6;
+  AICUT.onFrame(function(t){
+    parts.forEach(function(p){
+      var tt = Math.max(0, t - p.delay);
+      var x = cx + p.vx * tt, y = cy + p.vy * tt + 0.5 * g * tt * tt;
+      var s = Math.min(1, tt * 8);
+      p.el.style.transform = 'translate(' + x + 'px,' + y + 'px) translate(-50%,-50%) rotate(' + p.rot * tt + 'deg) scale(' + s + ')';
+      p.el.style.opacity = tt <= 0 ? 0 : Math.max(0, 1 - Math.max(0, tt - (AICUT.duration * 0.6)) * 2);
+    });
+  });
+})();
+</script>

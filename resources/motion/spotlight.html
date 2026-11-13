@@ -1,0 +1,13 @@
+<div id="m" class="m"></div>
+<style>.m{position:absolute;inset:0}</style>
+<script>
+(function(){
+  var P = AICUT.params, m = document.getElementById('m'), W = AICUT.width, H = AICUT.height;
+  var x = (+P.x || 0.5) * 100, y = (+P.y || 0.5) * 100, R = (+P.radius || 0.18) * Math.min(W, H), o = +P.opacity || 0.7;
+  AICUT.onFrame(function(t){
+    var a = AICUT.ease.out(AICUT.progress(t, 0, 0.6)) * (1 - AICUT.ease.in(AICUT.progress(t, AICUT.duration - 0.5, 0.5)));
+    var r = R * (1.6 - 0.6 * AICUT.ease.out(AICUT.progress(t, 0, 0.8)));
+    m.style.background = 'radial-gradient(circle ' + r + 'px at ' + x + '% ' + y + '%, rgba(0,0,0,0) 0, rgba(0,0,0,0) 92%, rgba(0,0,0,' + (o * a) + ') 100%)';
+  });
+})();
+</script>

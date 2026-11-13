@@ -1,0 +1,38 @@
+<div class="wrap"><div class="h">{{title}}</div><svg id="svg"></svg></div>
+<style>
+.wrap{position:absolute;left:50%;top:50%;width:calc(var(--k)*.95);transform:translate(-50%,-50%);background:{{background}};color:{{color}};border-radius:calc(var(--k)*.03);padding:calc(var(--k)*.04);font-family:"{{font}}",Inter,sans-serif;animation:in .5s ease-out both, out .4s ease-in calc(var(--dur) - .4s) both}
+.h{font-size:calc(var(--k)*.045);font-weight:800;margin-bottom:calc(var(--k)*.02)}
+svg{width:100%;height:calc(var(--k)*.42);overflow:visible}
+@keyframes in{from{opacity:0;transform:translate(-50%,-46%)}}
+@keyframes out{to{opacity:0}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, svg = document.getElementById('svg'), NS = 'http://www.w3.org/2000/svg';
+  var pts = String(P.data || '').split(',').map(function(s){ var m = s.split(':'); return { label: (m[0] || '').trim(), v: Number(m[1]) || 0 }; }).filter(function(d){ return d.label; });
+  var w = svg.clientWidth || 800, h = svg.clientHeight || 400, padL = 10, padB = h * 0.14;
+  var max = Math.max.apply(null, pts.map(function(p){ return p.v; }).concat([1])), min = Math.min(0, Math.min.apply(null, pts.map(function(p){ return p.v; })));
+  var X = function(i){ return padL + i * (w - padL * 2) / Math.max(1, pts.length - 1); };
+  var Y = function(v){ return (h - padB) - (v - min) / (max - min || 1) * (h - padB) * 0.88; };
+  for (var g = 0; g <= 3; g++) { var gl = document.createElementNS(NS, 'line'); var gy = (h - padB) - g * (h - padB) * 0.88 / 3; gl.setAttribute('x1', 0); gl.setAttribute('x2', w); gl.setAttribute('y1', gy); gl.setAttribute('y2', gy); gl.setAttribute('stroke', 'rgba(255,255,255,.12)'); svg.appendChild(gl); }
+  var area = document.createElementNS(NS, 'path'), line = document.createElementNS(NS, 'path');
+  var d = pts.map(function(p, i){ return (i ? 'L' : 'M') + X(i) + ',' + Y(p.v); }).join(' ');
+  area.setAttribute('d', d + ' L' + X(pts.length - 1) + ',' + (h - padB) + ' L' + X(0) + ',' + (h - padB) + ' Z');
+  area.setAttribute('fill', P.accent); area.setAttribute('opacity', '0.18');
+  line.setAttribute('d', d); line.setAttribute('fill', 'none'); line.setAttribute('stroke', P.accent); line.setAttribute('stroke-width', Math.max(3, h * 0.012)); line.setAttribute('stroke-linejoin', 'round'); line.setAttribute('stroke-linecap', 'round');
+  svg.appendChild(area); svg.appendChild(line);
+  var len = line.getTotalLength(); line.style.strokeDasharray = len;
+  var dots = pts.map(function(p, i){
+    var c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', X(i)); c.setAttribute('cy', Y(p.v)); c.setAttribute('r', h * 0.018); c.setAttribute('fill', P.accent); svg.appendChild(c);
+    var tx = document.createElementNS(NS, 'text'); tx.setAttribute('x', X(i)); tx.setAttribute('y', h - padB * 0.25); tx.setAttribute('text-anchor', 'middle'); tx.setAttribute('fill', P.color); tx.setAttribute('font-size', h * 0.06); tx.setAttribute('font-weight', '600'); tx.textContent = p.label; svg.appendChild(tx);
+    var vt = document.createElementNS(NS, 'text'); vt.setAttribute('x', X(i)); vt.setAttribute('y', Y(p.v) - h * 0.05); vt.setAttribute('text-anchor', 'middle'); vt.setAttribute('fill', P.color); vt.setAttribute('font-size', h * 0.055); vt.setAttribute('font-weight', '800'); vt.textContent = (P.prefix || '') + p.v + (P.suffix || ''); svg.appendChild(vt);
+    return { c: c, vt: vt, at: i / Math.max(1, pts.length - 1) };
+  });
+  AICUT.onFrame(function(t){
+    var p = AICUT.ease.inOut(AICUT.progress(t, 0.35, 1.4));
+    line.style.strokeDashoffset = len * (1 - p);
+    area.setAttribute('opacity', String(0.18 * p));
+    dots.forEach(function(d){ var o = AICUT.progress(p, d.at - 0.02, 0.06); d.c.style.opacity = o; d.vt.style.opacity = o; });
+  });
+})();
+</script>

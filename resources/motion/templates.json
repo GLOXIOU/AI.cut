@@ -1,0 +1,2780 @@
+{
+ "templates": [
+  {
+   "id": "text",
+   "name": "Texte",
+   "category": "text",
+   "icon": "🔤",
+   "defaultDuration": 3,
+   "description": "Generic text overlay. position: center|top|bottom|lower-third|upper-third|left|right. animation: pop|fade|slide-up|slide-down|slide-left|slide-right|blur|scale|rotate|typewriter|none. outAnimation: fade|slide-down|slide-up|scale|blur|none. size in px for a 1080p frame.",
+   "params": [
+    {
+     "name": "text",
+     "type": "textarea",
+     "default": "Ton texte ici",
+     "label": "Texte"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 96,
+     "label": "Taille",
+     "step": 2
+    },
+    {
+     "name": "weight",
+     "type": "number",
+     "default": 800,
+     "label": "Graisse",
+     "step": 100
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    },
+    {
+     "name": "strokeColor",
+     "type": "color",
+     "default": "#000000",
+     "label": "Contour"
+    },
+    {
+     "name": "strokeWidth",
+     "type": "number",
+     "default": 0,
+     "label": "Épaisseur contour"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "none",
+     "label": "Fond (couleur ou none)"
+    },
+    {
+     "name": "position",
+     "type": "select",
+     "default": "center",
+     "label": "Position",
+     "options": [
+      "center",
+      "top",
+      "bottom",
+      "lower-third",
+      "upper-third",
+      "left",
+      "right"
+     ]
+    },
+    {
+     "name": "animation",
+     "type": "select",
+     "default": "pop",
+     "label": "Entrée",
+     "options": [
+      "pop",
+      "fade",
+      "slide-up",
+      "slide-down",
+      "slide-left",
+      "slide-right",
+      "blur",
+      "scale",
+      "rotate",
+      "typewriter",
+      "none"
+     ]
+    },
+    {
+     "name": "outAnimation",
+     "type": "select",
+     "default": "fade",
+     "label": "Sortie",
+     "options": [
+      "fade",
+      "slide-down",
+      "slide-up",
+      "scale",
+      "blur",
+      "none"
+     ]
+    },
+    {
+     "name": "uppercase",
+     "type": "boolean",
+     "default": false,
+     "label": "Majuscules"
+    },
+    {
+     "name": "shadow",
+     "type": "boolean",
+     "default": true,
+     "label": "Ombre"
+    },
+    {
+     "name": "align",
+     "type": "select",
+     "default": "",
+     "label": "Alignement",
+     "options": [
+      "",
+      "left",
+      "center",
+      "right"
+     ]
+    },
+    {
+     "name": "letterSpacing",
+     "type": "number",
+     "default": 0,
+     "label": "Espacement"
+    }
+   ]
+  },
+  {
+   "id": "title-kinetic",
+   "name": "Titre cinétique",
+   "category": "text",
+   "icon": "💥",
+   "defaultDuration": 3.5,
+   "preview": "linear-gradient(135deg,#312e81,#831843)",
+   "description": "Big uppercase title, letters rise one by one, accent bar and subtitle. Great intro / section title.",
+   "params": [
+    {
+     "name": "title",
+     "type": "text",
+     "default": "GRAND TITRE",
+     "label": "Titre"
+    },
+    {
+     "name": "subtitle",
+     "type": "text",
+     "default": "Sous-titre",
+     "label": "Sous-titre"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#EC4899",
+     "label": "Accent"
+    }
+   ]
+  },
+  {
+   "id": "title-neon",
+   "name": "Néon",
+   "category": "text",
+   "icon": "🌈",
+   "defaultDuration": 3,
+   "preview": "linear-gradient(135deg,#0f172a,#4c1d95)",
+   "description": "Neon sign text with flicker-on.",
+   "params": [
+    {
+     "name": "text",
+     "type": "text",
+     "default": "OPEN",
+     "label": "Texte"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Poppins",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#E879F9",
+     "label": "Lueur"
+    }
+   ]
+  },
+  {
+   "id": "title-glitch",
+   "name": "Glitch",
+   "category": "text",
+   "icon": "📺",
+   "defaultDuration": 2.5,
+   "preview": "linear-gradient(135deg,#111827,#0e7490)",
+   "description": "RGB-split glitch title (tech, gaming, cyber).",
+   "params": [
+    {
+     "name": "text",
+     "type": "text",
+     "default": "GLITCH",
+     "label": "Texte"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Archivo Black",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    }
+   ]
+  },
+  {
+   "id": "typewriter",
+   "name": "Machine à écrire",
+   "category": "text",
+   "icon": "⌨️",
+   "defaultDuration": 4,
+   "description": "Monospace text typed character by character with a blinking cursor. cps = characters per second.",
+   "params": [
+    {
+     "name": "text",
+     "type": "textarea",
+     "default": "Il était une fois…",
+     "label": "Texte"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 56,
+     "label": "Taille"
+    },
+    {
+     "name": "cps",
+     "type": "number",
+     "default": 22,
+     "label": "Caractères/s"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#22D3EE",
+     "label": "Curseur"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "rgba(0,0,0,0.6)",
+     "label": "Fond"
+    },
+    {
+     "name": "valign",
+     "type": "select",
+     "default": "flex-end",
+     "label": "Vertical",
+     "options": [
+      "flex-start",
+      "center",
+      "flex-end"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kinetic-words",
+   "name": "Mots percutants",
+   "category": "text",
+   "icon": "⚡",
+   "defaultDuration": 3,
+   "description": "Each word of the text appears alone, big and punchy, one after another across the clip duration (hook text for shorts).",
+   "params": [
+    {
+     "name": "text",
+     "type": "textarea",
+     "default": "ATTENDS DE VOIR ÇA",
+     "label": "Texte"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Anton",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 180,
+     "label": "Taille"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Couleur accent"
+    }
+   ]
+  },
+  {
+   "id": "quote",
+   "name": "Citation",
+   "category": "text",
+   "icon": "💬",
+   "defaultDuration": 5,
+   "description": "Quote card with big quotation mark and author.",
+   "params": [
+    {
+     "name": "quote",
+     "type": "textarea",
+     "default": "La créativité, c'est l'intelligence qui s'amuse.",
+     "label": "Citation"
+    },
+    {
+     "name": "author",
+     "type": "text",
+     "default": "Albert Einstein",
+     "label": "Auteur"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#F59E0B",
+     "label": "Accent"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "rgba(15,15,25,0.78)",
+     "label": "Fond"
+    }
+   ]
+  },
+  {
+   "id": "chapter",
+   "name": "Chapitre",
+   "category": "text",
+   "icon": "📖",
+   "defaultDuration": 3,
+   "description": "Chapter / section title: small label, line wipe, big title.",
+   "params": [
+    {
+     "name": "label",
+     "type": "text",
+     "default": "Chapitre 1",
+     "label": "Étiquette"
+    },
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Le commencement",
+     "label": "Titre"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#A78BFA",
+     "label": "Accent"
+    },
+    {
+     "name": "align",
+     "type": "select",
+     "default": "flex-start",
+     "label": "Alignement",
+     "options": [
+      "flex-start",
+      "center",
+      "flex-end"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bullet-list",
+   "name": "Liste à puces",
+   "category": "text",
+   "icon": "📋",
+   "defaultDuration": 5,
+   "description": "Title + bullet points revealed one by one. items: one per line (or separated by ;).",
+   "params": [
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Au programme",
+     "label": "Titre"
+    },
+    {
+     "name": "items",
+     "type": "textarea",
+     "default": "Point numéro un\nPoint numéro deux\nPoint numéro trois",
+     "label": "Éléments"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#22D3EE",
+     "label": "Puces"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "rgba(10,10,20,0.72)",
+     "label": "Fond"
+    },
+    {
+     "name": "stagger",
+     "type": "number",
+     "default": 0.35,
+     "label": "Délai entre éléments"
+    },
+    {
+     "name": "align",
+     "type": "select",
+     "default": "flex-start",
+     "label": "Position",
+     "options": [
+      "flex-start",
+      "center",
+      "flex-end"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lower-third-modern",
+   "name": "Lower third moderne",
+   "category": "lower-third",
+   "icon": "🏷️",
+   "defaultDuration": 5,
+   "preview": "linear-gradient(135deg,#1e293b,#7c3aed)",
+   "description": "Name + role banner sliding in at the bottom (introduce a speaker). side: flex-start (left) | center | flex-end (right).",
+   "params": [
+    {
+     "name": "name",
+     "type": "text",
+     "default": "Prénom Nom",
+     "label": "Nom"
+    },
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Fonction · Entreprise",
+     "label": "Rôle"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#8B5CF6",
+     "label": "Accent"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "rgba(12,12,20,0.82)",
+     "label": "Fond"
+    },
+    {
+     "name": "side",
+     "type": "select",
+     "default": "flex-start",
+     "label": "Côté",
+     "options": [
+      "flex-start",
+      "center",
+      "flex-end"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lower-third-minimal",
+   "name": "Lower third minimal",
+   "category": "lower-third",
+   "icon": "➖",
+   "defaultDuration": 5,
+   "description": "Elegant thin-line name + role (documentary style).",
+   "params": [
+    {
+     "name": "name",
+     "type": "text",
+     "default": "Prénom Nom",
+     "label": "Nom"
+    },
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Réalisateur",
+     "label": "Rôle"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#F59E0B",
+     "label": "Ligne"
+    }
+   ]
+  },
+  {
+   "id": "lower-third-glass",
+   "name": "Lower third verre",
+   "category": "lower-third",
+   "icon": "🫧",
+   "defaultDuration": 5,
+   "description": "Rounded translucent pill with initials avatar, name and role.",
+   "params": [
+    {
+     "name": "name",
+     "type": "text",
+     "default": "Prénom Nom",
+     "label": "Nom"
+    },
+    {
+     "name": "title",
+     "type": "text",
+     "default": "@pseudo",
+     "label": "Rôle"
+    },
+    {
+     "name": "initials",
+     "type": "text",
+     "default": "",
+     "label": "Initiales (auto)"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Poppins",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#EC4899",
+     "label": "Avatar"
+    },
+    {
+     "name": "side",
+     "type": "select",
+     "default": "flex-start",
+     "label": "Côté",
+     "options": [
+      "flex-start",
+      "center",
+      "flex-end"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "subscribe",
+   "name": "Bouton s'abonner",
+   "category": "social",
+   "icon": "🔔",
+   "defaultDuration": 4,
+   "preview": "linear-gradient(135deg,#450a0a,#991b1b)",
+   "description": "YouTube-style subscribe button with animated cursor click and bell. Pair with the 'click' and 'ding' SFX.",
+   "params": [
+    {
+     "name": "text",
+     "type": "text",
+     "default": "S'abonner",
+     "label": "Texte"
+    },
+    {
+     "name": "doneText",
+     "type": "text",
+     "default": "Abonné",
+     "label": "Après clic"
+    },
+    {
+     "name": "bottom",
+     "type": "number",
+     "default": 12,
+     "label": "Position bas (%)"
+    }
+   ]
+  },
+  {
+   "id": "social-handle",
+   "name": "Pseudo réseau social",
+   "category": "social",
+   "icon": "📱",
+   "defaultDuration": 4,
+   "description": "Platform icon + @handle pill. platform: youtube|instagram|tiktok|x|twitch|web.",
+   "params": [
+    {
+     "name": "handle",
+     "type": "text",
+     "default": "@monpseudo",
+     "label": "Pseudo"
+    },
+    {
+     "name": "platform",
+     "type": "select",
+     "default": "instagram",
+     "label": "Plateforme",
+     "options": [
+      "youtube",
+      "instagram",
+      "tiktok",
+      "x",
+      "twitch",
+      "web"
+     ]
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#111111",
+     "label": "Texte"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "#FFFFFF",
+     "label": "Fond"
+    },
+    {
+     "name": "top",
+     "type": "number",
+     "default": 8,
+     "label": "Position haut (%)"
+    },
+    {
+     "name": "side",
+     "type": "select",
+     "default": "flex-end",
+     "label": "Côté",
+     "options": [
+      "flex-start",
+      "center",
+      "flex-end"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "like-share",
+   "name": "Like · Commente · Partage",
+   "category": "social",
+   "icon": "👍",
+   "defaultDuration": 3.5,
+   "description": "Three popping engagement buttons (like / comment / share).",
+   "params": [
+    {
+     "name": "like",
+     "type": "text",
+     "default": "Like",
+     "label": "Like"
+    },
+    {
+     "name": "comment",
+     "type": "text",
+     "default": "Commente",
+     "label": "Commenter"
+    },
+    {
+     "name": "share",
+     "type": "text",
+     "default": "Partage",
+     "label": "Partager"
+    },
+    {
+     "name": "bottom",
+     "type": "number",
+     "default": 14,
+     "label": "Position bas (%)"
+    }
+   ]
+  },
+  {
+   "id": "end-screen",
+   "name": "Écran de fin",
+   "category": "social",
+   "icon": "🎬",
+   "defaultDuration": 8,
+   "description": "Full-frame end screen: title, two video placeholders and a subscribe CTA (opaque background).",
+   "params": [
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Merci d'avoir regardé !",
+     "label": "Titre"
+    },
+    {
+     "name": "left",
+     "type": "text",
+     "default": "Vidéo suivante",
+     "label": "Case gauche"
+    },
+    {
+     "name": "right",
+     "type": "text",
+     "default": "Meilleure vidéo",
+     "label": "Case droite"
+    },
+    {
+     "name": "cta",
+     "type": "text",
+     "default": "Abonne-toi",
+     "label": "Appel à l'action"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "linear-gradient(135deg,#1e1b4b,#4a044e)",
+     "label": "Fond"
+    }
+   ]
+  },
+  {
+   "id": "arrow-callout",
+   "name": "Flèche + légende",
+   "category": "callout",
+   "icon": "↗️",
+   "defaultDuration": 3,
+   "description": "Hand-drawn arrow drawing itself toward a target point with a label. x/y = target, labelX/labelY = label position, all as fractions of the frame (0..1).",
+   "params": [
+    {
+     "name": "label",
+     "type": "text",
+     "default": "Regarde ça !",
+     "label": "Légende"
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 0.62,
+     "label": "Cible X (0-1)",
+     "step": 0.01
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 0.45,
+     "label": "Cible Y (0-1)",
+     "step": 0.01
+    },
+    {
+     "name": "labelX",
+     "type": "number",
+     "default": 0.3,
+     "label": "Légende X",
+     "step": 0.01
+    },
+    {
+     "name": "labelY",
+     "type": "number",
+     "default": 0.72,
+     "label": "Légende Y",
+     "step": 0.01
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Couleur"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Permanent Marker",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 64,
+     "label": "Taille texte"
+    }
+   ]
+  },
+  {
+   "id": "circle-highlight",
+   "name": "Cercle surligneur",
+   "category": "callout",
+   "icon": "⭕",
+   "defaultDuration": 2.5,
+   "description": "Hand-drawn ellipse drawing itself around something. x/y = centre, width/height = size, fractions of the frame.",
+   "params": [
+    {
+     "name": "x",
+     "type": "number",
+     "default": 0.5,
+     "label": "Centre X",
+     "step": 0.01
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 0.5,
+     "label": "Centre Y",
+     "step": 0.01
+    },
+    {
+     "name": "width",
+     "type": "number",
+     "default": 0.3,
+     "label": "Largeur",
+     "step": 0.01
+    },
+    {
+     "name": "height",
+     "type": "number",
+     "default": 0.3,
+     "label": "Hauteur",
+     "step": 0.01
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#EF4444",
+     "label": "Couleur"
+    },
+    {
+     "name": "thickness",
+     "type": "number",
+     "default": 9,
+     "label": "Épaisseur"
+    }
+   ]
+  },
+  {
+   "id": "location-pin",
+   "name": "Lieu",
+   "category": "callout",
+   "icon": "📍",
+   "defaultDuration": 4,
+   "description": "Map pin dropping on a point with place name. x/y = pin tip position (fractions).",
+   "params": [
+    {
+     "name": "place",
+     "type": "text",
+     "default": "Paris",
+     "label": "Lieu"
+    },
+    {
+     "name": "detail",
+     "type": "text",
+     "default": "France",
+     "label": "Détail"
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 0.5,
+     "label": "X",
+     "step": 0.01
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 0.5,
+     "label": "Y",
+     "step": 0.01
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#EF4444",
+     "label": "Couleur"
+    }
+   ]
+  },
+  {
+   "id": "emoji-burst",
+   "name": "Explosion d'emojis",
+   "category": "fx",
+   "icon": "🎉",
+   "defaultDuration": 2.5,
+   "description": "Emoji particles bursting from a point (x/y fractions). emoji: one or several emoji characters.",
+   "params": [
+    {
+     "name": "emoji",
+     "type": "text",
+     "default": "🔥😂❤️",
+     "label": "Emojis"
+    },
+    {
+     "name": "count",
+     "type": "number",
+     "default": 18,
+     "label": "Nombre"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 80,
+     "label": "Taille"
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 0.5,
+     "label": "X",
+     "step": 0.01
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 0.75,
+     "label": "Y",
+     "step": 0.01
+    },
+    {
+     "name": "spread",
+     "type": "number",
+     "default": 1.6,
+     "label": "Dispersion",
+     "step": 0.1
+    }
+   ]
+  },
+  {
+   "id": "counter",
+   "name": "Compteur",
+   "category": "data",
+   "icon": "🔢",
+   "defaultDuration": 3,
+   "description": "Animated number counting from → to, with prefix/suffix and label (stats, followers, money).",
+   "params": [
+    {
+     "name": "from",
+     "type": "number",
+     "default": 0,
+     "label": "De"
+    },
+    {
+     "name": "to",
+     "type": "number",
+     "default": 10000,
+     "label": "À"
+    },
+    {
+     "name": "prefix",
+     "type": "text",
+     "default": "",
+     "label": "Préfixe"
+    },
+    {
+     "name": "suffix",
+     "type": "text",
+     "default": "+",
+     "label": "Suffixe"
+    },
+    {
+     "name": "decimals",
+     "type": "number",
+     "default": 0,
+     "label": "Décimales"
+    },
+    {
+     "name": "label",
+     "type": "text",
+     "default": "abonnés",
+     "label": "Légende"
+    },
+    {
+     "name": "countDuration",
+     "type": "number",
+     "default": 1.6,
+     "label": "Durée du comptage"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 200,
+     "label": "Taille"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#22C55E",
+     "label": "Légende"
+    }
+   ]
+  },
+  {
+   "id": "progress-bar",
+   "name": "Barre de progression",
+   "category": "data",
+   "icon": "▬",
+   "defaultDuration": 10,
+   "description": "Thin bar filling over the clip duration (place it across the whole video for retention).",
+   "params": [
+    {
+     "name": "position",
+     "type": "select",
+     "default": "bottom",
+     "label": "Position",
+     "options": [
+      "top",
+      "bottom"
+     ]
+    },
+    {
+     "name": "thickness",
+     "type": "number",
+     "default": 10,
+     "label": "Épaisseur"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#EC4899",
+     "label": "Couleur"
+    },
+    {
+     "name": "trackColor",
+     "type": "text",
+     "default": "rgba(255,255,255,0.18)",
+     "label": "Fond"
+    }
+   ]
+  },
+  {
+   "id": "bar-chart",
+   "name": "Graphique barres",
+   "category": "data",
+   "icon": "📊",
+   "defaultDuration": 5,
+   "description": "Animated horizontal bar chart. data: 'Label:value, Label:value'.",
+   "params": [
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Résultats",
+     "label": "Titre"
+    },
+    {
+     "name": "data",
+     "type": "textarea",
+     "default": "Janvier:30, Février:55, Mars:80",
+     "label": "Données"
+    },
+    {
+     "name": "suffix",
+     "type": "text",
+     "default": "%",
+     "label": "Suffixe"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "text",
+     "default": "linear-gradient(90deg,#8b5cf6,#ec4899)",
+     "label": "Barres"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "rgba(10,10,20,0.8)",
+     "label": "Fond"
+    }
+   ]
+  },
+  {
+   "id": "countdown",
+   "name": "Compte à rebours",
+   "category": "data",
+   "icon": "⏱️",
+   "defaultDuration": 3,
+   "description": "3-2-1 countdown with a ring (one number per equal slice of the duration). go = final word (optional).",
+   "params": [
+    {
+     "name": "from",
+     "type": "number",
+     "default": 3,
+     "label": "Depuis"
+    },
+    {
+     "name": "go",
+     "type": "text",
+     "default": "",
+     "label": "Mot final"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#22D3EE",
+     "label": "Anneau"
+    }
+   ]
+  },
+  {
+   "id": "confetti",
+   "name": "Confettis",
+   "category": "fx",
+   "icon": "🎊",
+   "defaultDuration": 4,
+   "description": "Full-frame confetti. mode: rain | cannons (from both bottom corners).",
+   "params": [
+    {
+     "name": "mode",
+     "type": "select",
+     "default": "cannons",
+     "label": "Mode",
+     "options": [
+      "cannons",
+      "rain"
+     ]
+    },
+    {
+     "name": "count",
+     "type": "number",
+     "default": 220,
+     "label": "Nombre"
+    },
+    {
+     "name": "colors",
+     "type": "text",
+     "default": "#ff3b6b,#ffd43b,#4dabf7,#69db7c,#b197fc,#ff922b",
+     "label": "Couleurs"
+    }
+   ]
+  },
+  {
+   "id": "light-leak",
+   "name": "Light leak",
+   "category": "fx",
+   "icon": "🌅",
+   "defaultDuration": 3,
+   "description": "Warm drifting light leaks (film look, dreamy transitions).",
+   "params": [
+    {
+     "name": "color1",
+     "type": "color",
+     "default": "#FF7A18",
+     "label": "Couleur 1"
+    },
+    {
+     "name": "color2",
+     "type": "color",
+     "default": "#FF2E63",
+     "label": "Couleur 2"
+    },
+    {
+     "name": "color3",
+     "type": "color",
+     "default": "#FFD166",
+     "label": "Couleur 3"
+    },
+    {
+     "name": "intensity",
+     "type": "number",
+     "default": 0.7,
+     "label": "Intensité",
+     "step": 0.05
+    }
+   ]
+  },
+  {
+   "id": "film-grain",
+   "name": "Grain film",
+   "category": "fx",
+   "icon": "🎞️",
+   "defaultDuration": 10,
+   "description": "Animated film grain overlay (put it on the top track over the whole video).",
+   "params": [
+    {
+     "name": "intensity",
+     "type": "number",
+     "default": 0.12,
+     "label": "Intensité",
+     "step": 0.01
+    },
+    {
+     "name": "scratches",
+     "type": "boolean",
+     "default": false,
+     "label": "Rayures"
+    }
+   ]
+  },
+  {
+   "id": "letterbox",
+   "name": "Bandes cinéma",
+   "category": "frame",
+   "icon": "🎥",
+   "defaultDuration": 10,
+   "description": "Cinematic black bars animating in (ratio e.g. 2.39).",
+   "params": [
+    {
+     "name": "ratio",
+     "type": "number",
+     "default": 2.39,
+     "label": "Ratio",
+     "step": 0.01
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#000000",
+     "label": "Couleur"
+    }
+   ]
+  },
+  {
+   "id": "rec-frame",
+   "name": "Caméscope REC",
+   "category": "frame",
+   "icon": "⏺️",
+   "defaultDuration": 10,
+   "description": "Vlog camcorder overlay: corners, blinking REC, running timecode.",
+   "params": [
+    {
+     "name": "label",
+     "type": "text",
+     "default": "HD",
+     "label": "Étiquette"
+    },
+    {
+     "name": "startAt",
+     "type": "number",
+     "default": 0,
+     "label": "Timecode départ (s)"
+    }
+   ]
+  },
+  {
+   "id": "flash",
+   "name": "Flash",
+   "category": "transition",
+   "icon": "⚪",
+   "defaultDuration": 0.5,
+   "description": "Quick full-frame flash (white by default) — on a cut or impact.",
+   "params": [
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    },
+    {
+     "name": "intensity",
+     "type": "number",
+     "default": 0.9,
+     "label": "Intensité",
+     "step": 0.05
+    }
+   ]
+  },
+  {
+   "id": "shape-wipe",
+   "name": "Transition formes",
+   "category": "transition",
+   "icon": "🟪",
+   "defaultDuration": 1.2,
+   "preview": "linear-gradient(135deg,#7c3aed,#ec4899)",
+   "description": "Three coloured slanted shapes sweep across and fully cover the frame around the middle of the clip: place the cut between two shots at clip.start + duration/2.",
+   "params": [
+    {
+     "name": "color1",
+     "type": "color",
+     "default": "#7C3AED",
+     "label": "Couleur 1"
+    },
+    {
+     "name": "color2",
+     "type": "color",
+     "default": "#EC4899",
+     "label": "Couleur 2"
+    },
+    {
+     "name": "color3",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Couleur 3"
+    }
+   ]
+  },
+  {
+   "id": "image-pop",
+   "name": "Image / logo pop",
+   "category": "other",
+   "icon": "🖼️",
+   "defaultDuration": 3,
+   "description": "Shows an image (src = aicut://file/<encoded path> or https URL) popping in like a sticker / photo card.",
+   "params": [
+    {
+     "name": "src",
+     "type": "image",
+     "default": "",
+     "label": "Image"
+    },
+    {
+     "name": "maxSize",
+     "type": "number",
+     "default": 45,
+     "label": "Taille max (%)"
+    },
+    {
+     "name": "radius",
+     "type": "number",
+     "default": 24,
+     "label": "Arrondi"
+    },
+    {
+     "name": "border",
+     "type": "number",
+     "default": 8,
+     "label": "Bordure"
+    },
+    {
+     "name": "tilt",
+     "type": "number",
+     "default": -3,
+     "label": "Inclinaison"
+    }
+   ]
+  },
+  {
+   "id": "lottie",
+   "name": "Animation Lottie",
+   "category": "other",
+   "icon": "🧩",
+   "defaultDuration": 3,
+   "description": "Plays a Lottie (.json) animation (src = aicut://file/<encoded path> or https URL). Free animations: lottiefiles.com.",
+   "params": [
+    {
+     "name": "src",
+     "type": "file",
+     "default": "",
+     "label": "Fichier Lottie"
+    },
+    {
+     "name": "loop",
+     "type": "boolean",
+     "default": true,
+     "label": "Boucle"
+    },
+    {
+     "name": "speed",
+     "type": "number",
+     "default": 1,
+     "label": "Vitesse",
+     "step": 0.1
+    },
+    {
+     "name": "scale",
+     "type": "number",
+     "default": 1,
+     "label": "Échelle",
+     "step": 0.05
+    },
+    {
+     "name": "fit",
+     "type": "select",
+     "default": "contain",
+     "label": "Ajustement",
+     "options": [
+      "contain",
+      "cover"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "title-minimal",
+   "name": "Titre minimal",
+   "category": "text",
+   "icon": "✨",
+   "defaultDuration": 4,
+   "description": "Clean title: letters fade/blur in one by one, an accent line grows, small uppercase subtitle under it. align: flex-start | center | flex-end. size in px for 1080p.",
+   "params": [
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Titre principal",
+     "label": "Titre"
+    },
+    {
+     "name": "subtitle",
+     "type": "text",
+     "default": "Sous-titre",
+     "label": "Sous-titre"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 120,
+     "label": "Taille",
+     "step": 2
+    },
+    {
+     "name": "weight",
+     "type": "number",
+     "default": 800,
+     "label": "Graisse",
+     "step": 100
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Accent"
+    },
+    {
+     "name": "align",
+     "type": "select",
+     "default": "center",
+     "label": "Alignement",
+     "options": [
+      "flex-start",
+      "center",
+      "flex-end"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "title-reveal",
+   "name": "Titre masqué",
+   "category": "text",
+   "icon": "🔼",
+   "defaultDuration": 3,
+   "description": "Two lines revealed from behind a mask (slide up), the second one in the accent colour. Punchy hook / intro title.",
+   "params": [
+    {
+     "name": "line1",
+     "type": "text",
+     "default": "CE QUE",
+     "label": "Ligne 1"
+    },
+    {
+     "name": "line2",
+     "type": "text",
+     "default": "PERSONNE NE DIT",
+     "label": "Ligne 2"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Anton",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 140,
+     "label": "Taille",
+     "step": 2
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Ligne 1"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Ligne 2"
+    }
+   ]
+  },
+  {
+   "id": "title-box",
+   "name": "Titre encadré",
+   "category": "text",
+   "icon": "🔲",
+   "defaultDuration": 3,
+   "description": "Title with a rectangle outline drawing itself around it, then the text fades in with a letter-spacing settle.",
+   "params": [
+    {
+     "name": "text",
+     "type": "text",
+     "default": "CHAPITRE 1",
+     "label": "Texte"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 90,
+     "label": "Taille",
+     "step": 2
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Cadre"
+    }
+   ]
+  },
+  {
+   "id": "title-stack",
+   "name": "Mots empilés",
+   "category": "text",
+   "icon": "🧱",
+   "defaultDuration": 3,
+   "description": "Each word on its own line, sliding in alternately from the left and the right with alternating colours. Great for short punchy statements.",
+   "params": [
+    {
+     "name": "text",
+     "type": "text",
+     "default": "ÇA VA TOUT CHANGER",
+     "label": "Texte"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Anton",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 150,
+     "label": "Taille",
+     "step": 2
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur 1"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Couleur 2"
+    }
+   ]
+  },
+  {
+   "id": "lower-third-line",
+   "name": "Lower third ligne",
+   "category": "lower-third",
+   "icon": "▏",
+   "defaultDuration": 5,
+   "description": "Minimal lower third (bottom-left): a vertical accent bar grows, then the name and role slide out from behind it.",
+   "params": [
+    {
+     "name": "name",
+     "type": "text",
+     "default": "Prénom Nom",
+     "label": "Nom"
+    },
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Fonction · Entreprise",
+     "label": "Rôle"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#3B82F6",
+     "label": "Accent"
+    }
+   ]
+  },
+  {
+   "id": "lower-third-tag",
+   "name": "Étiquette direct",
+   "category": "lower-third",
+   "icon": "🔴",
+   "defaultDuration": 5,
+   "description": "Pill-shaped tag (bottom-left) with a pulsing dot — speaker name, LIVE, location…",
+   "params": [
+    {
+     "name": "name",
+     "type": "text",
+     "default": "Prénom Nom",
+     "label": "Nom"
+    },
+    {
+     "name": "title",
+     "type": "text",
+     "default": "En direct",
+     "label": "Détail"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#111111",
+     "label": "Texte"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "#FFFFFF",
+     "label": "Fond"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#EF4444",
+     "label": "Point"
+    }
+   ]
+  },
+  {
+   "id": "callout-box",
+   "name": "Cadre + étiquette",
+   "category": "callout",
+   "icon": "🟨",
+   "defaultDuration": 3,
+   "description": "Rounded rectangle drawing itself around a region of the frame, with a label tab. x/y = centre, width/height = size, all fractions of the frame (0..1).",
+   "params": [
+    {
+     "name": "label",
+     "type": "text",
+     "default": "Regardez ici",
+     "label": "Étiquette"
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 0.5,
+     "label": "X (0-1)",
+     "step": 0.01
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 0.5,
+     "label": "Y (0-1)",
+     "step": 0.01
+    },
+    {
+     "name": "width",
+     "type": "number",
+     "default": 0.3,
+     "label": "Largeur",
+     "step": 0.01
+    },
+    {
+     "name": "height",
+     "type": "number",
+     "default": 0.25,
+     "label": "Hauteur",
+     "step": 0.01
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Couleur"
+    },
+    {
+     "name": "textColor",
+     "type": "color",
+     "default": "#111111",
+     "label": "Texte"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    }
+   ]
+  },
+  {
+   "id": "spotlight",
+   "name": "Projecteur",
+   "category": "callout",
+   "icon": "🔦",
+   "defaultDuration": 3,
+   "description": "Darkens everything except a circle to focus on a detail. x/y = centre (fractions 0..1), radius = fraction of the frame's short side, opacity = darkness of the veil.",
+   "params": [
+    {
+     "name": "x",
+     "type": "number",
+     "default": 0.5,
+     "label": "X (0-1)",
+     "step": 0.01
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 0.5,
+     "label": "Y (0-1)",
+     "step": 0.01
+    },
+    {
+     "name": "radius",
+     "type": "number",
+     "default": 0.18,
+     "label": "Rayon",
+     "step": 0.01
+    },
+    {
+     "name": "opacity",
+     "type": "number",
+     "default": 0.7,
+     "label": "Opacité",
+     "step": 0.05
+    }
+   ]
+  },
+  {
+   "id": "arrow-pointer",
+   "name": "Flèche dessinée",
+   "category": "callout",
+   "icon": "↪️",
+   "defaultDuration": 3,
+   "description": "Hand-drawn curved arrow drawing itself from (fromX, fromY) to the target (x, y) — fractions of the frame — with a handwritten label at its start.",
+   "params": [
+    {
+     "name": "label",
+     "type": "text",
+     "default": "Ici !",
+     "label": "Légende"
+    },
+    {
+     "name": "fromX",
+     "type": "number",
+     "default": 0.25,
+     "label": "Départ X",
+     "step": 0.01
+    },
+    {
+     "name": "fromY",
+     "type": "number",
+     "default": 0.75,
+     "label": "Départ Y",
+     "step": 0.01
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 0.55,
+     "label": "Cible X",
+     "step": 0.01
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 0.45,
+     "label": "Cible Y",
+     "step": 0.01
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Permanent Marker",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 64,
+     "label": "Taille",
+     "step": 2
+    }
+   ]
+  },
+  {
+   "id": "checklist",
+   "name": "Checklist",
+   "category": "text",
+   "icon": "☑️",
+   "defaultDuration": 5,
+   "description": "Card whose items appear and get ticked one by one. items: one per line (or separated by ';'); stagger = seconds between items.",
+   "params": [
+    {
+     "name": "title",
+     "type": "text",
+     "default": "À retenir",
+     "label": "Titre"
+    },
+    {
+     "name": "items",
+     "type": "textarea",
+     "default": "Trouver une idée\nPasser à l’action\nÊtre régulier",
+     "label": "Éléments"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#4ADE80",
+     "label": "Coches"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "rgba(17,17,17,0.85)",
+     "label": "Fond"
+    },
+    {
+     "name": "stagger",
+     "type": "number",
+     "default": 0.55,
+     "label": "Intervalle (s)",
+     "step": 0.05
+    }
+   ]
+  },
+  {
+   "id": "steps",
+   "name": "Étapes",
+   "category": "data",
+   "icon": "🪜",
+   "defaultDuration": 5,
+   "description": "Horizontal step progress (1 → n): the line fills and each numbered step lights up in turn over the clip. items separated by ';' or new lines.",
+   "params": [
+    {
+     "name": "items",
+     "type": "textarea",
+     "default": "Idée;Création;Publication;Succès",
+     "label": "Étapes"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#3B82F6",
+     "label": "Accent"
+    }
+   ]
+  },
+  {
+   "id": "stat-card",
+   "name": "Carte chiffre clé",
+   "category": "data",
+   "icon": "📈",
+   "defaultDuration": 4,
+   "description": "KPI card: label, a number counting up to `value` (prefix / suffix / decimals) and a delta badge. x/y = centre in % of the frame (0..100).",
+   "params": [
+    {
+     "name": "label",
+     "type": "text",
+     "default": "Abonnés",
+     "label": "Libellé"
+    },
+    {
+     "name": "value",
+     "type": "number",
+     "default": 12500,
+     "label": "Valeur"
+    },
+    {
+     "name": "prefix",
+     "type": "text",
+     "default": "",
+     "label": "Préfixe"
+    },
+    {
+     "name": "suffix",
+     "type": "text",
+     "default": "",
+     "label": "Suffixe"
+    },
+    {
+     "name": "decimals",
+     "type": "number",
+     "default": 0,
+     "label": "Décimales"
+    },
+    {
+     "name": "delta",
+     "type": "text",
+     "default": "+24 %",
+     "label": "Badge"
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 50,
+     "label": "X (%)"
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 50,
+     "label": "Y (%)"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "rgba(17,17,17,0.88)",
+     "label": "Fond"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#22C55E",
+     "label": "Badge"
+    },
+    {
+     "name": "accentText",
+     "type": "color",
+     "default": "#052E16",
+     "label": "Texte badge"
+    }
+   ]
+  },
+  {
+   "id": "pie-chart",
+   "name": "Graphique donut",
+   "category": "data",
+   "icon": "🍩",
+   "defaultDuration": 5,
+   "description": "Animated donut chart with legend and percentages. data: 'Label:value, Label:value'; colors: comma-separated colours.",
+   "params": [
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Répartition",
+     "label": "Titre"
+    },
+    {
+     "name": "data",
+     "type": "textarea",
+     "default": "Vidéos:45, Shorts:30, Lives:25",
+     "label": "Données"
+    },
+    {
+     "name": "colors",
+     "type": "text",
+     "default": "#3B82F6, #FACC15, #F87171, #4ADE80, #A78BFA",
+     "label": "Couleurs"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "rgba(17,17,17,0.85)",
+     "label": "Fond"
+    }
+   ]
+  },
+  {
+   "id": "line-chart",
+   "name": "Courbe",
+   "category": "data",
+   "icon": "📉",
+   "defaultDuration": 5,
+   "description": "Animated line chart drawing itself with points and values. data: 'Label:value, Label:value…'.",
+   "params": [
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Évolution",
+     "label": "Titre"
+    },
+    {
+     "name": "data",
+     "type": "textarea",
+     "default": "Jan:120, Fév:180, Mar:260, Avr:420, Mai:610",
+     "label": "Données"
+    },
+    {
+     "name": "prefix",
+     "type": "text",
+     "default": "",
+     "label": "Préfixe"
+    },
+    {
+     "name": "suffix",
+     "type": "text",
+     "default": "",
+     "label": "Suffixe"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#3B82F6",
+     "label": "Courbe"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "rgba(17,17,17,0.85)",
+     "label": "Fond"
+    }
+   ]
+  },
+  {
+   "id": "emoji-sticker",
+   "name": "Emoji géant",
+   "category": "fx",
+   "icon": "😂",
+   "defaultDuration": 2,
+   "description": "Big emoji sticker popping in with an elastic bounce and a wiggle, optional caption tag under it. x/y = centre in % of the frame, size px (1080p). (For animated emoji use add_sticker.)",
+   "params": [
+    {
+     "name": "emoji",
+     "type": "text",
+     "default": "🔥",
+     "label": "Emoji"
+    },
+    {
+     "name": "caption",
+     "type": "text",
+     "default": "",
+     "label": "Légende"
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 50,
+     "label": "X (%)"
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 50,
+     "label": "Y (%)"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 220,
+     "label": "Taille",
+     "step": 10
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#EF4444",
+     "label": "Fond légende"
+    }
+   ]
+  },
+  {
+   "id": "notification",
+   "name": "Notification",
+   "category": "social",
+   "icon": "🔔",
+   "defaultDuration": 4,
+   "description": "Phone-style notification banner dropping from the top with a spring, then sliding back up.",
+   "params": [
+    {
+     "name": "app",
+     "type": "text",
+     "default": "Messages",
+     "label": "Appli"
+    },
+    {
+     "name": "appInitial",
+     "type": "text",
+     "default": "M",
+     "label": "Initiale"
+    },
+    {
+     "name": "time",
+     "type": "text",
+     "default": "maintenant",
+     "label": "Heure"
+    },
+    {
+     "name": "title",
+     "type": "text",
+     "default": "Nouveau message",
+     "label": "Titre"
+    },
+    {
+     "name": "message",
+     "type": "text",
+     "default": "T’as vu la dernière vidéo ?!",
+     "label": "Message"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#22C55E",
+     "label": "Icône"
+    }
+   ]
+  },
+  {
+   "id": "post-card",
+   "name": "Post réseau social",
+   "category": "social",
+   "icon": "💬",
+   "defaultDuration": 5,
+   "description": "Social-media post card (tweet-like) whose like counter counts up and pulses.",
+   "params": [
+    {
+     "name": "name",
+     "type": "text",
+     "default": "Prénom Nom",
+     "label": "Nom"
+    },
+    {
+     "name": "handle",
+     "type": "text",
+     "default": "@pseudo",
+     "label": "Pseudo"
+    },
+    {
+     "name": "initials",
+     "type": "text",
+     "default": "PN",
+     "label": "Initiales"
+    },
+    {
+     "name": "text",
+     "type": "textarea",
+     "default": "Ce montage est incroyable 🔥",
+     "label": "Texte"
+    },
+    {
+     "name": "likes",
+     "type": "number",
+     "default": 12400,
+     "label": "J’aime"
+    },
+    {
+     "name": "comments",
+     "type": "text",
+     "default": "348",
+     "label": "Commentaires"
+    },
+    {
+     "name": "shares",
+     "type": "text",
+     "default": "97",
+     "label": "Partages"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#0F1419",
+     "label": "Texte"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "#FFFFFF",
+     "label": "Fond"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#1D9BF0",
+     "label": "Avatar"
+    }
+   ]
+  },
+  {
+   "id": "chat-bubbles",
+   "name": "Conversation",
+   "category": "social",
+   "icon": "💭",
+   "defaultDuration": 6,
+   "description": "Chat conversation: bubbles appear one by one (received ones show a typing indicator first). messages: one per line, prefix '<' = received (left), '>' = sent (right).",
+   "params": [
+    {
+     "name": "messages",
+     "type": "textarea",
+     "default": "< Tu fais quoi ce soir ?\n> Je monte ma vidéo 😎\n< Envoie quand c’est prêt !",
+     "label": "Messages"
+    },
+    {
+     "name": "leftColor",
+     "type": "color",
+     "default": "#E5E5EA",
+     "label": "Bulle reçue"
+    },
+    {
+     "name": "leftText",
+     "type": "color",
+     "default": "#111111",
+     "label": "Texte reçu"
+    },
+    {
+     "name": "rightColor",
+     "type": "color",
+     "default": "#0A84FF",
+     "label": "Bulle envoyée"
+    },
+    {
+     "name": "rightText",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte envoyé"
+    }
+   ]
+  },
+  {
+   "id": "search-bar",
+   "name": "Barre de recherche",
+   "category": "social",
+   "icon": "🔍",
+   "defaultDuration": 4,
+   "description": "Search bar where a query types itself (web-search style). y = vertical position in % of the frame, cps = characters per second.",
+   "params": [
+    {
+     "name": "query",
+     "type": "text",
+     "default": "comment devenir youtubeur",
+     "label": "Recherche"
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 40,
+     "label": "Y (%)"
+    },
+    {
+     "name": "cps",
+     "type": "number",
+     "default": 14,
+     "label": "Lettres / s"
+    },
+    {
+     "name": "accent",
+     "type": "color",
+     "default": "#1A73E8",
+     "label": "Curseur"
+    }
+   ]
+  },
+  {
+   "id": "timer",
+   "name": "Chronomètre",
+   "category": "data",
+   "icon": "⏱️",
+   "defaultDuration": 10,
+   "description": "Circular timer counting from `from` to `to` seconds over the clip (leave `to` empty = clip duration; from 10 to 0 = countdown). x/y = centre in % of the frame, size px (1080p).",
+   "params": [
+    {
+     "name": "from",
+     "type": "number",
+     "default": 0,
+     "label": "De (s)"
+    },
+    {
+     "name": "to",
+     "type": "text",
+     "default": "",
+     "label": "À (s)"
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 85,
+     "label": "X (%)"
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 18,
+     "label": "Y (%)"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 220,
+     "label": "Taille",
+     "step": 10
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Anneau"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    }
+   ]
+  },
+  {
+   "id": "cta-link",
+   "name": "Lien en description",
+   "category": "social",
+   "icon": "👇",
+   "defaultDuration": 4,
+   "description": "Call-to-action pill with a pulsing arrow ('link in description', 'free trial'…). bottom = distance from the bottom in % of the frame.",
+   "params": [
+    {
+     "name": "text",
+     "type": "text",
+     "default": "Lien dans la description",
+     "label": "Texte"
+    },
+    {
+     "name": "bottom",
+     "type": "number",
+     "default": 12,
+     "label": "Bas (%)"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#111111",
+     "label": "Texte"
+    },
+    {
+     "name": "background",
+     "type": "text",
+     "default": "#FFFFFF",
+     "label": "Fond"
+    }
+   ]
+  },
+  {
+   "id": "circle-wipe",
+   "name": "Transition cercle",
+   "category": "transition",
+   "icon": "⭕",
+   "defaultDuration": 1.2,
+   "description": "A circle grows from (x, y) until it covers the frame at mid-clip, then shrinks away: put the cut under the middle of the clip. x/y in % of the frame.",
+   "params": [
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#111111",
+     "label": "Couleur"
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 50,
+     "label": "X (%)"
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 50,
+     "label": "Y (%)"
+    }
+   ]
+  },
+  {
+   "id": "glitch-transition",
+   "name": "Transition glitch",
+   "category": "transition",
+   "icon": "📺",
+   "defaultDuration": 0.8,
+   "description": "RGB glitch bars peaking at mid-clip with a white flash — centre it on a cut.",
+   "params": []
+  },
+  {
+   "id": "film-burn",
+   "name": "Brûlure de pellicule",
+   "category": "transition",
+   "icon": "🎞️",
+   "defaultDuration": 1.2,
+   "description": "Warm film-burn / light flare that peaks at mid-clip (screen blend) — centre it on a cut.",
+   "params": [
+    {
+     "name": "color1",
+     "type": "color",
+     "default": "#FF7A1A",
+     "label": "Couleur 1"
+    },
+    {
+     "name": "color2",
+     "type": "color",
+     "default": "#FFD166",
+     "label": "Couleur 2"
+    },
+    {
+     "name": "intensity",
+     "type": "number",
+     "default": 1,
+     "label": "Intensité",
+     "step": 0.1
+    }
+   ]
+  },
+  {
+   "id": "frame-border",
+   "name": "Cadre arrondi",
+   "category": "frame",
+   "icon": "🖼️",
+   "defaultDuration": 5,
+   "description": "Rounded frame border drawing itself around the picture. thickness px (1080p), margin = % of the short side, radius px (1080p).",
+   "params": [
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    },
+    {
+     "name": "thickness",
+     "type": "number",
+     "default": 8,
+     "label": "Épaisseur"
+    },
+    {
+     "name": "margin",
+     "type": "number",
+     "default": 3,
+     "label": "Marge (%)",
+     "step": 0.5
+    },
+    {
+     "name": "radius",
+     "type": "number",
+     "default": 24,
+     "label": "Arrondi"
+    }
+   ]
+  },
+  {
+   "id": "scribble-underline",
+   "name": "Soulignement feutre",
+   "category": "callout",
+   "icon": "〰️",
+   "defaultDuration": 2,
+   "description": "Felt-pen scribble underline drawn at (x, y) — fractions of the frame — width = fraction of the frame width.",
+   "params": [
+    {
+     "name": "x",
+     "type": "number",
+     "default": 0.5,
+     "label": "X (0-1)",
+     "step": 0.01
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 0.62,
+     "label": "Y (0-1)",
+     "step": 0.01
+    },
+    {
+     "name": "width",
+     "type": "number",
+     "default": 0.4,
+     "label": "Largeur",
+     "step": 0.01
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Couleur"
+    },
+    {
+     "name": "thickness",
+     "type": "number",
+     "default": 10,
+     "label": "Épaisseur"
+    }
+   ]
+  },
+  {
+   "id": "promo-badge",
+   "name": "Badge promo",
+   "category": "callout",
+   "icon": "🏷️",
+   "defaultDuration": 3,
+   "description": "Starburst promo badge popping in and wobbling (discount, NEW, -50 %…). x/y = centre in % of the frame, size px (1080p).",
+   "params": [
+    {
+     "name": "text",
+     "type": "text",
+     "default": "-50%",
+     "label": "Texte"
+    },
+    {
+     "name": "subtext",
+     "type": "text",
+     "default": "aujourd’hui",
+     "label": "Sous-texte"
+    },
+    {
+     "name": "x",
+     "type": "number",
+     "default": 82,
+     "label": "X (%)"
+    },
+    {
+     "name": "y",
+     "type": "number",
+     "default": 22,
+     "label": "Y (%)"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 300,
+     "label": "Taille",
+     "step": 10
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#EF4444",
+     "label": "Couleur"
+    },
+    {
+     "name": "textColor",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Texte"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Montserrat",
+     "label": "Police"
+    }
+   ]
+  },
+  {
+   "id": "sound-wave",
+   "name": "Onde sonore",
+   "category": "fx",
+   "icon": "🎙️",
+   "defaultDuration": 5,
+   "description": "Animated audio-waveform bars (podcast / voice visual). y = vertical position in % of the frame, height px (1080p), bars = number of bars.",
+   "params": [
+    {
+     "name": "y",
+     "type": "number",
+     "default": 80,
+     "label": "Y (%)"
+    },
+    {
+     "name": "height",
+     "type": "number",
+     "default": 160,
+     "label": "Hauteur"
+    },
+    {
+     "name": "bars",
+     "type": "number",
+     "default": 32,
+     "label": "Barres"
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur"
+    }
+   ]
+  }
+ ]
+}

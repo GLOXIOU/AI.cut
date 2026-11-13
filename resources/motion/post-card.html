@@ -1,0 +1,31 @@
+<div class="card" id="card">
+  <div class="hd"><div class="av">{{initials}}</div><div><div class="nm">{{name}}</div><div class="hn">{{handle}}</div></div></div>
+  <div class="tx">{{text}}</div>
+  <div class="ft"><span class="lk" id="lk">♥ <b id="likes">0</b></span><span>💬 {{comments}}</span><span>↻ {{shares}}</span></div>
+</div>
+<style>
+.card{position:absolute;left:50%;top:50%;width:min(calc(var(--k)*.95),86%);transform:translate(-50%,-50%);background:{{background}};color:{{color}};border-radius:calc(var(--k)*.03);padding:calc(var(--k)*.035) calc(var(--k)*.04);font-family:Inter,"Segoe UI",sans-serif;box-shadow:0 calc(var(--k)*.025) calc(var(--k)*.07) rgba(0,0,0,.4);animation:in .55s cubic-bezier(.2,.9,.25,1.06) both, out .4s ease-in calc(var(--dur) - .4s) both}
+.hd{display:flex;align-items:center;gap:calc(var(--k)*.02)}
+.av{width:calc(var(--k)*.08);height:calc(var(--k)*.08);border-radius:50%;background:{{accent}};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:calc(var(--k)*.034)}
+.nm{font-weight:800;font-size:calc(var(--k)*.034)}
+.hn{opacity:.6;font-size:calc(var(--k)*.028)}
+.tx{font-size:calc(var(--k)*.04);line-height:1.35;margin:calc(var(--k)*.025) 0;font-weight:500}
+.ft{display:flex;gap:calc(var(--k)*.05);font-size:calc(var(--k)*.03);opacity:.85}
+.lk{color:#e0245e}
+@keyframes in{from{opacity:0;transform:translate(-50%,-44%) scale(.95)}}
+@keyframes out{to{opacity:0;transform:translate(-50%,-56%) scale(.98)}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, el = document.getElementById('likes'), lk = document.getElementById('lk');
+  var to = Number(P.likes) || 0;
+  var fmt = new Intl.NumberFormat('fr-FR', { notation: to >= 10000 ? 'compact' : 'standard', maximumFractionDigits: 1 });
+  AICUT.onFrame(function(t){
+    var p = AICUT.ease.out(AICUT.progress(t, 0.6, 1.4));
+    el.textContent = fmt.format(Math.round(to * p));
+    var beat = AICUT.progress(t, 1.9, 0.35);
+    lk.style.display = 'inline-block';
+    lk.style.transform = 'scale(' + (1 + 0.35 * Math.sin(beat * Math.PI)) + ')';
+  });
+})();
+</script>

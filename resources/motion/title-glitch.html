@@ -1,0 +1,12 @@
+<div class="exit"><div class="g" data-t="{{text|attr}}">{{text}}</div></div>
+<style>
+.exit{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;animation:out .3s steps(3) calc(var(--dur) - .3s) both}
+.g{position:relative;font:900 calc(var(--k) * .14) / 1 '{{font}}', 'Archivo Black', sans-serif;color:{{color}};text-transform:uppercase;letter-spacing:.02em;animation:in .5s steps(6) both}
+.g::before,.g::after{content:attr(data-t);position:absolute;inset:0}
+.g::before{color:#0ff;mix-blend-mode:screen;animation:g1 1.6s steps(1) infinite}
+.g::after{color:#f0f;mix-blend-mode:screen;animation:g2 1.3s steps(1) infinite}
+@keyframes in{0%{opacity:0;transform:skewX(30deg)}30%{opacity:1;transform:skewX(-20deg)}60%{transform:skewX(8deg)}100%{transform:none}}
+@keyframes g1{0%{clip-path:inset(10% 0 60% 0);transform:translate(-.04em,-.02em)}20%{clip-path:inset(70% 0 5% 0);transform:translate(.05em,.02em)}40%{clip-path:inset(40% 0 40% 0);transform:translate(-.03em,0)}60%{clip-path:inset(0 0 85% 0);transform:translate(.03em,-.01em)}80%{clip-path:inset(85% 0 0 0);transform:translate(-.05em,.02em)}100%{clip-path:inset(30% 0 50% 0)}}
+@keyframes g2{0%{clip-path:inset(60% 0 15% 0);transform:translate(.04em,.02em)}25%{clip-path:inset(5% 0 75% 0);transform:translate(-.05em,-.02em)}50%{clip-path:inset(45% 0 30% 0);transform:translate(.02em,0)}75%{clip-path:inset(80% 0 2% 0);transform:translate(-.03em,.01em)}100%{clip-path:inset(20% 0 65% 0)}}
+@keyframes out{50%{transform:skewX(-25deg);opacity:.6}to{opacity:0;transform:scaleY(.1)}}
+</style>

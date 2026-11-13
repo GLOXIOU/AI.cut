@@ -1,0 +1,22 @@
+<div class="w" id="w"></div>
+<style>
+.w{position:absolute;left:50%;top:{{y}}%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:calc(var(--k)*.008);height:calc(var(--k)*{{height}}/1080);animation:in .4s ease-out both, out .35s ease-in calc(var(--dur) - .35s) both}
+.bar{width:calc(var(--k)*.012);border-radius:99px;background:{{color}}}
+@keyframes in{from{opacity:0}}
+@keyframes out{to{opacity:0}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, w = document.getElementById('w'), n = Math.max(5, Math.min(80, Number(P.bars) || 32));
+  var bars = [];
+  for (var i = 0; i < n; i++) { var b = document.createElement('div'); b.className = 'bar'; w.appendChild(b); bars.push(b); }
+  AICUT.onFrame(function(t){
+    bars.forEach(function(b, i){
+      var x = i / (n - 1);
+      var env = Math.sin(Math.PI * x) * 0.8 + 0.2;
+      var v = 0.5 + 0.5 * Math.sin(t * 7.3 + i * 0.9) * Math.sin(t * 3.1 + i * 0.37) + 0.25 * Math.sin(t * 11 + i * 2.1);
+      b.style.height = (12 + 88 * env * Math.max(0.08, Math.min(1, v))) + '%';
+    });
+  });
+})();
+</script>

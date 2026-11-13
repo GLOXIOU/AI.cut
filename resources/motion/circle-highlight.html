@@ -1,0 +1,26 @@
+<svg class="s"><path id="c" fill="none" stroke-linecap="round"/></svg>
+<style>.s{position:absolute;inset:0;width:100%;height:100%}</style>
+<script>
+(function(){
+  var P = AICUT.params, W = AICUT.width, H = AICUT.height, k = Math.min(W, H) / 1080;
+  var cx = Number(P.x) * W, cy = Number(P.y) * H, rx = Number(P.width) * W / 2, ry = Number(P.height) * H / 2;
+  // hand-drawn ellipse: a bit more than one turn with jitter
+  var pts = [], n = 64, turns = 1.12;
+  for (var i = 0; i <= n; i++) {
+    var a = -Math.PI * 0.6 + (i / n) * Math.PI * 2 * turns;
+    var j = 1 + Math.sin(i * 1.7) * 0.025 + (i / n) * 0.06;
+    pts.push((cx + Math.cos(a) * rx * j).toFixed(1) + ',' + (cy + Math.sin(a) * ry * j).toFixed(1));
+  }
+  var c = document.getElementById('c');
+  c.setAttribute('d', 'M' + pts.join(' L'));
+  c.setAttribute('stroke', P.color);
+  c.setAttribute('stroke-width', (Number(P.thickness) || 8) * k);
+  c.style.filter = 'drop-shadow(0 3px 6px rgba(0,0,0,.45))';
+  var len = c.getTotalLength();
+  AICUT.onFrame(function(t){
+    var a = AICUT.ease.out(AICUT.progress(t, 0.05, 0.6));
+    c.style.strokeDasharray = len; c.style.strokeDashoffset = len * (1 - a);
+    c.style.opacity = 1 - AICUT.progress(t, AICUT.duration - 0.3, 0.3);
+  });
+})();
+</script>

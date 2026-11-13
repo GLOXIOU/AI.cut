@@ -1,0 +1,20 @@
+<div class="bar" id="bar"><svg viewBox="0 0 24 24" class="mg"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span id="txt"></span><span class="cur" id="cur"></span></div>
+<style>
+.bar{position:absolute;left:50%;top:{{y}}%;width:min(calc(var(--k)*1.1),84%);transform:translate(-50%,-50%);display:flex;align-items:center;gap:calc(var(--k)*.02);background:#fff;color:#202124;border-radius:999px;padding:calc(var(--k)*.026) calc(var(--k)*.04);font:500 calc(var(--k)*.042) Inter,"Segoe UI",sans-serif;box-shadow:0 calc(var(--k)*.015) calc(var(--k)*.05) rgba(0,0,0,.35);animation:in .5s cubic-bezier(.2,.9,.25,1.05) both, out .4s ease-in calc(var(--dur) - .4s) both}
+.mg{width:1em;height:1em;flex:none}
+.mg circle,.mg path{fill:none;stroke:#5f6368;stroke-width:2.4;stroke-linecap:round}
+.cur{width:2px;height:1.1em;background:{{accent}};margin-left:-.1em}
+@keyframes in{from{opacity:0;transform:translate(-50%,-50%) scale(.85)}}
+@keyframes out{to{opacity:0;transform:translate(-50%,-60%)}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, txt = document.getElementById('txt'), cur = document.getElementById('cur');
+  var s = String(P.query || ''), cps = Number(P.cps) || 14;
+  AICUT.onFrame(function(t){
+    var n = Math.max(0, Math.min(s.length, Math.floor((t - 0.5) * cps)));
+    txt.textContent = s.slice(0, n);
+    cur.style.opacity = (n < s.length || Math.floor(t * 2.2) % 2 === 0) ? 1 : 0;
+  });
+})();
+</script>

@@ -1,0 +1,27 @@
+<svg width="100%" height="100%" style="position:absolute;inset:0;overflow:visible">
+  <defs><marker id="h" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="{{color}}"/></marker></defs>
+  <path id="p" fill="none" stroke="{{color}}" stroke-linecap="round"/>
+</svg>
+<div class="lbl" id="lbl">{{label}}</div>
+<style>.lbl{position:absolute;transform:translate(-50%,-50%);font:800 calc(var(--k)*{{size}}/1080) "{{font}}",Inter,sans-serif;color:{{color}};white-space:nowrap;text-shadow:0 2px 12px rgba(0,0,0,.5)}</style>
+<script>
+(function(){
+  var P = AICUT.params, W = AICUT.width, H = AICUT.height, k = Math.min(W, H);
+  var x1 = (+P.fromX || 0.25) * W, y1 = (+P.fromY || 0.75) * H, x2 = (+P.x || 0.55) * W, y2 = (+P.y || 0.45) * H;
+  var p = document.getElementById('p'), l = document.getElementById('lbl');
+  var mx = (x1 + x2) / 2, my = (y1 + y2) / 2 - Math.abs(x2 - x1) * 0.18;
+  p.setAttribute('d', 'M' + x1 + ',' + y1 + ' Q' + mx + ',' + my + ' ' + x2 + ',' + y2);
+  p.style.strokeWidth = (k * 0.007) + 'px';
+  var len = p.getTotalLength();
+  p.style.strokeDasharray = len;
+  l.style.left = x1 + 'px'; l.style.top = (y1 + k * 0.05) + 'px';
+  AICUT.onFrame(function(t){
+    var d = AICUT.ease.inOut(AICUT.progress(t, 0.15, 0.6));
+    p.style.strokeDashoffset = len * (1 - d);
+    var o = 1 - AICUT.progress(t, AICUT.duration - 0.35, 0.35);
+    p.style.opacity = o;
+    l.style.opacity = Math.min(o, AICUT.progress(t, 0, 0.3));
+    if (d > 0.97) p.setAttribute('marker-end', 'url(#h)'); else p.removeAttribute('marker-end');
+  });
+})();
+</script>

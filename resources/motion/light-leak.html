@@ -1,0 +1,12 @@
+<div class="l a"></div><div class="l b"></div><div class="l c"></div>
+<style>
+body{animation:env var(--dur) ease-in-out both}
+.l{position:absolute;border-radius:50%;filter:blur(calc(var(--k) * .08));mix-blend-mode:screen}
+.a{width:70%;height:90%;left:-20%;top:-30%;background:radial-gradient(circle,{{color1}} 0%,transparent 65%);animation:m1 var(--dur) ease-in-out both}
+.b{width:60%;height:80%;right:-15%;top:10%;background:radial-gradient(circle,{{color2}} 0%,transparent 65%);animation:m2 var(--dur) ease-in-out both}
+.c{width:50%;height:60%;left:30%;bottom:-30%;background:radial-gradient(circle,{{color3}} 0%,transparent 70%);animation:m3 var(--dur) ease-in-out both}
+@keyframes env{0%{opacity:0}25%{opacity:{{intensity}}}75%{opacity:{{intensity}}}100%{opacity:0}}
+@keyframes m1{from{transform:translate(0,0) scale(.8)}to{transform:translate(35%,25%) scale(1.2)}}
+@keyframes m2{from{transform:translate(0,0)}to{transform:translate(-30%,-15%) scale(1.15)}}
+@keyframes m3{from{transform:translate(0,0) scale(1.1)}to{transform:translate(-20%,-30%) scale(.9)}}
+</style>

@@ -1,0 +1,23 @@
+<div class="exit"><div class="c">
+  <div class="num" id="n"></div>
+  <div class="lbl">{{label}}</div>
+</div></div>
+<style>
+.exit{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;animation:out .4s ease-in calc(var(--dur) - .4s) both}
+.c{text-align:center;animation:in .5s cubic-bezier(.2,1.4,.4,1) both}
+.num{font:900 calc(var(--k) * {{size}} / 1080) / 1 '{{font}}', Montserrat, sans-serif;color:{{color}};font-variant-numeric:tabular-nums;text-shadow:0 12px 40px rgba(0,0,0,.45)}
+.lbl{font:700 calc(var(--k) * .04) Inter, sans-serif;color:{{accent}};letter-spacing:.2em;text-transform:uppercase;margin-top:calc(var(--k) * .01)}
+@keyframes in{from{transform:scale(.6);opacity:0}}
+@keyframes out{to{opacity:0;transform:scale(1.08)}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, el = document.getElementById('n');
+  var from = Number(P.from) || 0, to = Number(P.to) || 0, dec = Math.max(0, Number(P.decimals) || 0), dur = Math.min(AICUT.duration - 0.5, Number(P.countDuration) || 1.6);
+  var fmt = new Intl.NumberFormat(P.locale || 'fr-FR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  AICUT.onFrame(function(t){
+    var p = AICUT.ease.out(AICUT.progress(t, 0.1, dur));
+    el.textContent = (P.prefix || '') + fmt.format(from + (to - from) * p) + (P.suffix || '');
+  });
+})();
+</script>

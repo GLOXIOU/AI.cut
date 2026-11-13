@@ -1,0 +1,18 @@
+<svg style="position:absolute;inset:0;width:100%;height:100%;overflow:visible"><path id="p" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<script>
+(function(){
+  var P = AICUT.params, W = AICUT.width, H = AICUT.height, k = Math.min(W, H);
+  var p = document.getElementById('p');
+  var cx = (+P.x || 0.5) * W, cy = (+P.y || 0.6) * H, w = (+P.width || 0.4) * W;
+  var x0 = cx - w / 2, x1 = cx + w / 2, a = k * 0.012;
+  // two slightly wobbly passes, like a felt pen
+  var d = 'M' + x0 + ',' + cy + ' C' + (x0 + w * 0.3) + ',' + (cy + a) + ' ' + (x0 + w * 0.7) + ',' + (cy - a) + ' ' + x1 + ',' + (cy + a * 0.5) +
+          ' C' + (x0 + w * 0.65) + ',' + (cy + a * 2.2) + ' ' + (x0 + w * 0.3) + ',' + (cy + a * 1.2) + ' ' + (x0 + w * 0.08) + ',' + (cy + a * 2.4);
+  p.setAttribute('d', d); p.setAttribute('stroke', P.color); p.setAttribute('stroke-width', (+P.thickness || 10) * k / 1080);
+  var len = p.getTotalLength(); p.style.strokeDasharray = len;
+  AICUT.onFrame(function(t){
+    p.style.strokeDashoffset = len * (1 - AICUT.ease.out(AICUT.progress(t, 0.1, 0.7)));
+    p.style.opacity = 1 - AICUT.progress(t, AICUT.duration - 0.3, 0.3);
+  });
+})();
+</script>

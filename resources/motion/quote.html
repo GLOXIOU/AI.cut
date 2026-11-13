@@ -1,0 +1,16 @@
+<div class="exit"><div class="card">
+  <div class="mark">“</div>
+  <div class="q">{{quote}}</div>
+  <div class="a">— {{author}}</div>
+</div></div>
+<style>
+.exit{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;animation:out .5s ease-in calc(var(--dur) - .5s) both}
+.card{position:relative;max-width:70%;padding:calc(var(--k) * .05) calc(var(--k) * .07);background:{{background}};border-radius:calc(var(--k) * .03);box-shadow:0 calc(var(--k) * .03) calc(var(--k) * .08) rgba(0,0,0,.45);animation:in .8s cubic-bezier(.2,1,.3,1) both;backdrop-filter:blur(12px)}
+.mark{position:absolute;left:calc(var(--k) * .03);top:calc(var(--k) * -.06);font:900 calc(var(--k) * .22) / 1 'Playfair Display', serif;color:{{accent}};animation:pop .6s cubic-bezier(.2,1.6,.4,1) .3s both}
+.q{font:700 italic calc(var(--k) * .052) / 1.3 'Playfair Display', serif;color:{{color}};animation:fade .8s ease .35s both}
+.a{margin-top:calc(var(--k) * .03);font:600 calc(var(--k) * .03) Inter, sans-serif;color:{{accent}};letter-spacing:.08em;text-transform:uppercase;animation:fade .8s ease .7s both}
+@keyframes in{from{transform:translateY(40px) scale(.94);opacity:0}}
+@keyframes pop{from{transform:scale(0) rotate(-20deg)}}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}}
+@keyframes out{to{opacity:0;transform:translateY(-30px)}}
+</style>

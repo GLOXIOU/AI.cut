@@ -1,0 +1,33 @@
+<div class="card" id="card"><div class="h">{{title}}</div><div id="list"></div></div>
+<style>
+.card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);min-width:calc(var(--k)*.62);background:{{background}};border-radius:calc(var(--k)*.025);padding:calc(var(--k)*.04) calc(var(--k)*.05);color:{{color}};font-family:"{{font}}",Inter,sans-serif;box-shadow:0 calc(var(--k)*.02) calc(var(--k)*.06) rgba(0,0,0,.35);animation:in .5s cubic-bezier(.2,.9,.25,1.05) both, out .4s ease-in calc(var(--dur) - .4s) both}
+.h{font-weight:800;font-size:calc(var(--k)*.05);margin-bottom:calc(var(--k)*.025)}
+.it{display:flex;align-items:center;gap:calc(var(--k)*.02);font-size:calc(var(--k)*.04);font-weight:600;margin:calc(var(--k)*.014) 0;opacity:0}
+.box{width:calc(var(--k)*.045);height:calc(var(--k)*.045);border-radius:calc(var(--k)*.01);border:calc(var(--k)*.004) solid currentColor;display:flex;align-items:center;justify-content:center;flex:none}
+.box svg{width:80%;height:80%}
+.box path{fill:none;stroke:{{accent}};stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30}
+@keyframes in{from{opacity:0;transform:translate(-50%,-44%) scale(.96)}}
+@keyframes out{to{opacity:0;transform:translate(-50%,-56%)}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, list = document.getElementById('list');
+  var items = String(P.items || '').split(/\n|;/).map(function(s){ return s.trim(); }).filter(Boolean);
+  var rows = items.map(function(txt){
+    var d = document.createElement('div'); d.className = 'it';
+    d.innerHTML = '<span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span></span>';
+    d.lastChild.textContent = txt; list.appendChild(d); return d;
+  });
+  var st = Number(P.stagger) || 0.55;
+  AICUT.onFrame(function(t){
+    rows.forEach(function(r, i){
+      var t0 = 0.45 + i * st;
+      var a = AICUT.ease.out(AICUT.progress(t, t0, 0.35));
+      r.style.opacity = a; r.style.transform = 'translateX(' + ((1 - a) * -20) + 'px)';
+      var c = AICUT.ease.inOut(AICUT.progress(t, t0 + 0.25, 0.3));
+      r.querySelector('path').style.strokeDashoffset = 30 * (1 - c);
+      r.lastChild.style.opacity = 0.65 + 0.35 * c;
+    });
+  });
+})();
+</script>

@@ -1,0 +1,16 @@
+<div class="exit"><div class="card">
+  <div class="avatar" id="av"></div>
+  <div class="txt"><div class="name">{{name}}</div><div class="role">{{title}}</div></div>
+</div></div>
+<style>
+.exit{position:absolute;left:0;right:0;bottom:10%;display:flex;justify-content:{{side}};padding:0 5%;animation:out .5s ease-in calc(var(--dur) - .5s) both}
+.card{display:flex;align-items:center;gap:calc(var(--k) * .02);padding:calc(var(--k) * .016) calc(var(--k) * .03) calc(var(--k) * .016) calc(var(--k) * .016);border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(18px);box-shadow:0 16px 40px rgba(0,0,0,.35);animation:in .7s cubic-bezier(.2,1.2,.3,1) both}
+.avatar{width:calc(var(--k) * .07);height:calc(var(--k) * .07);border-radius:50%;background:{{accent}};display:flex;align-items:center;justify-content:center;font:800 calc(var(--k) * .034) Inter, sans-serif;color:#fff;animation:pop .5s cubic-bezier(.2,1.6,.4,1) .25s both}
+.name{font:700 calc(var(--k) * .036) '{{font}}', Poppins, sans-serif;color:{{color}};animation:fade .5s ease .35s both}
+.role{font:500 calc(var(--k) * .024) Inter, sans-serif;color:{{color}};opacity:.75;animation:fade .5s ease .45s both}
+@keyframes in{from{transform:translateY(60px) scale(.9);opacity:0}}
+@keyframes pop{from{transform:scale(0)}}
+@keyframes fade{from{opacity:0;transform:translateX(-10px)}}
+@keyframes out{to{transform:translateY(40px);opacity:0}}
+</style>
+<script>document.getElementById('av').textContent = (String(AICUT.params.initials || AICUT.params.name || '?').trim().split(/\s+/).map(function(w){return w[0]}).join('').slice(0, 2)).toUpperCase();</script>

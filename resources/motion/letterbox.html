@@ -1,0 +1,9 @@
+<div class="o top"><div class="bar"></div></div><div class="o bot"><div class="bar"></div></div>
+<style>
+.o{position:absolute;left:0;right:0;height:calc((var(--h) - var(--w) / {{ratio}}) / 2);animation:out .6s cubic-bezier(.6,0,.2,1) calc(var(--dur) - .6s) both}
+.top{top:0;transform-origin:top}.bot{bottom:0;transform-origin:bottom}
+.bar{width:100%;height:100%;background:{{color}};animation:in .8s cubic-bezier(.6,0,.2,1) both}
+.top .bar{transform-origin:top}.bot .bar{transform-origin:bottom}
+@keyframes in{from{transform:scaleY(0)}}
+@keyframes out{to{transform:scaleY(0)}}
+</style>

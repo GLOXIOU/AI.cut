@@ -1,0 +1,33 @@
+<svg id="s" class="s"><path id="p" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path id="h" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div id="lbl" class="lbl">{{label}}</div>
+<style>
+.s{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.lbl{position:absolute;transform:translate(-50%,-50%);font:800 calc(var(--k) * {{size}} / 1080) '{{font}}', 'Permanent Marker', sans-serif;color:{{color}};white-space:nowrap;text-shadow:0 3px 12px rgba(0,0,0,.6);animation:pop .45s cubic-bezier(.2,1.6,.4,1) .55s both}
+.out{animation:out .35s ease-in both}
+@keyframes pop{from{transform:translate(-50%,-50%) scale(0) rotate(-12deg)}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, W = AICUT.width, H = AICUT.height, k = Math.min(W, H) / 1080;
+  var tx = Number(P.x) * W, ty = Number(P.y) * H;           // target (0..1)
+  var lx = Number(P.labelX) * W, ly = Number(P.labelY) * H; // label position
+  var p = document.getElementById('p'), h = document.getElementById('h'), lbl = document.getElementById('lbl');
+  lbl.style.left = lx + 'px'; lbl.style.top = ly + 'px';
+  var sx = lx + (tx - lx) * 0.12, sy = ly + (ty - ly) * 0.12 + (ty > ly ? 40 * k : -40 * k);
+  var ex = tx - (tx - lx) * 0.06, ey = ty - (ty - ly) * 0.06;
+  var cx = (sx + ex) / 2 + (ey - sy) * 0.35, cy = (sy + ey) / 2 - (ex - sx) * 0.35;
+  p.setAttribute('d', 'M' + sx + ',' + sy + ' Q' + cx + ',' + cy + ' ' + ex + ',' + ey);
+  var ang = Math.atan2(ey - cy, ex - cx), L = 34 * k;
+  h.setAttribute('d', 'M' + (ex - L * Math.cos(ang - 0.5)) + ',' + (ey - L * Math.sin(ang - 0.5)) + ' L' + ex + ',' + ey + ' L' + (ex - L * Math.cos(ang + 0.5)) + ',' + (ey - L * Math.sin(ang + 0.5)));
+  [p, h].forEach(function(e){ e.setAttribute('stroke', P.color); e.setAttribute('stroke-width', 9 * k); e.style.filter = 'drop-shadow(0 3px 6px rgba(0,0,0,.5))'; });
+  var len = p.getTotalLength(), hl = h.getTotalLength();
+  AICUT.onFrame(function(t){
+    var a = AICUT.ease.inOut(AICUT.progress(t, 0.05, 0.5));
+    p.style.strokeDasharray = len; p.style.strokeDashoffset = len * (1 - a);
+    var b = AICUT.progress(t, 0.5, 0.15);
+    h.style.strokeDasharray = hl; h.style.strokeDashoffset = hl * (1 - b);
+    var o = 1 - AICUT.progress(t, AICUT.duration - 0.35, 0.35);
+    document.body.style.opacity = o;
+  });
+})();
+</script>

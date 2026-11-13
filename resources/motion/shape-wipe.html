@@ -1,0 +1,9 @@
+<div class="s s1"></div><div class="s s2"></div><div class="s s3"></div>
+<style>
+/* Full-screen transition graphic: fully covers the frame around the middle of the clip — put the cut there. */
+.s{position:absolute;top:-25%;height:150%;width:160%;left:-30%;transform:translateX(120%) skewX(-18deg)}
+.s1{background:{{color1}};animation:sw calc(var(--dur) * .86) cubic-bezier(.75,0,.25,1) both}
+.s2{background:{{color2}};animation:sw calc(var(--dur) * .86) cubic-bezier(.75,0,.25,1) calc(var(--dur) * .07) both}
+.s3{background:{{color3}};animation:sw calc(var(--dur) * .86) cubic-bezier(.75,0,.25,1) calc(var(--dur) * .14) both}
+@keyframes sw{0%{transform:translateX(120%) skewX(-18deg)}45%,55%{transform:translateX(0) skewX(-18deg)}100%{transform:translateX(-130%) skewX(-18deg)}}
+</style>

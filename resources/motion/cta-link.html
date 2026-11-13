@@ -1,0 +1,20 @@
+<div class="wrap"><div class="cta" id="cta"><span>{{text}}</span><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div></div>
+<style>
+.wrap{position:absolute;left:0;right:0;bottom:{{bottom}}%;display:flex;justify-content:center;animation:out .35s ease-in calc(var(--dur) - .35s) both}
+.cta{display:flex;align-items:center;gap:.45em;background:{{background}};color:{{color}};font:800 calc(var(--k)*.045) "{{font}}",Inter,sans-serif;padding:.45em 1.1em;border-radius:999px;box-shadow:0 calc(var(--k)*.012) calc(var(--k)*.04) rgba(0,0,0,.35);animation:in .55s cubic-bezier(.2,1.4,.4,1) both}
+.cta svg{width:1em;height:1em}
+.cta path{fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+@keyframes in{from{opacity:0;transform:translateY(60%) scale(.8)}}
+@keyframes out{to{opacity:0;transform:translateY(40%)}}
+</style>
+<script>
+(function(){
+  var c = document.getElementById('cta'), arrow = c.querySelector('svg');
+  AICUT.onFrame(function(t){
+    var beat = (t - 0.6) % 1.1;
+    var s = t > 0.6 ? 1 + 0.06 * Math.max(0, Math.sin(Math.min(1, beat / 0.35) * Math.PI)) : 1;
+    c.style.scale = String(s);
+    arrow.style.transform = 'translateX(' + (Math.max(0, Math.sin(t * 5.5)) * 0.18) + 'em)';
+  });
+})();
+</script>

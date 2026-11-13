@@ -1,0 +1,23 @@
+<div class="n" id="n">
+  <div class="ico">{{appInitial}}</div>
+  <div class="body"><div class="top"><span class="app">{{app}}</span><span class="time">{{time}}</span></div><div class="ttl">{{title}}</div><div class="msg">{{message}}</div></div>
+</div>
+<style>
+.n{position:absolute;left:50%;top:5%;width:min(calc(var(--k)*.9),88%);transform:translateX(-50%);display:flex;gap:calc(var(--k)*.022);align-items:flex-start;background:rgba(245,245,247,.94);color:#111;border-radius:calc(var(--k)*.035);padding:calc(var(--k)*.024) calc(var(--k)*.028);font-family:Inter,"Segoe UI",sans-serif;box-shadow:0 calc(var(--k)*.02) calc(var(--k)*.06) rgba(0,0,0,.35)}
+.ico{width:calc(var(--k)*.075);height:calc(var(--k)*.075);border-radius:calc(var(--k)*.018);background:{{accent}};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:calc(var(--k)*.04);flex:none}
+.body{flex:1;min-width:0}
+.top{display:flex;justify-content:space-between;font-size:calc(var(--k)*.024);color:#555;text-transform:uppercase;letter-spacing:.04em}
+.ttl{font-weight:700;font-size:calc(var(--k)*.034);margin-top:.15em}
+.msg{font-size:calc(var(--k)*.031);color:#333;margin-top:.1em}
+</style>
+<script>
+(function(){
+  var n = document.getElementById('n');
+  AICUT.onFrame(function(t){
+    var a = AICUT.spring(t, { stiffness: 220, damping: 20 });
+    var out = AICUT.ease.in(AICUT.progress(t, AICUT.duration - 0.4, 0.4));
+    n.style.transform = 'translateX(-50%) translateY(' + ((1 - a) * -140 - out * 140) + '%)';
+    n.style.opacity = String(Math.min(1, t * 6) * (1 - out));
+  });
+})();
+</script>

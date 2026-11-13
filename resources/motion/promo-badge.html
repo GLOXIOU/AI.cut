@@ -1,0 +1,22 @@
+<div class="b" id="b"><svg viewBox="-50 -50 100 100" class="star"><polygon id="poly"/></svg><div class="t"><div class="big">{{text}}</div><div class="small">{{subtext}}</div></div></div>
+<style>
+.b{position:absolute;left:{{x}}%;top:{{y}}%;width:calc(var(--k)*{{size}}/1080);height:calc(var(--k)*{{size}}/1080);transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center}
+.star{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 calc(var(--k)*.01) calc(var(--k)*.02) rgba(0,0,0,.35))}
+#poly{fill:{{color}}}
+.t{position:relative;text-align:center;color:{{textColor}};font-family:"{{font}}",Inter,sans-serif;line-height:1}
+.big{font-weight:900;font-size:calc(var(--k)*{{size}}/1080*.3)}
+.small{font-weight:700;font-size:calc(var(--k)*{{size}}/1080*.11);text-transform:uppercase;margin-top:.2em}
+</style>
+<script>
+(function(){
+  var pts = [], n = 16;
+  for (var i = 0; i < n * 2; i++) { var r = i % 2 ? 41 : 49, a = (i / (n * 2)) * Math.PI * 2; pts.push((Math.cos(a) * r).toFixed(2) + ',' + (Math.sin(a) * r).toFixed(2)); }
+  document.getElementById('poly').setAttribute('points', pts.join(' '));
+  var b = document.getElementById('b');
+  AICUT.onFrame(function(t){
+    var a = AICUT.ease.outBack(AICUT.progress(t, 0, 0.5));
+    var out = AICUT.ease.in(AICUT.progress(t, AICUT.duration - 0.3, 0.3));
+    b.style.transform = 'translate(-50%,-50%) scale(' + (a * (1 - out)) + ') rotate(' + (-12 + Math.sin(t * 2.4) * 4) + 'deg)';
+  });
+})();
+</script>

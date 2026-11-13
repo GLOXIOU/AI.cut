@@ -1,0 +1,74 @@
+<div id="root"><div class="exit" id="exit"><div class="enter" id="enter"><div class="txt" id="txt"></div></div></div></div>
+<style>
+#root{position:absolute;inset:0;display:flex;pointer-events:none;box-sizing:border-box}
+.exit,.enter{display:inline-block;max-width:100%}
+.txt{white-space:pre-wrap;line-height:1.08;display:inline-block}
+@keyframes a-fade{from{opacity:0}}
+@keyframes a-pop{0%{transform:scale(.35);opacity:0}55%{transform:scale(1.08);opacity:1}75%{transform:scale(.97)}100%{transform:scale(1)}}
+@keyframes a-slide-up{from{transform:translateY(80px);opacity:0}}
+@keyframes a-slide-down{from{transform:translateY(-80px);opacity:0}}
+@keyframes a-slide-left{from{transform:translateX(160px);opacity:0}}
+@keyframes a-slide-right{from{transform:translateX(-160px);opacity:0}}
+@keyframes a-blur{from{filter:blur(40px);opacity:0;transform:scale(1.2)}}
+@keyframes a-scale{from{transform:scale(1.8);opacity:0}}
+@keyframes a-rotate{from{transform:rotate(-12deg) scale(.6);opacity:0}}
+@keyframes o-fade{to{opacity:0}}
+@keyframes o-slide-down{to{transform:translateY(80px);opacity:0}}
+@keyframes o-slide-up{to{transform:translateY(-80px);opacity:0}}
+@keyframes o-scale{to{transform:scale(.5);opacity:0}}
+@keyframes o-blur{to{filter:blur(40px);opacity:0}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, k = Math.min(AICUT.width, AICUT.height) / 1080;
+  var root = document.getElementById('root'), txt = document.getElementById('txt');
+  var enter = document.getElementById('enter'), exit = document.getElementById('exit');
+  var text = String(P.text == null ? '' : P.text);
+  if (P.uppercase) text = text.toUpperCase();
+  var pos = P.position || 'center';
+  var map = {
+    center: ['center', 'center', '0'],
+    top: ['center', 'flex-start', (8 * k) + '% 6% 0'],
+    bottom: ['center', 'flex-end', '0 6% ' + (11) + '%'],
+    'lower-third': ['flex-start', 'flex-end', '0 7% 13%'],
+    'upper-third': ['flex-start', 'flex-start', '10% 7% 0'],
+    left: ['flex-start', 'center', '0 7%'],
+    right: ['flex-end', 'center', '0 7%']
+  };
+  var m = map[pos] || map.center;
+  root.style.justifyContent = m[0]; root.style.alignItems = m[1]; root.style.padding = m[2];
+  var size = (Number(P.size) || 96) * k;
+  txt.style.font = (P.weight || 800) + ' ' + size + 'px "' + (P.font || 'Montserrat') + '", Inter, sans-serif';
+  txt.style.color = P.color || '#fff';
+  txt.style.textAlign = P.align || (pos === 'lower-third' || pos === 'left' || pos === 'upper-third' ? 'left' : pos === 'right' ? 'right' : 'center');
+  txt.style.letterSpacing = ((Number(P.letterSpacing) || 0) * k) + 'px';
+  txt.style.maxWidth = (AICUT.width * (Number(P.maxWidth) || 0.86)) + 'px';
+  var sw = (Number(P.strokeWidth) || 0) * k;
+  if (sw > 0) { txt.style.webkitTextStroke = (sw * 2) + 'px ' + (P.strokeColor || '#000'); txt.style.paintOrder = 'stroke fill'; }
+  if (P.shadow !== false) txt.style.textShadow = '0 ' + (6 * k) + 'px ' + (24 * k) + 'px rgba(0,0,0,' + (P.shadowOpacity != null ? P.shadowOpacity : 0.45) + ')';
+  if (P.background && P.background !== 'none' && P.background !== 'transparent') {
+    txt.style.background = P.background;
+    txt.style.padding = ((Number(P.padding) || 18) * k) + 'px ' + ((Number(P.padding) || 18) * 1.6 * k) + 'px';
+    txt.style.borderRadius = ((Number(P.radius) || 14) * k) + 'px';
+    txt.style.boxDecorationBreak = 'clone';
+  }
+  if (P.gradient) { txt.style.backgroundImage = P.gradient; txt.style.webkitBackgroundClip = 'text'; txt.style.color = 'transparent'; }
+  var anim = P.animation || 'pop', inDur = Number(P.inDuration) || 0.55, outDur = Number(P.outDuration) || 0.4;
+  if (anim === 'typewriter') {
+    txt.textContent = '';
+    var span = document.createElement('span'); txt.appendChild(span);
+    var cursor = document.createElement('span'); cursor.textContent = '|'; cursor.style.opacity = 0.8; txt.appendChild(cursor);
+    var total = Math.max(0.3, Math.min(AICUT.duration * 0.6, text.length * 0.05));
+    AICUT.onFrame(function(t){
+      var n = Math.min(text.length, Math.floor(text.length * Math.min(1, t / total)));
+      span.textContent = text.slice(0, n);
+      cursor.style.visibility = (Math.floor(t * 2) % 2 === 0 || n < text.length) ? 'visible' : 'hidden';
+    });
+  } else {
+    txt.textContent = text;
+    if (anim !== 'none') enter.style.animation = 'a-' + anim + ' ' + inDur + 's cubic-bezier(.2,.9,.3,1.15) ' + (Number(P.delay) || 0) + 's both';
+  }
+  var out = P.outAnimation || 'fade';
+  if (out !== 'none') exit.style.animation = 'o-' + out + ' ' + outDur + 's ease-in calc(var(--dur) - ' + outDur + 's) both';
+})();
+</script>

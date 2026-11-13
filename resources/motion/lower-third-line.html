@@ -1,0 +1,11 @@
+<div class="wrap"><div class="bar"></div><div class="txt"><div class="n">{{name}}</div><div class="r">{{title}}</div></div></div>
+<style>
+.wrap{position:absolute;left:7%;bottom:14%;display:flex;align-items:stretch;gap:calc(var(--k)*.022);animation:out .45s ease-in calc(var(--dur) - .45s) both}
+.bar{width:calc(var(--k)*.006);background:{{accent}};transform-origin:bottom;animation:grow .5s cubic-bezier(.6,0,.2,1) both}
+.txt{overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.n{font:700 calc(var(--k)*.052) "{{font}}",Inter,sans-serif;color:{{color}};animation:slide .6s cubic-bezier(.2,.85,.2,1) .25s both}
+.r{font:500 calc(var(--k)*.03) Inter,sans-serif;color:{{color}};opacity:.78;margin-top:calc(var(--k)*.006);animation:slide .6s cubic-bezier(.2,.85,.2,1) .38s both}
+@keyframes grow{from{transform:scaleY(0)}}
+@keyframes slide{from{transform:translateX(-110%);opacity:0}}
+@keyframes out{to{opacity:0;transform:translateX(-4%)}}
+</style>

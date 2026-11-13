@@ -1,0 +1,27 @@
+<canvas id="cv"></canvas>
+<style>#cv{position:absolute;inset:0;width:100%;height:100%}</style>
+<script>
+(function(){
+  var cv = document.getElementById('cv'), W = AICUT.width, H = AICUT.height;
+  cv.width = W; cv.height = H;
+  var ctx = cv.getContext('2d');
+  function rnd(seed){ var x = Math.sin(seed * 12.9898) * 43758.5453; return x - Math.floor(x); }
+  AICUT.onFrame(function(t){
+    ctx.clearRect(0, 0, W, H);
+    var D = AICUT.duration, mid = D / 2;
+    var amt = Math.max(0, 1 - Math.abs(t - mid) / (D / 2));
+    amt = Math.pow(amt, 1.5);
+    if (amt <= 0.01) return;
+    var frame = Math.floor(t * 30);
+    var n = Math.round(6 + 26 * amt);
+    for (var i = 0; i < n; i++) {
+      var s = frame * 97 + i * 13;
+      var y = rnd(s) * H, h = (0.01 + rnd(s + 1) * 0.08) * H * amt;
+      var cols = ['rgba(255,0,80,', 'rgba(0,255,230,', 'rgba(255,255,255,', 'rgba(0,0,0,'];
+      ctx.fillStyle = cols[Math.floor(rnd(s + 2) * cols.length)] + (0.35 + 0.6 * rnd(s + 3)) * amt + ')';
+      ctx.fillRect((rnd(s + 4) - 0.3) * W * 0.6, y, W * (0.4 + rnd(s + 5) * 0.9), h);
+    }
+    if (amt > 0.85) { ctx.fillStyle = 'rgba(255,255,255,' + (amt - 0.85) * 4 + ')'; ctx.fillRect(0, 0, W, H); }
+  });
+})();
+</script>

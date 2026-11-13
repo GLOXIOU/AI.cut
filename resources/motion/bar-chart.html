@@ -1,0 +1,34 @@
+<div class="exit"><div class="chart">
+  <div class="title">{{title}}</div>
+  <div class="bars" id="bars"></div>
+</div></div>
+<style>
+.exit{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;animation:out .45s ease-in calc(var(--dur) - .45s) both}
+.chart{background:{{background}};border-radius:calc(var(--k) * .03);padding:calc(var(--k) * .045) calc(var(--k) * .06);min-width:55%;box-shadow:0 24px 60px rgba(0,0,0,.45);animation:in .6s cubic-bezier(.2,1,.3,1) both}
+.title{font:800 calc(var(--k) * .05) Montserrat, sans-serif;color:{{color}};margin-bottom:calc(var(--k) * .03)}
+.bars{display:flex;flex-direction:column;gap:calc(var(--k) * .018)}
+.row{display:grid;grid-template-columns:28% 1fr auto;align-items:center;gap:calc(var(--k) * .02);font:600 calc(var(--k) * .03) Inter, sans-serif;color:{{color}}}
+.bar{height:calc(var(--k) * .045);border-radius:calc(var(--k) * .012);background:{{accent}};transform-origin:left;animation:grow .9s cubic-bezier(.2,.9,.3,1) both;animation-delay:calc(.35s + var(--i) * .15s)}
+.val{font-variant-numeric:tabular-nums;font-weight:800;animation:fade .4s ease both;animation-delay:calc(.8s + var(--i) * .15s)}
+@keyframes in{from{transform:translateY(30px);opacity:0}}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes fade{from{opacity:0}}
+@keyframes out{to{opacity:0}}
+</style>
+<script>
+(function(){
+  var rows = String(AICUT.params.data || '').split(/[,;\n]/).map(function(s){ var m = s.split(':'); return { l: (m[0] || '').trim(), v: Number((m[1] || '0').trim()) || 0 }; }).filter(function(r){ return r.l; });
+  var max = Math.max.apply(null, rows.map(function(r){ return r.v; }).concat([1]));
+  var el = document.getElementById('bars');
+  rows.forEach(function(r, i){
+    var row = document.createElement('div'); row.className = 'row'; row.style.setProperty('--i', i);
+    row.innerHTML = '<span></span><div class="wrapb"><div class="bar"></div></div><span class="val"></span>';
+    row.children[0].textContent = r.l;
+    row.querySelector('.bar').style.width = (r.v / max * 100) + '%';
+    row.querySelector('.bar').style.setProperty('--i', i);
+    row.children[2].textContent = r.v + (AICUT.params.suffix || '');
+    row.children[2].style.setProperty('--i', i);
+    el.appendChild(row);
+  });
+})();
+</script>

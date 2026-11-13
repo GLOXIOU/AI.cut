@@ -1,0 +1,18 @@
+<div class="exit" id="root"><div class="pin">
+  <svg viewBox="0 0 24 24" class="ico"><path fill="{{color}}" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+  <div class="shadow"></div>
+  <div class="label"><b>{{place}}</b><span>{{detail}}</span></div>
+</div></div>
+<style>
+.exit{position:absolute;transform:translate(-50%,-100%);animation:out .4s ease-in calc(var(--dur) - .4s) both}
+.pin{display:flex;flex-direction:column;align-items:center}
+.ico{width:calc(var(--k) * .11);height:calc(var(--k) * .11);filter:drop-shadow(0 8px 10px rgba(0,0,0,.45));animation:drop .7s cubic-bezier(.3,1.6,.5,1) both}
+.shadow{width:calc(var(--k) * .05);height:calc(var(--k) * .012);border-radius:50%;background:rgba(0,0,0,.45);margin-top:calc(var(--k) * -.01);animation:sh .7s ease both}
+.label{margin-top:calc(var(--k) * .015);background:#fff;color:#111;border-radius:calc(var(--k) * .012);padding:.4em .8em;display:flex;flex-direction:column;align-items:center;font:500 calc(var(--k) * .024) Inter, sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.35);animation:pop .5s cubic-bezier(.2,1.5,.4,1) .55s both}
+.label b{font:800 calc(var(--k) * .034) Inter, sans-serif}
+@keyframes drop{0%{transform:translateY(-200%);opacity:0}60%{transform:translateY(0);opacity:1}75%{transform:scaleY(.85)}100%{transform:none}}
+@keyframes sh{from{transform:scale(0)}}
+@keyframes pop{from{transform:scale(0);opacity:0}}
+@keyframes out{to{opacity:0;transform:translate(-50%,-100%) scale(.8)}}
+</style>
+<script>var r=document.getElementById('root');r.style.left=(AICUT.params.x*100)+'%';r.style.top=(AICUT.params.y*100)+'%';</script>

@@ -1,0 +1,22 @@
+<canvas id="c"></canvas>
+<style>#c{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}</style>
+<script>
+(function(){
+  var P = AICUT.params, scale = 3, W = Math.ceil(AICUT.width / scale), H = Math.ceil(AICUT.height / scale);
+  var cv = document.getElementById('c'); cv.width = W; cv.height = H;
+  var ctx = cv.getContext('2d'), img = ctx.createImageData(W, H), d = img.data, amt = Math.round(255 * (Number(P.intensity) || 0.12));
+  AICUT.onFrame(function(t){
+    var seed = Math.floor(t * AICUT.fps) * 7919 + 13;
+    for (var i = 0; i < d.length; i += 4) {
+      seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+      var v = seed & 255;
+      d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = Math.abs(v - 128) * amt / 128;
+    }
+    ctx.putImageData(img, 0, 0);
+    if (P.scratches) {
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
+      var x = (Math.sin(t * 3.1) * 0.5 + 0.5) * W; ctx.fillRect(x, 0, 1, H);
+    }
+  });
+})();
+</script>

@@ -1,0 +1,10 @@
+<div class="wrap" id="wrap"></div>
+<style>
+.wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:out .4s ease-in calc(var(--dur) - .4s) both}
+.w{font:900 calc(var(--k)*{{size}}/1080) "{{font}}",Inter,sans-serif;text-transform:uppercase;line-height:.95;padding:0 .12em;animation:in .55s cubic-bezier(.2,.9,.25,1.05) both}
+.w:nth-child(odd){color:{{color}};--from:-120%}
+.w:nth-child(even){color:{{accent}};--from:120%}
+@keyframes in{from{transform:translateX(var(--from));opacity:0}}
+@keyframes out{to{opacity:0;transform:scale(1.08)}}
+</style>
+<script>(function(){var words=String(AICUT.params.text||'').split(/\s+/).filter(Boolean),w=document.getElementById('wrap');words.forEach(function(x,i){var d=document.createElement('div');d.className='w';d.textContent=x;d.style.animationDelay=(i*0.14)+'s';w.appendChild(d);});})();</script>

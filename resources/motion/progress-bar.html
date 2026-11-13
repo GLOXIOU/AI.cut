@@ -1,0 +1,12 @@
+<div class="track" id="tr"><div class="fill" id="f"></div></div>
+<style>
+.track{position:absolute;left:0;right:0;height:calc(var(--k) * {{thickness}} / 1080);background:{{trackColor}}}
+.fill{height:100%;width:0;background:{{color}};box-shadow:0 0 12px {{color}}}
+</style>
+<script>
+(function(){
+  var tr = document.getElementById('tr'), f = document.getElementById('f');
+  if (AICUT.params.position === 'top') tr.style.top = '0'; else tr.style.bottom = '0';
+  AICUT.onFrame(function(t){ f.style.width = (Math.min(1, t / AICUT.duration) * 100) + '%'; });
+})();
+</script>

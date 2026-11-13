@@ -1,0 +1,10 @@
+<div class="wrap"><div class="row"><div class="l1">{{line1}}</div></div><div class="row"><div class="l2">{{line2}}</div></div></div>
+<style>
+.wrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--k)*.005);animation:out .45s cubic-bezier(.7,0,.8,.2) calc(var(--dur) - .45s) both}
+.row{overflow:hidden;padding:0 .1em}
+.l1,.l2{font:900 calc(var(--k)*{{size}}/1080) "{{font}}",Inter,sans-serif;text-transform:uppercase;line-height:1.02;letter-spacing:-.01em}
+.l1{color:{{color}};animation:up .75s cubic-bezier(.2,.85,.2,1) both}
+.l2{color:{{accent}};animation:up .75s cubic-bezier(.2,.85,.2,1) .12s both}
+@keyframes up{from{transform:translateY(105%)}}
+@keyframes out{to{transform:translateY(-6%);opacity:0}}
+</style>

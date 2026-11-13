@@ -1,0 +1,36 @@
+<div class="wrap" id="wrap"><div class="track"><div class="fill" id="fill"></div></div></div>
+<style>
+.wrap{position:absolute;left:8%;right:8%;top:50%;transform:translateY(-50%);display:flex;justify-content:space-between;align-items:flex-start;font-family:"{{font}}",Inter,sans-serif;color:{{color}};animation:out .4s ease-in calc(var(--dur) - .4s) both}
+.track{position:absolute;left:calc(var(--k)*.04);right:calc(var(--k)*.04);top:calc(var(--k)*.04);height:calc(var(--k)*.006);background:rgba(255,255,255,.22);border-radius:9px}
+.fill{height:100%;background:{{accent}};border-radius:9px;width:0}
+.st{position:relative;display:flex;flex-direction:column;align-items:center;width:calc(var(--k)*.08)}
+.dot{width:calc(var(--k)*.08);height:calc(var(--k)*.08);border-radius:50%;background:#1d1d1d;border:calc(var(--k)*.005) solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:calc(var(--k)*.034)}
+.lbl{margin-top:calc(var(--k)*.02);font-weight:700;font-size:calc(var(--k)*.03);white-space:nowrap;text-align:center}
+@keyframes out{to{opacity:0}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, wrap = document.getElementById('wrap'), fill = document.getElementById('fill');
+  var items = String(P.items || '').split(/\n|;/).map(function(s){ return s.trim(); }).filter(Boolean);
+  var els = items.map(function(txt, i){
+    var s = document.createElement('div'); s.className = 'st';
+    s.innerHTML = '<div class="dot">' + (i + 1) + '</div><div class="lbl"></div>';
+    s.querySelector('.lbl').textContent = txt; wrap.appendChild(s); return s;
+  });
+  var n = Math.max(1, els.length), per = (AICUT.duration - 0.8) / n;
+  AICUT.onFrame(function(t){
+    var p = AICUT.clamp((t - 0.3) / (per * (n - 1) || 1), 0, 1);
+    fill.style.width = (p * 100) + '%';
+    els.forEach(function(s, i){
+      var t0 = 0.3 + i * per;
+      var a = AICUT.ease.outBack(AICUT.progress(t, t0, 0.35));
+      var on = t >= t0;
+      var d = s.querySelector('.dot');
+      d.style.transform = 'scale(' + (0.6 + 0.4 * a) + ')';
+      d.style.background = on ? P.accent : '#1d1d1d';
+      d.style.borderColor = on ? P.accent : 'rgba(255,255,255,.35)';
+      s.style.opacity = 0.25 + 0.75 * AICUT.progress(t, t0 - 0.2, 0.3);
+    });
+  });
+})();
+</script>

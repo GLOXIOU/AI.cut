@@ -1,0 +1,14 @@
+<div id="anim"></div>
+<script src="aicut://res/vendor/lottie.min.js"></script>
+<style>#anim{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}#anim svg{max-width:100%;max-height:100%}</style>
+<script>
+(function(){
+  var P = AICUT.params, done = AICUT.delayRender();
+  var box = document.getElementById('anim');
+  box.style.transform = 'scale(' + (Number(P.scale) || 1) + ')';
+  fetch(P.src).then(function(r){ return r.json(); }).then(function(data){
+    var anim = lottie.loadAnimation({ container: box, renderer: 'svg', loop: false, autoplay: false, animationData: data, rendererSettings: { preserveAspectRatio: P.fit === 'cover' ? 'xMidYMid slice' : 'xMidYMid meet' } });
+    anim.addEventListener('DOMLoaded', function(){ AICUT.lottie(anim, { loop: !!P.loop, speed: Number(P.speed) || 1 }); done(); });
+  }).catch(function(e){ box.innerHTML = '<div style="color:#f66;font:30px sans-serif">Lottie error: ' + e.message + '</div>'; done(); });
+})();
+</script>

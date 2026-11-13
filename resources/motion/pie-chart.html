@@ -1,0 +1,43 @@
+<div class="wrap"><div class="h">{{title}}</div><div class="row"><svg id="svg" viewBox="-60 -60 120 120"></svg><div class="leg" id="leg"></div></div></div>
+<style>
+.wrap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:{{background}};color:{{color}};border-radius:calc(var(--k)*.03);padding:calc(var(--k)*.04) calc(var(--k)*.05);font-family:"{{font}}",Inter,sans-serif;animation:in .5s ease-out both, out .4s ease-in calc(var(--dur) - .4s) both}
+.h{font-size:calc(var(--k)*.045);font-weight:800;margin-bottom:calc(var(--k)*.02)}
+.row{display:flex;align-items:center;gap:calc(var(--k)*.05)}
+svg{width:calc(var(--k)*.34);height:calc(var(--k)*.34);transform:rotate(-90deg)}
+circle{fill:none;stroke-width:22}
+.leg{display:flex;flex-direction:column;gap:calc(var(--k)*.014);font-size:calc(var(--k)*.032);font-weight:600}
+.li{display:flex;align-items:center;gap:.5em}
+.sw{width:.8em;height:.8em;border-radius:.2em}
+.pc{opacity:.7;font-weight:500;margin-left:auto;padding-left:1em;font-variant-numeric:tabular-nums}
+@keyframes in{from{opacity:0;transform:translate(-50%,-46%)}}
+@keyframes out{to{opacity:0}}
+</style>
+<script>
+(function(){
+  var P = AICUT.params, svg = document.getElementById('svg'), leg = document.getElementById('leg');
+  var colors = String(P.colors || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+  var data = String(P.data || '').split(',').map(function(s){ var m = s.split(':'); return { label: (m[0] || '').trim(), v: Math.max(0, Number(m[1]) || 0) }; }).filter(function(d){ return d.label; });
+  var total = data.reduce(function(s, d){ return s + d.v; }, 0) || 1, C = 2 * Math.PI * 40, acc = 0;
+  var arcs = data.map(function(d, i){
+    var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('r', 40); c.setAttribute('stroke', colors[i % colors.length] || '#3a8ee6');
+    svg.appendChild(c);
+    var li = document.createElement('div'); li.className = 'li';
+    li.innerHTML = '<span class="sw"></span><span></span><span class="pc"></span>';
+    li.children[0].style.background = colors[i % colors.length] || '#3a8ee6';
+    li.children[1].textContent = d.label;
+    li.children[2].textContent = Math.round(d.v / total * 100) + '%';
+    leg.appendChild(li);
+    var a = { el: c, li: li, start: acc / total, frac: d.v / total }; acc += d.v; return a;
+  });
+  AICUT.onFrame(function(t){
+    var p = AICUT.ease.inOut(AICUT.progress(t, 0.3, 1.2));
+    arcs.forEach(function(a, i){
+      var shown = AICUT.clamp((p - a.start) / a.frac, 0, 1) * a.frac;
+      a.el.setAttribute('stroke-dasharray', (shown * C) + ' ' + C);
+      a.el.setAttribute('stroke-dashoffset', String(-a.start * C));
+      a.li.style.opacity = AICUT.progress(t, 0.3 + i * 0.2, 0.3);
+    });
+  });
+})();
+</script>

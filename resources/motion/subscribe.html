@@ -1,0 +1,42 @@
+<div class="exit"><div class="wrap">
+  <div class="btn" id="btn"><svg viewBox="0 0 24 24" class="yt"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1-5.8 3.1z"/></svg><span id="lbl">{{text}}</span></div>
+  <div class="bell" id="bell"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8a2.5 2.5 0 0 0 2.4 2zm7-6V11a7 7 0 0 0-5.5-6.8V3.5a1.5 1.5 0 0 0-3 0v.7A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg></div>
+  <svg class="cursor" id="cur" viewBox="0 0 24 24"><path fill="#fff" stroke="#000" stroke-width="1.2" d="M4 2l15 11-6.4.9 3.8 7.2-2.6 1.3-3.7-7.3L5 19z"/></svg>
+</div></div>
+<style>
+.exit{position:absolute;left:0;right:0;bottom:{{bottom}}%;display:flex;justify-content:center;animation:out .4s ease-in calc(var(--dur) - .4s) both}
+.wrap{position:relative;display:flex;align-items:center;gap:calc(var(--k) * .018);animation:in .6s cubic-bezier(.2,1.5,.4,1) both}
+.btn{display:flex;align-items:center;gap:.4em;background:#ff0033;color:#fff;font:800 calc(var(--k) * .045) Roboto, Inter, sans-serif;padding:.38em .9em;border-radius:.5em;box-shadow:0 10px 30px rgba(255,0,51,.35);text-transform:uppercase;letter-spacing:.02em;transition:none}
+.btn.done{background:#3d3d3d;box-shadow:none}
+.yt{width:1.2em;height:1.2em}
+.bell{width:calc(var(--k) * .075);height:calc(var(--k) * .075);border-radius:50%;background:rgba(30,30,30,.85);color:#fff;display:flex;align-items:center;justify-content:center;animation:bpop .5s cubic-bezier(.2,1.6,.4,1) .3s both}
+.bell svg{width:55%;height:55%}
+.cursor{position:absolute;width:calc(var(--k) * .06);height:calc(var(--k) * .06);left:30%;top:60%;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
+@keyframes in{from{transform:translateY(80px) scale(.7);opacity:0}}
+@keyframes bpop{from{transform:scale(0)}}
+@keyframes out{to{transform:translateY(60px);opacity:0}}
+</style>
+<script>
+(function(){
+  var btn = document.getElementById('btn'), lbl = document.getElementById('lbl'), cur = document.getElementById('cur'), bell = document.getElementById('bell');
+  var P = AICUT.params, t1 = 0.9, t2 = 1.5, t3 = 2.1;
+  AICUT.onFrame(function(t){
+    // cursor path: from bottom-right → button → bell
+    var x, y;
+    if (t < t1) { var p = AICUT.ease.inOut(AICUT.progress(t, 0.3, t1 - 0.3)); x = AICUT.lerp(120, 40, p); y = AICUT.lerp(180, 55, p); }
+    else if (t < t2) { x = 40; y = 55; }
+    else { var q = AICUT.ease.inOut(AICUT.progress(t, t2, 0.4)); x = AICUT.lerp(40, 108, q); y = AICUT.lerp(55, 50, q); }
+    cur.style.left = x + '%'; cur.style.top = y + '%';
+    var click = (t > t1 && t < t1 + 0.15) || (t > t3 && t < t3 + 0.15);
+    cur.style.transform = click ? 'scale(.8)' : 'scale(1)';
+    cur.style.opacity = t < 0.3 ? 0 : t > AICUT.duration - 0.6 ? 0 : 1;
+    var subscribed = t >= t1 + 0.05;
+    btn.classList.toggle('done', subscribed);
+    lbl.textContent = subscribed ? (P.doneText || 'Abonné') : P.text;
+    btn.style.transform = (t > t1 && t < t1 + 0.18) ? 'scale(.94)' : 'scale(1)';
+    var shake = t > t3 && t < t3 + 0.6 ? Math.sin((t - t3) * 40) * 18 * (1 - (t - t3) / 0.6) : 0;
+    bell.style.transform = 'rotate(' + shake + 'deg)';
+    bell.style.background = t > t3 ? '#ff0033' : 'rgba(30,30,30,.85)';
+  });
+})();
+</script>
