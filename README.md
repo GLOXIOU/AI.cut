@@ -20,7 +20,7 @@ npm start
 
 ```
 
-Or you can use the [release version]() on github.
+Or you can use the [release version](https://github.com/GLOXIOU/AI.cut/releases) on github.
 ---
 
 ## 🧩 Usage
