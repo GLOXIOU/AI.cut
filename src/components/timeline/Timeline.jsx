@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback, memo } from 'react';
-import { MousePointer2, Scissors, Magnet, Plus, Maximize, Eye, EyeOff, Lock, Unlock, Volume2, VolumeX, Headphones, Film, Music, Image as ImageIcon, Sparkles, Square, Zap, Wand2, AudioLines, ZoomIn, ZoomOut } from 'lucide-react';
+import { MousePointer2, Scissors, Magnet, Plus, Maximize, Eye, EyeOff, Lock, Unlock, Volume2, VolumeX, Headphones, Film, Music, Image as ImageIcon, Sparkles, Square, Zap, Wand2, AudioLines, ZoomIn, ZoomOut, SlidersHorizontal, Star, Trash2, X } from 'lucide-react';
 import { useStore } from '../../app/store.js';
 import { playhead } from '../../app/playhead.js';
 import { op, call, fileUrl } from '../../app/api.js';
@@ -8,13 +8,18 @@ import { fmtTime, projectDuration, mediaById, r4 } from '@shared/timeline.js';
 import { animDurations } from '@shared/anim.js';
 import { getPeaks, onPeaks, drawWave } from './peaks.js';
 import { engineRef } from '../player/Player.jsx';
+import { RulerOverlays, AskAiBox } from './Overlays.jsx';
+import { useShortcut } from '../../app/shortcuts.js';
 
 const HEADER_W = 158;
-const RULER_H = 26;
+const MARK_H = 20; // band above the ticks: AI ideas (★ flags), pinned requests, the "ask the AI" button
+const TICK_H = 26;
+const RULER_H = MARK_H + TICK_H;
 const LANE_H = { video: 56, audio: 48, subs: 28 };
 
 export function Timeline() {
   const t = useT();
+  const kb = useShortcut();
   const project = useStore((s) => s.project);
   const selection = useStore((s) => s.selection);
   const zoom = useStore((s) => s.zoom);
@@ -29,6 +34,10 @@ export function Timeline() {
   const [view, setView] = useState({ left: 0, width: 800 });
   const [drag, setDrag] = useState(null);
   const [menu, setMenu] = useState(null);
+  const [laneMenu, setLaneMenu] = useState(null);
+  const [ask, setAsk] = useState(null);
+  const [hint, setHint] = useState(null); // { x, y, ctx } bubble shown after the mouse rests on the timeline
+  const askBtnRef = useRef(null); // "Ask" pill above the playhead
   const [, setPeaksTick] = useState(0);
   const set = useStore.setState;
 
@@ -47,27 +56,42 @@ export function Timeline() {
   const fps = project?.settings.fps || 30;
 
   // ---------------------------------------------------------------- view tracking
+  // scroll position / width are cached here so the per-frame playhead update never reads layout (a read right
+  // after the timecode write forced a full synchronous reflow on every frame of playback)
+  const metrics = useRef({ left: 0, width: 0 });
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const upd = () => setView({ left: el.scrollLeft, width: el.clientWidth });
+    let raf = 0;
+    const commit = () => { raf = 0; setView((v) => (v.left === metrics.current.left && v.width === metrics.current.width ? v : { ...metrics.current })); };
+    const upd = () => {
+      metrics.current = { left: el.scrollLeft, width: el.clientWidth };
+      if (!raf) raf = requestAnimationFrame(commit); // at most one timeline render per frame while scrolling
+    };
     upd();
     el.addEventListener('scroll', upd, { passive: true });
     const ro = new ResizeObserver(upd);
     ro.observe(el);
-    return () => { el.removeEventListener('scroll', upd); ro.disconnect(); };
+    return () => { el.removeEventListener('scroll', upd); ro.disconnect(); if (raf) cancelAnimationFrame(raf); };
   }, [project ? 1 : 0]);
 
   // ---------------------------------------------------------------- playhead line + timecode + autoscroll
   useEffect(() => {
+    let lastTc = '';
     const move = (tm) => {
-      if (playheadRef.current) playheadRef.current.style.transform = `translateX(${tm * zoom}px)`;
-      if (tcRef.current) tcRef.current.textContent = fmtTime(tm, fps);
+      const x = tm * zoom;
       const el = scrollRef.current;
       if (el && playhead.playing) {
-        const x = tm * zoom;
-        if (x > el.scrollLeft + el.clientWidth - HEADER_W - 40 || x < el.scrollLeft) el.scrollLeft = Math.max(0, x - 60);
+        const m = metrics.current;
+        if (x > m.left + m.width - HEADER_W - 40 || x < m.left) {
+          const left = Math.max(0, x - 60);
+          el.scrollLeft = left;
+          metrics.current = { ...m, left };
+        }
       }
+      if (playheadRef.current) playheadRef.current.style.transform = `translateX(${x}px)`;
+      const tc = fmtTime(tm, fps);
+      if (tc !== lastTc && tcRef.current) { tcRef.current.textContent = tc; lastTc = tc; }
     };
     move(playhead.time);
     return playhead.sub(move);
@@ -79,11 +103,11 @@ export function Timeline() {
     if (!c) return;
     const dpr = window.devicePixelRatio || 1;
     const w = Math.max(1, view.width - HEADER_W);
-    c.width = w * dpr; c.height = RULER_H * dpr;
+    c.width = w * dpr; c.height = TICK_H * dpr;
     c.style.width = `${w}px`;
     const ctx = c.getContext('2d');
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, RULER_H);
+    ctx.clearRect(0, 0, w, TICK_H);
     const steps = [1 / fps, 2 / fps, 5 / fps, 0.5, 1, 2, 5, 10, 15, 30, 60, 120, 300, 600, 1200];
     const major = steps.find((s) => s * zoom >= 80) || 1200;
     const minor = major / (major >= 1 && major % 5 === 0 ? 5 : major >= 1 ? 2 : major >= 0.5 ? 5 : 1);
@@ -182,8 +206,6 @@ export function Timeline() {
     let sel = st.selection;
     if (e.shiftKey || e.ctrlKey || e.metaKey) { st.select([clip.id], 'toggle'); return; }
     if (!sel.includes(clip.id)) { sel = [clip.id]; st.select(sel); }
-    // the AI panel stays open while editing by hand (switching it away mid-conversation felt like a disconnection)
-    if (useStore.getState().rightTab !== 'ai') useStore.setState({ rightTab: 'inspector' });
     if (track?.locked) return;
     const startX = e.clientX, startY = e.clientY;
     const pts = snapPoints(region === 'body' ? sel : [clip.id]);
@@ -333,31 +355,104 @@ export function Timeline() {
     }
   };
 
+  /** Context of a click for "ask the AI here": time (or the in/out range around it), track, clip. */
+  const askContext = (e, clip) => {
+    const st = useStore.getState();
+    const tm = r4(timeAt(e.clientX));
+    const lane = laneAt(e.clientY);
+    const track = clip ? project.tracks.find((x) => x.id === clip.trackId) : lane?.kind === 'track' ? lane.track : null;
+    const inRange = st.inPoint != null && st.outPoint != null && tm >= st.inPoint - 1e-3 && tm <= st.outPoint + 1e-3;
+    return { x: e.clientX, y: e.clientY, time: inRange ? st.inPoint : tm, end: inRange ? st.outPoint : null, trackId: track?.id, trackName: track?.name, clipId: clip?.id, clipName: clip?.name };
+  };
+  const clipAt = (x, y) => {
+    const lane = laneAt(y);
+    if (lane?.kind !== 'track') return null;
+    const tm = timeAt(x);
+    return project.clips.find((c) => c.trackId === lane.track.id && c.start <= tm && c.start + c.duration >= tm) || null;
+  };
+
+  // "ask the AI here" bubble: appears when the mouse rests ~1 s on the timeline, with the context under it
+  const dwell = useRef({ timer: 0, x: -99, y: -99 });
+  const clearHint = () => { clearTimeout(dwell.current.timer); dwell.current.timer = 0; setHint(null); };
+  const onLanesHover = (e) => {
+    const d = dwell.current;
+    if (e.buttons || drag || ask || menu || laneMenu || playhead.playing) { clearTimeout(d.timer); d.timer = 0; return; }
+    if (hint) {
+      if (Math.hypot(e.clientX - hint.x, e.clientY - hint.y) <= 60) return; // moving towards the bubble keeps it
+      setHint(null);
+    }
+    if (d.timer && Math.hypot(e.clientX - d.x, e.clientY - d.y) < 5) return; // hand jitter does not restart the wait
+    clearTimeout(d.timer);
+    d.x = e.clientX; d.y = e.clientY;
+    const at = { clientX: e.clientX, clientY: e.clientY };
+    d.timer = setTimeout(() => {
+      d.timer = 0;
+      if (playhead.playing) return;
+      setHint({ x: at.clientX, y: at.clientY, ctx: askContext(at, clipAt(at.clientX, at.clientY)) });
+    }, 1000);
+  };
+  useEffect(() => playhead.sub((tm, src) => { if (src === 'state' && playhead.playing) { clearTimeout(dwell.current.timer); dwell.current.timer = 0; setHint(null); } }), []);
+  // the pill above the playhead only shows (animated) once the playhead has stopped moving for 1 s: hidden while
+  // playing / scrubbing. Driven through a CSS class, no React render on playhead moves.
+  useEffect(() => {
+    let timer = 0;
+    const arm = () => {
+      clearTimeout(timer);
+      askBtnRef.current?.classList.remove('show');
+      if (playhead.playing) return;
+      timer = setTimeout(() => { if (!playhead.playing) askBtnRef.current?.classList.add('show'); }, 1000);
+    };
+    arm();
+    const off = playhead.sub(arm);
+    return () => { clearTimeout(timer); off(); };
+  }, [!!project]);
+  const onLanesLeave = (e) => {
+    clearTimeout(dwell.current.timer);
+    dwell.current.timer = 0;
+    if (!e.relatedTarget?.closest?.('.ask-hint')) setHint(null);
+  };
+  /** Toolbar button: ask about the in → out range, else the selected clip / the playhead position. */
+  const askAtPlayhead = (e) => {
+    const st = useStore.getState();
+    const r = e.currentTarget.getBoundingClientRect();
+    const sel = st.selection.length === 1 ? project.clips.find((c) => c.id === st.selection[0]) : null;
+    const track = sel ? project.tracks.find((x) => x.id === sel.trackId) : null;
+    const io = st.inPoint != null && st.outPoint != null;
+    setAsk({ x: r.left, y: r.bottom - 4, time: io ? st.inPoint : r4(playhead.time), end: io ? st.outPoint : null, trackId: track?.id, trackName: track?.name, clipId: sel?.id, clipName: sel?.name });
+  };
+
+  const onLanesMenu = (e) => {
+    if (e.target.closest('.clip')) return;
+    e.preventDefault();
+    const lane = laneAt(e.clientY);
+    setLaneMenu({ x: e.clientX, y: e.clientY, time: r4(timeAt(e.clientX)), ctx: askContext(e, null), lane });
+  };
+
   const openMenu = (e, clip) => {
     e.preventDefault();
     e.stopPropagation();
     const st = useStore.getState();
     if (!st.selection.includes(clip.id)) st.select([clip.id]);
-    setMenu({ x: e.clientX, y: e.clientY, clip });
+    setMenu({ x: e.clientX, y: e.clientY, clip, ctx: askContext(e, clip) });
   };
 
   if (!project) return <div className="timeline" />;
   const totalH = laneTop.get('__end');
   const visT0 = view.left / zoom - 2, visT1 = (view.left + view.width) / zoom + 2;
   const tb = (id, Icon, title, key) => (
-    <button className={`icon-btn ${tool === id ? 'on' : ''}`} title={`${title} (${key})`} onClick={() => set({ tool: id })}><Icon size={15} /></button>
+    <button className={`icon-btn ${tool === id ? 'on' : ''}`} title={key ? `${title} (${key})` : title} onClick={() => set({ tool: id })}><Icon size={15} /></button>
   );
   return (
     <div className="timeline" onContextMenu={(e) => e.preventDefault()}>
       <div className="tl-tools">
-        {tb('select', MousePointer2, t('selectTool'), 'V')}
-        {tb('razor', Scissors, t('razorTool'), 'C')}
+        {tb('select', MousePointer2, t('selectTool'), kb('toolSelect'))}
+        {tb('razor', Scissors, t('razorTool'), kb('toolRazor'))}
         <div className="sep" />
-        <button className={`icon-btn ${snapping ? 'on' : ''}`} title={`${t('snapping')} (N)`} onClick={() => set({ snapping: !snapping })}><Magnet size={15} /></button>
+        <button className={`icon-btn ${snapping ? 'on' : ''}`} title={kb('toggleSnap') ? `${t('snapping')} (${kb('toggleSnap')})` : t('snapping')} onClick={() => set({ snapping: !snapping })}><Magnet size={15} /></button>
         <div className="sep" />
         <button className="icon-btn" title={t('zoomIn')} onClick={() => setZoom(zoom * 1.4)}><ZoomIn size={15} /></button>
         <button className="icon-btn" title={t('zoomOut')} onClick={() => setZoom(zoom / 1.4)}><ZoomOut size={15} /></button>
-        <button className="icon-btn" title={`${t('zoomFit')} (\\)`} onClick={() => window.dispatchEvent(new Event('aicut:zoom-fit'))}><Maximize size={15} /></button>
+        <button className="icon-btn" title={kb('zoomFit') ? `${t('zoomFit')} (${kb('zoomFit')})` : t('zoomFit')} onClick={() => window.dispatchEvent(new Event('aicut:zoom-fit'))}><Maximize size={15} /></button>
       </div>
       <div className="tl-main">
         <div className="tl-toolbar">
@@ -377,20 +472,22 @@ export function Timeline() {
         <div className="tl-body">
           <div className="tl-scroll" ref={scrollRef} onDragOver={(e) => e.preventDefault()} onDrop={onDrop}>
             <div className="tl-inner" style={{ width: contentW + HEADER_W, height: totalH + RULER_H + 40 }}>
-              <div className="tl-ruler-row" style={{ width: contentW + HEADER_W }}>
-                <div className="tl-corner" style={{ width: HEADER_W }}>{fmtTime(duration, fps)}</div>
-                <canvas className="tl-ruler" ref={rulerRef} style={{ left: HEADER_W + view.left }} onPointerDown={onRulerDown} onDoubleClick={(e) => op('addMarker', { time: r4(timeAt(e.clientX)), label: '' }, 'marker')} />
+              <div className="tl-ruler-row" style={{ width: contentW + HEADER_W, height: RULER_H }}>
+                <div className="tl-corner" style={{ width: HEADER_W, height: RULER_H }}>{fmtTime(duration, fps)}</div>
+                <div className="tl-band" style={{ left: HEADER_W, width: contentW, height: MARK_H }} onPointerDown={onRulerDown} />
+                <canvas className="tl-ruler" ref={rulerRef} style={{ left: HEADER_W + view.left, top: MARK_H, height: TICK_H }} onPointerDown={onRulerDown} onDoubleClick={(e) => op('addMarker', { time: r4(timeAt(e.clientX)), label: '' }, 'marker')} />
+                <RulerOverlays project={project} zoom={zoom} headerW={HEADER_W} markH={MARK_H} />
               </div>
               <div className="tl-headers" style={{ top: RULER_H }}>
                 {lanes.map((l) => <LaneHeader key={l.id} lane={l} project={project} />)}
               </div>
-              <div className="tl-lanes" style={{ left: HEADER_W, top: RULER_H, width: contentW, height: totalH }} onPointerDown={onLanesDown}>
+              <div className="tl-lanes" style={{ left: HEADER_W, top: RULER_H, width: contentW, height: totalH }} onPointerDown={onLanesDown} onPointerDownCapture={clearHint} onPointerMove={onLanesHover} onPointerLeave={onLanesLeave} onWheel={hint ? clearHint : undefined} onContextMenu={onLanesMenu}>
                 {lanes.map((l) => (
                   <div key={l.id} className={`lane lane-${l.kind === 'subs' ? 'subs' : l.track.type} ${l.track?.locked ? 'locked' : ''} ${l.track?.hidden ? 'hidden-track' : ''}`} style={{ top: laneTop.get(l.id), height: l.h }} />
                 ))}
                 {project.subtitles.cues.filter((q) => q.end > visT0 && q.start < visT1).map((q) => (
                   <div key={q.id} className={`cue ${selectedCue === q.id ? 'sel' : ''} ${project.subtitles.enabled ? '' : 'off'}`} style={{ left: q.start * zoom, width: Math.max(2, (q.end - q.start) * zoom), top: 3, height: LANE_H.subs - 6 }}
-                    onPointerDown={(e) => { e.stopPropagation(); set({ selectedCue: q.id, selection: [], ...(useStore.getState().rightTab === 'ai' ? {} : { rightTab: 'inspector' }) }); playhead.set(q.start, 'ui'); }}>
+                    onPointerDown={(e) => { e.stopPropagation(); set({ selectedCue: q.id, selection: [] }); playhead.set(q.start, 'ui'); }}>
                     {(q.end - q.start) * zoom > 24 && q.text}
                   </div>
                 ))}
@@ -410,10 +507,10 @@ export function Timeline() {
                   );
                 })}
                 {drag?.kind === 'box' && <div className="box-select" style={{ left: Math.min(drag.box.x0, drag.box.x1), top: Math.min(drag.box.y0, drag.box.y1), width: Math.abs(drag.box.x1 - drag.box.x0), height: Math.abs(drag.box.y1 - drag.box.y0) }} />}
-                {project.markers.map((m) => <div key={m.id} className="marker-line" style={{ left: m.time * zoom, borderColor: m.color }} title={m.label} />)}
               </div>
               <div className="tl-playhead" ref={playheadRef} style={{ left: HEADER_W, height: totalH + RULER_H }}>
                 <div className="ph-grab" onPointerDown={startScrub} title={t('dragPlayhead')} />
+                <button className="ph-ask" ref={askBtnRef} title={t('askAiToolbarHint')} onPointerDown={(e) => e.stopPropagation()} onClick={askAtPlayhead}><Sparkles size={11} /> {t('askShortBtn')}</button>
                 <div className="ph-head" onPointerDown={startScrub} title={t('dragPlayhead')} />
               </div>
             </div>
@@ -421,7 +518,18 @@ export function Timeline() {
         </div>
       </div>
       <Meters />
-      {menu && <ClipMenu menu={menu} onClose={() => setMenu(null)} />}
+      {menu && <ClipMenu menu={menu} onClose={() => setMenu(null)} onAsk={(c) => setAsk(c)} />}
+      {laneMenu && <LaneMenu menu={laneMenu} onClose={() => setLaneMenu(null)} onAsk={(c) => setAsk(c)} />}
+      {ask && <AskAiBox ctx={ask} onClose={() => setAsk(null)} />}
+      {hint && !ask && (
+        <button className="ask-hint" style={{ left: hint.x + 14, top: hint.y + 14 }}
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={() => { setAsk({ ...hint.ctx, x: hint.x, y: hint.y }); setHint(null); }}
+          onPointerLeave={(e) => { if (!e.relatedTarget?.closest?.('.tl-lanes')) setHint(null); }}>
+          <Sparkles size={13} /> {t('askAiHere')}
+          <span className="ask-hint-ctx">{fmtTime(hint.ctx.time)}{hint.ctx.end != null ? ` → ${fmtTime(hint.ctx.end)}` : ''}{hint.ctx.clipName ? ` · ${hint.ctx.clipName}` : ''}</span>
+        </button>
+      )}
     </div>
   );
 }
@@ -429,18 +537,27 @@ export function Timeline() {
 /** Stereo peak meters fed by the preview engine (Premiere's "Audio Meters"). */
 function Meters() {
   const ref = useRef([]);
+  // the meters only animate while something plays (and until the bars have fallen back), at ~60 fps max;
+  // idle, they cost nothing (they used to redraw on every display refresh, forever)
   useEffect(() => {
-    let raf, peaks = [-120, -120], hold = [-120, -120], holdAt = [0, 0];
-    const draw = () => {
+    let raf = 0, last = 0, peaks = [-120, -120], hold = [-120, -120], holdAt = [0, 0];
+    const sizes = [[0, 0], [0, 0]];
+    const draw = (now) => {
+      raf = 0;
+      if (now - last < 15) { raf = requestAnimationFrame(draw); return; }
+      last = now;
       const eng = engineRef.current;
-      const now = performance.now();
-      const lv = eng && playhead.playing ? eng.levels() : [-120, -120];
+      const live = !!(eng && playhead.playing);
+      const lv = live ? eng.levels() : [-120, -120];
+      let busy = live;
       ref.current.forEach((cv, ch) => {
         if (!cv) return;
-        const h = cv.clientHeight, w = cv.clientWidth;
-        if (cv.height !== h) { cv.height = h; cv.width = w; }
+        const [w, h] = sizes[ch];
+        if (!w || !h) return;
+        if (cv.height !== h || cv.width !== w) { cv.height = h; cv.width = w; }
         peaks[ch] = Math.max(lv[ch], peaks[ch] - 1.2);
         if (peaks[ch] > hold[ch] || now - holdAt[ch] > 1200) { hold[ch] = peaks[ch]; holdAt[ch] = now; }
+        if (peaks[ch] > -54 || hold[ch] > -54) busy = true;
         const ctx = cv.getContext('2d');
         ctx.clearRect(0, 0, w, h);
         ctx.fillStyle = '#262626';
@@ -453,10 +570,17 @@ function Meters() {
         ctx.fillRect(0, top, w, h - top);
         if (hold[ch] > -54) { ctx.fillStyle = hold[ch] > -1 ? '#e0564e' : '#bdbdbd'; ctx.fillRect(0, y(hold[ch]), w, 1); }
       });
-      raf = requestAnimationFrame(draw);
+      if (busy) raf = requestAnimationFrame(draw);
     };
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
+    const kick = () => { if (!raf) raf = requestAnimationFrame(draw); };
+    const ro = new ResizeObserver(() => {
+      ref.current.forEach((cv, ch) => { if (cv) sizes[ch] = [cv.clientWidth, cv.clientHeight]; });
+      kick();
+    });
+    ref.current.forEach((cv) => cv && ro.observe(cv));
+    kick();
+    const off = playhead.sub((tm, src) => { if (src === 'state' && playhead.playing) kick(); });
+    return () => { if (raf) cancelAnimationFrame(raf); ro.disconnect(); off(); };
   }, []);
   return (
     <div className="tl-meters" title="dB">
@@ -483,8 +607,35 @@ function trimGhost(c, drag, media) {
   return g;
 }
 
+function LaneMenu({ menu, onClose, onAsk }) {
+  const t = useT();
+  const kb = useShortcut();
+  useEffect(() => {
+    const h = () => onClose();
+    window.addEventListener('pointerdown', h);
+    return () => window.removeEventListener('pointerdown', h);
+  }, [onClose]);
+  const item = (label, fn) => (
+    <div className="menu-item" onPointerDown={(e) => e.stopPropagation()} onClick={async () => { onClose(); await fn(); }}>{label}</div>
+  );
+  const st = useStore.getState();
+  const range = st.inPoint != null && st.outPoint != null ? { start: st.inPoint, duration: st.outPoint - st.inPoint } : { start: menu.time, duration: 3 };
+  return (
+    <div className="context-menu" style={{ left: Math.min(menu.x, window.innerWidth - 240), top: Math.min(menu.y, window.innerHeight - 200) }} onPointerDown={(e) => e.stopPropagation()}>
+      {item(`✨ ${t('askAiHere')}…`, () => onAsk(menu.ctx))}
+      <div className="menu-sep" />
+      {item(t('addAdjustHere'), () => op('addAdjustmentLayer', { ...range, fx: { blur: 12 } }, 'adjustment layer'))}
+      {item(t('addMarkerHere'), () => op('addMarker', { time: menu.time }, 'marker'))}
+      {item(t('setInHere', { k: kb('markIn') }), () => useStore.setState({ inPoint: menu.time }))}
+      {item(t('setOutHere', { k: kb('markOut') }), () => useStore.setState({ outPoint: menu.time }))}
+    </div>
+  );
+}
+
 const LaneHeader = memo(function LaneHeader({ lane, project }) {
   const t = useT();
+  const kb = useShortcut();
+  const [confirm, setConfirm] = useState(false);
   if (lane.kind === 'subs') {
     const en = project.subtitles.enabled;
     return (
@@ -496,22 +647,43 @@ const LaneHeader = memo(function LaneHeader({ lane, project }) {
   }
   const tr = lane.track;
   const upd = (patch) => op('updateTrack', { id: tr.id, ...patch }, 'track');
+  const n = project.clips.filter((c) => c.trackId === tr.id).length;
+  const deletable = project.tracks.filter((x) => x.type === tr.type).length > 1; // the last video / audio track stays
+  const remove = async () => {
+    setConfirm(false);
+    const r = await op('removeTrack', { id: tr.id }, 'delete track');
+    if (r) useStore.getState().toast('info', t('trackDeleted', { name: tr.name, undo: kb('undo') }));
+  };
+  if (confirm) {
+    return (
+      <div className={`lane-head ${tr.type} confirm`} style={{ height: lane.h }}>
+        <span className="lane-confirm-text"><b>{t('deleteTrackQ', { name: tr.name })}</b><small>{t('trackClipsN', { n })}</small></span>
+        <div className="lane-btns">
+          <button className="btn sm lane-del-yes" title={t('delete')} onClick={remove}><Trash2 size={12} /></button>
+          <button className="icon-btn xs" title={t('cancel')} onClick={() => setConfirm(false)}><X size={12} /></button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={`lane-head ${tr.type}`} style={{ height: lane.h }}>
       <span className="lane-tag">{tr.name}</span>
       <div className="lane-btns">
+        {deletable && <button className="icon-btn xs lane-del" title={t('deleteTrack')} onClick={() => (n ? setConfirm(true) : remove())}><Trash2 size={12} /></button>}
         {tr.type === 'video' && <button className={`icon-btn xs ${tr.hidden ? 'off' : ''}`} title={t('toggleOutput')} onClick={() => upd({ hidden: !tr.hidden })}>{tr.hidden ? <EyeOff size={12} /> : <Eye size={12} />}</button>}
         <button className={`icon-btn xs ${tr.muted ? 'off' : ''}`} title={t('mute')} onClick={() => upd({ muted: !tr.muted })}>{tr.muted ? <VolumeX size={12} /> : <Volume2 size={12} />}</button>
         {tr.type === 'audio' && <button className={`icon-btn xs ${tr.solo ? 'on' : ''}`} title="Solo" onClick={() => upd({ solo: !tr.solo })}><Headphones size={12} /></button>}
+        {tr.type === 'audio' && <button className={`icon-btn xs ${tr.afx || tr.pan ? 'on' : ''}`} title={t('trackFxTitle')} onClick={() => useStore.setState({ selectedTrack: tr.id, selection: [], selectedCue: null })}><SlidersHorizontal size={12} /></button>}
         <button className={`icon-btn xs ${tr.locked ? 'on' : ''}`} title={t('lock')} onClick={() => upd({ locked: !tr.locked })}>{tr.locked ? <Lock size={12} /> : <Unlock size={12} />}</button>
       </div>
     </div>
   );
 });
 
-const TYPE_ICON = { video: Film, audio: Music, image: ImageIcon, html: Sparkles, color: Square };
+const TYPE_ICON = { video: Film, audio: Music, image: ImageIcon, html: Sparkles, color: Square, adjust: SlidersHorizontal };
 
 const ClipView = memo(function ClipView({ clip: c, media, zoom, top, height, selected, flash, dx, dy, dragging, viewT0, viewT1, onDown, onMenu }) {
+  const t = useT();
   const canvasRef = useRef(null);
   const left = c.start * zoom;
   const width = Math.max(3, c.duration * zoom);
@@ -552,7 +724,7 @@ const ClipView = memo(function ClipView({ clip: c, media, zoom, top, height, sel
   const tr = c.transition;
   const ad = c.anim ? animDurations(c) : null;
   return (
-    <div className={`clip clip-${c.type} ${selected ? 'sel' : ''} ${recent ? 'ai-flash' : ''} ${dragging ? 'dragging' : ''} ${c.muted ? 'muted' : ''}`}
+    <div className={`clip clip-${c.type} ${selected ? 'sel' : ''} ${recent ? 'ai-flash' : ''} ${dragging ? 'dragging' : ''} ${c.muted ? 'muted' : ''} ${c.proposal ? 'proposal' : ''}`}
       style={{ left, top: top + 2, width, height: height - 4, transform: dx || dy ? `translate(${dx}px, ${dy}px)` : undefined, background: c.type === 'color' ? c.fill : undefined }}
       onPointerDown={(e) => onDown(e, c, 'body')} onContextMenu={(e) => onMenu(e, c)} title={`${c.name}\n${fmtTime(c.start)} → ${fmtTime(c.start + c.duration)}`}>
       <div className="clip-tiles">{tiles}</div>
@@ -565,6 +737,10 @@ const ClipView = memo(function ClipView({ clip: c, media, zoom, top, height, sel
         {c.keyframes && <span className="badge">◆</span>}
         {(c.radius > 0 || c.border || c.shadow) && <span className="badge">▢</span>}
         {(c.color || c.chromaKey) && <span className="badge">fx</span>}
+        {c.follow && <span className="badge" title="tracking">🎯</span>}
+        {c.mask && <span className="badge" title="mask">◐</span>}
+        {c.afx && <span className="badge" title={c.afx.map((x) => x.type).join(' → ')}>♪fx</span>}
+        {c.proposal && <span className="badge prop" title={t('aiProposal')}><Star size={8} fill="currentColor" /> {t('ideaWord')}</span>}
       </div>
       {tr && <div className="clip-trans" style={{ width: Math.max(6, (tr.duration / 2) * zoom) }} title={`${tr.type} ${tr.duration}s`} />}
       {ad?.din > 0 && <div className="clip-anim in" style={{ width: Math.max(4, ad.din * zoom) }} title={c.anim.in.type} />}
@@ -577,7 +753,7 @@ const ClipView = memo(function ClipView({ clip: c, media, zoom, top, height, sel
   );
 });
 
-function ClipMenu({ menu, onClose }) {
+function ClipMenu({ menu, onClose, onAsk }) {
   const t = useT();
   const { clip } = menu;
   const sel = useStore.getState().selection;
@@ -592,7 +768,9 @@ function ClipMenu({ menu, onClose }) {
   );
   const visual = clip.type !== 'audio';
   return (
-    <div className="context-menu" style={{ left: Math.min(menu.x, window.innerWidth - 240), top: Math.min(menu.y, window.innerHeight - 420) }} onPointerDown={(e) => e.stopPropagation()}>
+    <div className="context-menu" style={{ left: Math.min(menu.x, window.innerWidth - 240), top: Math.min(menu.y, window.innerHeight - 470) }} onPointerDown={(e) => e.stopPropagation()}>
+      {item(`✨ ${t('askAiHere')}…`, () => onAsk(menu.ctx))}
+      <div className="menu-sep" />
       {item(`${t('split')} (S)`, () => op('splitClip', { id: clip.id, time: r4(playhead.time) }, 'split'))}
       {item(t('duplicate'), () => op('duplicateClips', { ids }, 'duplicate'))}
       {clip.type === 'video' && item(t('detachAudio'), () => op('detachAudio', { id: clip.id }, 'detach audio'))}
@@ -609,6 +787,9 @@ function ClipMenu({ menu, onClose }) {
       {visual && item(t('layoutBlurFill'), () => op('layoutClip', { id: clip.id, preset: 'blur-fill' }, 'layout blur fill'))}
       {clip.type === 'video' && item(t('freezeFrame'), () => call('edit:freezeFrame', { clipId: clip.id, time: Math.min(clip.start + clip.duration - 0.05, Math.max(clip.start, playhead.time)), duration: 1.5 }).catch((e) => useStore.getState().toast('error', e.message)))}
       {(clip.type === 'audio' || clip.type === 'video') && item(t('menuVoice'), () => op('updateClip', { id: clip.id, audioFx: clip.audioFx ? null : { preset: 'voice' } }, 'voice effect'))}
+      {clip.type === 'video' && item(t('menuAdjustOver'), () => op('addAdjustmentLayer', { start: clip.start, duration: clip.duration, fx: { blur: 12 } }, 'adjustment layer'))}
+      {clip.type === 'video' && item(t('trackFace'), () => call('track:start', { clipId: clip.id, time: Math.min(clip.start + clip.duration - 0.05, Math.max(clip.start, playhead.time)), face: true, name: t('faceName') }).then(() => useStore.getState().toast('info', t('trackingStarted'))).catch((e) => useStore.getState().toast('error', e.message)))}
+      {clip.type === 'video' && item(t('cutoutPerson'), () => call('cutout:start', { clipId: clip.id }).then(() => useStore.getState().toast('info', t('cutoutStarted'))).catch((e) => useStore.getState().toast('error', e.message)))}
       {clip.type === 'audio' && item(t('beatMarkers'), () => call('edit:beatMarkers', { clipId: clip.id }).then((r) => useStore.getState().toast('success', t('beatMarkersDone', { n: r.markers, bpm: Math.round(r.bpm) }))).catch((e) => useStore.getState().toast('error', e.message)))}
       <div className="menu-sep" />
       {item(clip.muted ? t('unmute') : t('mute'), () => op('updateClip', { id: clip.id, muted: !clip.muted }, 'mute'))}

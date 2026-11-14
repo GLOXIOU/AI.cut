@@ -12,7 +12,7 @@ import { exists, sleep } from './core/util.js';
 import { killAllChildren } from './core/proc.js';
 import { store } from './project/store.js';
 import { RESOLUTION_PRESETS } from './project/schema.js';
-import { importPaths, relinkMedia, setRendererCaps } from './media/service.js';
+import { importPaths, relinkMedia, setRendererCaps, waitForProbe } from './media/service.js';
 import { ffmpegPath, detectEncoders } from './media/ffmpeg.js';
 import { composeHtmlClip, motionTemplates } from './render/html.js';
 import { analyzeMedia, autoAnalyze, loadAnalysis, clearAnalysisCache } from './analysis/index.js';
@@ -27,6 +27,11 @@ import { startMcpServer, stopMcpServer, mcpStatus, activityLog, callTool, setDeb
 import { clientStatus, connectClient, disconnectClient, configSnippets, openTerminal } from './ai/connect.js';
 import * as copilot from './ai/copilot.js';
 import * as S from './services.js';
+import * as CR from './creative.js';
+import { stopTrackingWorker } from './tracking/tracker.js';
+import { startCutout, cutoutStatus, placeBehind } from './segment/cutout.js';
+import { separateStems } from './segment/stems.js';
+import { analyzeStyleJob, styleRef, styleRecipe } from './style/reference.js';
 import { clipById } from '../shared/timeline.js';
 import { SUBTITLE_PRESETS } from '../shared/subtitles.js';
 import { TRANSITIONS } from '../shared/transitions.js';
@@ -169,7 +174,31 @@ const API = {
   'edit:animateBroll': (o) => S.animateBroll(o || {}, { source: 'ui' }),
   'edit:enhanceVoices': ({ preset }) => S.enhanceVoices(preset, { source: 'ui' }),
   'edit:recipe': ({ id }) => S.applyRecipe(id, { source: 'ui' }),
-  'render:frame': async ({ time, width }) => (await S.renderFrames([time], { width }))?.image,
+  'render:frame': async ({ time, width, out }) => {
+    const img = (await S.renderFrames([time], { width }))?.image;
+    if (out && img) { fs.copyFileSync(img, out); return out; }
+    return img;
+  },
+
+  // tracking / attached elements / effects that follow a tracking
+  'track:start': (a) => snapshot(CR.trackObject(a, { source: 'ui' })),
+  'track:faces': (a) => CR.facesAt(a),
+  'track:list': () => CR.listTrackings(),
+  'track:attach': (a) => CR.attachToTracking(a, { source: 'ui' }).result,
+  'track:effect': (a) => CR.effectOnTracking(a, { source: 'ui' }).result,
+  'ai:askHere': (a) => CR.askAiHere(a, { source: 'ui' }),
+  'edit:autoReframe': async (a) => (await CR.autoReframe(a, { source: 'ui' })).result,
+  'edit:derive': (a) => snapshot(CR.deriveClip(a, { source: 'ui' })),
+  'cutout:start': (a) => snapshot(startCutout(a, { source: 'ui' })),
+  'cutout:status': () => cutoutStatus(),
+  'stems:start': (a) => snapshot(separateStems(a, { source: 'ui' })),
+  'style:analyze': (a) => snapshot(analyzeStyleJob(a, { source: 'ui' })),
+  'style:apply': ({ id, text, target }) => {
+    const ref = styleRef(id);
+    const ask = `${text ? `${text}\n\n` : ''}Monte la vidéo en copiant le style de montage de la référence « ${ref.name} » (get_style_reference id ${ref.id} : regarde les planches et suis la recette). Crée tes propres textes et tes propres motion designs dans ce style.`;
+    return CR.askAiHere({ text: ask, time: 0, target }, { source: 'ui' });
+  },
+  'cutout:behind': async (a) => { if (a.mediaId) await waitForProbe(a.mediaId); return placeBehind(a, { source: 'ui' }); },
 
   'export:start': (opts) => snapshot(S.startExport(opts, { source: 'ui' })),
   'jobs:list': () => jobs.list().slice(0, 50).map(snapshot),
@@ -413,6 +442,21 @@ function installDebugHooks() {
     }
     if (name === 'eval') return win.webContents.executeJavaScript(String(body?.js || 'null'), true);
     if (name === 'size') { win.setContentSize(body.width, body.height); return true; }
+    // renderer CPU profile (DevTools protocol): {action:'start'} then {action:'stop', path} → .cpuprofile
+    if (name === 'profile') {
+      const dbg = win.webContents.debugger;
+      if (!dbg.isAttached()) dbg.attach('1.3');
+      if (body?.action === 'start') {
+        await dbg.sendCommand('Profiler.enable');
+        await dbg.sendCommand('Profiler.setSamplingInterval', { interval: Number(body.interval) || 250 });
+        await dbg.sendCommand('Profiler.start');
+        return true;
+      }
+      const { profile } = await dbg.sendCommand('Profiler.stop');
+      const out = body?.path || path.join(tempDir(), `aicut_${Date.now()}.cpuprofile`);
+      fs.writeFileSync(out, JSON.stringify(profile));
+      return { path: out, nodes: profile.nodes.length };
+    }
     if (name === 'quit') { setTimeout(() => app.quit(), 100); return true; }
     throw new Error(`unknown debug command ${name}`);
   });
@@ -435,6 +479,7 @@ async function shutdown() {
   try { store.close(); } catch (err) { log.error(err); } // saves the project
   try { jobs.cancelAll(); } catch (err) { log.error(err); } // import / analysis / export ffmpeg processes
   try { stopWhisper(); } catch { /* ignore */ }
+  try { stopTrackingWorker(); } catch { /* ignore */ }
   try { copilot.stop(); } catch { /* ignore */ }
   killAllChildren(); // anything not attached to a job (frame renders, yt-dlp searches…)
   try { await stopMcpServer(); } catch { /* ignore */ }

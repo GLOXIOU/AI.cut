@@ -13,6 +13,7 @@ import { cuesToSrt, cuesToVtt } from '../../shared/subtitles.js';
 import { sha1, exists, uid, fileSize } from '../core/util.js';
 import { log } from '../core/log.js';
 import { hwCaps, HWDEC } from '../media/hw.js';
+import { withoutPendingProposals } from '../../shared/proposals.js';
 
 function writeFilter(dir, name, text) {
   const file = path.join(dir, `${name}.txt`);
@@ -98,6 +99,8 @@ async function renderSubs(project, projectDir, w0, w1, fps, workDir, { signal, o
  */
 export async function exportProject(project, projectDir, opts, ctx) {
   const t0 = Date.now();
+  // AI proposals the user has not accepted yet are not part of the film (unless asked)
+  if (!opts.includeProposals) project = withoutPendingProposals(project);
   const preset = presetById(opts.preset);
   const total = projectDuration(project);
   if (total <= 0) throw new Error('The timeline is empty — nothing to export.');

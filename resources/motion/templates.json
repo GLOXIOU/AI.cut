@@ -880,6 +880,82 @@
    ]
   },
   {
+   "id": "track-label",
+   "name": "Étiquette qui suit",
+   "category": "callout",
+   "icon": "🎯",
+   "defaultDuration": 4,
+   "description": "Tracking label: a dot on the target with a line to a label. The TARGET is the centre of the frame — attach the clip to a tracking (follow) so it sticks to a moving object / head (attach_to_tracking does it). angle = direction of the label in degrees (0 = above, 90 = right, 270 = left), distance in px at 1080p.",
+   "params": [
+    {
+     "name": "label",
+     "type": "text",
+     "default": "Lui !",
+     "label": "Texte"
+    },
+    {
+     "name": "angle",
+     "type": "number",
+     "default": 40,
+     "label": "Direction (°)",
+     "step": 5
+    },
+    {
+     "name": "distance",
+     "type": "number",
+     "default": 230,
+     "label": "Distance",
+     "step": 10
+    },
+    {
+     "name": "color",
+     "type": "color",
+     "default": "#FACC15",
+     "label": "Couleur"
+    },
+    {
+     "name": "textColor",
+     "type": "color",
+     "default": "#111111",
+     "label": "Couleur du texte"
+    },
+    {
+     "name": "lineColor",
+     "type": "color",
+     "default": "#FFFFFF",
+     "label": "Couleur du trait"
+    },
+    {
+     "name": "style",
+     "type": "select",
+     "default": "pill",
+     "options": [
+      "pill",
+      "plain"
+     ],
+     "label": "Style"
+    },
+    {
+     "name": "dot",
+     "type": "boolean",
+     "default": true,
+     "label": "Point sur la cible"
+    },
+    {
+     "name": "font",
+     "type": "font",
+     "default": "Inter",
+     "label": "Police"
+    },
+    {
+     "name": "size",
+     "type": "number",
+     "default": 54,
+     "label": "Taille texte"
+    }
+   ]
+  },
+  {
    "id": "circle-highlight",
    "name": "Cercle surligneur",
    "category": "callout",

@@ -4,6 +4,8 @@ import { r4 } from '../../shared/timeline.js';
 import { normalizeAnim } from '../../shared/anim.js';
 import { AUDIO_FX_IDS } from '../../shared/audiofx.js';
 import { SUBTITLE_DEFAULT_PRESET } from '../../shared/subtitles.js';
+import { normalizeFx, normalizeMask, ANCHORS } from '../../shared/fx.js';
+import { normalizeAfx } from '../../shared/dsp.js';
 
 export const SCHEMA_VERSION = 1;
 
@@ -21,10 +23,10 @@ export const RESOLUTION_PRESETS = {
 export const AUTO_BROLL_DEFAULTS = { enabled: false, in: 'pop', inDuration: 0.45, out: 'fade', outDuration: 0.35, imageLoop: 'kenburns-in', videoLoop: '', radius: 0, shadow: false };
 
 export function makeTrack(type, name) {
-  return { id: uid(type === 'video' ? 'v' : 'a'), type, name, muted: false, hidden: false, locked: false, solo: false, volume: 1 };
+  return { id: uid(type === 'video' ? 'v' : 'a'), type, name, muted: false, hidden: false, locked: false, solo: false, volume: 1, pan: 0, afx: null };
 }
 
-export function createProject({ name = 'Untitled', preset = '1080p', width, height, fps = 30 } = {}) {
+export function createProject({ name = 'Untitled', preset = '1080p', width, height, fps = 60 } = {}) {
   const res = RESOLUTION_PRESETS[preset] || RESOLUTION_PRESETS['1080p'];
   const now = new Date().toISOString();
   return {
@@ -40,6 +42,10 @@ export function createProject({ name = 'Untitled', preset = '1080p', width, heig
     subtitles: { enabled: true, style: { preset: SUBTITLE_DEFAULT_PRESET }, cues: [] },
     markers: [],
     notes: '',
+    trackings: [],
+    requests: [],
+    proposals: [],
+    styleRefs: [],
   };
 }
 
@@ -75,6 +81,11 @@ const CLIP_DEFAULTS = {
   radius: 0, // rounded corners, px in the clip's fitted space
   border: null, // { width, color }
   shadow: null, // { blur, x, y, opacity, color }
+  fx: null, // adjustment layers: { blur (px), pixelate (block px) } — see shared/fx.js
+  mask: null, // adjustment layers: { shape, cx, cy, w, h, feather, invert, follow? } — see shared/fx.js
+  follow: null, // attached to a tracking: { tracking, clip?, anchor?, offsetX?, offsetY?, scale? } — see shared/follow.js
+  afx: null, // audio effect chain [{ type, ...params }] — see shared/dsp.js
+  proposal: null, // id of the pending AI proposal this clip belongs to
 };
 
 const isColor = (c) => typeof c === 'string' && c.length < 64;
@@ -132,10 +143,34 @@ export function normalizeClip(c) {
     c.shadow = sh.opacity > 0 && (sh.blur > 0 || sh.x || sh.y) ? sh : null;
   } else c.shadow = null;
   if (c.type === 'audio') { c.anim = null; c.radius = 0; c.border = null; c.shadow = null; }
+  c.fx = c.type === 'adjust' ? normalizeFx(c.fx) : null;
+  c.mask = c.type === 'adjust' ? normalizeMask(c.mask) : null;
+  if (c.type === 'adjust') { c.mediaId = null; c.transition = null; c.chromaKey = null; c.anim = null; c.radius = 0; c.border = null; c.shadow = null; c.keyframes = null; c.follow = null; c.fit = 'stretch'; c.in = 0; }
+  c.follow = normalizeFollow(c.follow, c.type);
+  c.afx = c.type === 'audio' || c.type === 'video' ? normalizeAfx(c.afx) : null;
+  if (!c.proposal) c.proposal = null;
   if (c.audioFx && !AUDIO_FX_IDS.includes(c.audioFx.preset)) c.audioFx = null;
   if (c.audioFx) c.audioFx = { preset: c.audioFx.preset };
   if (c.type !== 'audio' && c.type !== 'video') c.audioFx = null;
   return c;
+}
+
+function normalizeFollow(f, type) {
+  if (!f || typeof f !== 'object' || !f.tracking || type === 'audio' || type === 'adjust') return null;
+  const o = { tracking: String(f.tracking) };
+  if (f.clip) o.clip = String(f.clip);
+  if (ANCHORS.includes(f.anchor) && f.anchor !== 'center') o.anchor = f.anchor;
+  if (Number(f.offsetX)) o.offsetX = Math.round(Number(f.offsetX) * 100) / 100;
+  if (Number(f.offsetY)) o.offsetY = Math.round(Number(f.offsetY) * 100) / 100;
+  if (f.scale) o.scale = true;
+  return o;
+}
+
+export function normalizeTrack(t) {
+  t.volume = Math.min(4, Math.max(0, Number(t.volume ?? 1)));
+  t.pan = Math.min(1, Math.max(-1, Number(t.pan) || 0));
+  t.afx = t.type === 'audio' || t.type === 'video' ? normalizeAfx(t.afx) : null;
+  return t;
 }
 
 /** Upgrade / repair a loaded project. */
@@ -149,6 +184,11 @@ export function normalizeProject(p) {
   p.subtitles = { enabled: true, style: { preset: SUBTITLE_DEFAULT_PRESET }, cues: [], ...(p.subtitles || {}) };
   p.markers = p.markers || [];
   p.notes = p.notes || '';
+  p.trackings = Array.isArray(p.trackings) ? p.trackings : [];
+  p.requests = Array.isArray(p.requests) ? p.requests : [];
+  p.proposals = Array.isArray(p.proposals) ? p.proposals : [];
+  p.styleRefs = Array.isArray(p.styleRefs) ? p.styleRefs : [];
+  for (const t of p.tracks) normalizeTrack(t);
   // video tracks first (bottom → top), then audio tracks
   p.tracks = [...p.tracks.filter((t) => t.type === 'video'), ...p.tracks.filter((t) => t.type === 'audio')];
   return p;

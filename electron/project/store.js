@@ -8,6 +8,8 @@ import { addRecentProject } from '../core/settings.js';
 import { createProject, normalizeProject } from './schema.js';
 import { OPS, OpError } from './ops.js';
 import { getTemplate } from '../render/html.js';
+import { currentCall } from '../core/callctx.js';
+import { recordProposalDiff } from '../../shared/proposals.js';
 
 const HISTORY_LIMIT = 200;
 export const PROJECT_EXT = '.aicut';
@@ -28,7 +30,7 @@ class ProjectStore {
   get isOpen() { return !!this.project; }
 
   /** Create a new project folder + file. */
-  create({ name = 'Untitled', parentDir, preset = '1080p', fps = 30 }) {
+  create({ name = 'Untitled', parentDir, preset = '1080p', fps = 60 }) {
     const folderName = safeFileName(name, 60);
     const dir = uniquePath(path.join(parentDir, folderName));
     fs.mkdirSync(path.join(dir, 'media'), { recursive: true });
@@ -117,6 +119,12 @@ class ProjectStore {
     const ctx = this.makeCtx(warnings);
     const result = fn(draft, ctx);
     normalizeProject(draft);
+    // an AI session recording a proposal: every change it makes belongs to that proposal (accept / reject later)
+    const call = currentCall();
+    if (call?.proposal && !meta.noProposal) {
+      const prop = draft.proposals.find((x) => x.id === call.proposal && x.status === 'recording');
+      if (prop) recordProposalDiff(prop, before.clips, draft.clips);
+    }
     this.history.push({ label, source: meta.source || 'ui', client: meta.client || null, at: Date.now(), snapshot: before });
     if (this.history.length > HISTORY_LIMIT) this.history.shift();
     this.future = [];

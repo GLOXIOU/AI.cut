@@ -1,7 +1,7 @@
 // Editing operations. Each op mutates a draft project (already cloned by the store) and returns a result.
 // Shared by the UI (IPC) and the AI (MCP tools), so both edit through exactly the same code paths.
 import { uid } from '../core/util.js';
-import { makeClip, makeTrack, normalizeClip, RESOLUTION_PRESETS } from './schema.js';
+import { makeClip, makeTrack, normalizeClip, normalizeTrack, RESOLUTION_PRESETS } from './schema.js';
 import {
   r4, EPS, clipEnd, sortByStart, mediaById, trackById, clipById, trackClips, isVisual, maxClipDuration, projectDuration,
   KEYFRAME_PROPS, EASING_NAMES, contentSize, fittedSize,
@@ -9,6 +9,10 @@ import {
 import { TRANSITION_IDS } from '../../shared/transitions.js';
 import { SUBTITLE_PRESETS, SUBTITLE_STYLE_KEYS } from '../../shared/subtitles.js';
 import { splitAnim, normalizeAnim, ANIM_IN, ANIM_OUT, ANIM_LOOP } from '../../shared/anim.js';
+import { AFX, AFX_PRESETS, expandAfx, normalizeAfx } from '../../shared/dsp.js';
+import { LOOKS } from '../../shared/grade.js';
+import { normalizeMask } from '../../shared/fx.js';
+import { revertProposal, keepProposal, OPEN_STATUSES } from '../../shared/proposals.js';
 
 export class OpError extends Error {
   constructor(message) { super(message); this.name = 'OpError'; }
@@ -84,7 +88,7 @@ export function resolveTrack(p, spec, type, { start = 0, end = start + 1, except
 // ----------------------------------------------------------------------------------------------
 // Range helpers (overwrite / ripple)
 // ----------------------------------------------------------------------------------------------
-const STILL_TYPES = new Set(['image', 'html', 'color']);
+const STILL_TYPES = new Set(['image', 'html', 'color', 'adjust']);
 function splitClipAt(p, c, t) {
   if (t <= c.start + EPS || t >= clipEnd(c) - EPS) return null;
   const leftDur = r4(t - c.start);
@@ -167,6 +171,7 @@ function shiftSubtitlesAndMarkers(p, at, delta, removeStart = null, removeEnd = 
 // Clip creation helpers
 // ----------------------------------------------------------------------------------------------
 function clipTypeFor(media, trackType, args) {
+  if (args.type === 'adjust' || args.adjust) return 'adjust';
   if (args.html || args.template || args.htmlCode) return 'html';
   if (args.fill && !media) return 'color';
   if (!media) fail('mediaId is required (or html/template for motion graphics, or fill for a colour matte).');
@@ -206,7 +211,7 @@ function trackEnd(p, trackId) {
 
 const CLIP_PATCH_KEYS = ['name', 'start', 'duration', 'in', 'speed', 'volume', 'muted', 'fadeIn', 'fadeOut', 'opacity', 'x', 'y', 'scale',
   'rotation', 'flipH', 'flipV', 'fit', 'crop', 'color', 'chromaKey', 'vignette', 'transition', 'videoFadeIn', 'videoFadeOut', 'keyframes',
-  'html', 'fill', 'label', 'anim', 'radius', 'border', 'shadow', 'audioFx'];
+  'html', 'fill', 'label', 'anim', 'radius', 'border', 'shadow', 'audioFx', 'fx', 'mask', 'follow', 'afx'];
 
 /** Merge an anim patch: keys in / out / loop replace (null removes), others are kept. Accepts string shorthands. */
 export function mergeAnim(cur, patch) {
@@ -228,12 +233,17 @@ export function mergeAnim(cur, patch) {
   return normalizeAnim(out);
 }
 
+let currentProject = null; // set by ops that validate tracking ids
+const trackingOf = (c, id) => !currentProject || (currentProject.trackings || []).some((t) => t.id === id);
+
 function applyVisualProps(c, args) {
   for (const k of CLIP_PATCH_KEYS) {
     if (args[k] === undefined || k === 'start' || k === 'duration' || k === 'in' || k === 'html') continue;
     if (k === 'color' && args.color && c.color) c.color = { ...c.color, ...args.color };
     else if (k === 'anim') c.anim = mergeAnim(c.anim, args.anim);
-    else if ((k === 'border' || k === 'shadow') && args[k] && c[k]) c[k] = { ...c[k], ...args[k] };
+    else if ((k === 'border' || k === 'shadow' || k === 'fx' || k === 'mask') && args[k] && c[k]) c[k] = { ...c[k], ...args[k] };
+    else if (k === 'afx') c.afx = args.afx ? normalizeAfx(expandAfx(args.afx)) : null;
+    else if (k === 'follow' && args.follow && !trackingOf(c, args.follow.tracking)) fail(`Unknown tracking ${args.follow.tracking}`);
     else c[k] = structuredClone(args[k]);
   }
   if (args.transition && args.transition.type && !TRANSITION_IDS.includes(args.transition.type)) {
@@ -330,7 +340,169 @@ export const OPS = {
     const t = resolveTrack(p, a.id || a.track, 'video');
     for (const k of ['name', 'muted', 'hidden', 'locked', 'solo']) if (a[k] !== undefined) t[k] = k === 'name' ? String(a[k]) : !!a[k];
     if (a.volume !== undefined) t.volume = Math.min(4, Math.max(0, Number(a.volume)));
+    if (a.pan !== undefined) t.pan = Number(a.pan) || 0;
+    if (a.afx !== undefined) t.afx = a.afx ? normalizeAfx(expandAfx(a.afx)) : null;
+    normalizeTrack(t);
     return t;
+  },
+
+  // --- effects ------------------------------------------------------------------------------------
+  /**
+   * Audio effect chain on clips and / or tracks. a: { clipIds?, track?, effects?: [{type, ...}] | preset names,
+   *   preset?: name, mode: 'replace' | 'append' | 'clear' }
+   */
+  setAudioEffects(p, a) {
+    const add = expandAfx([...(a.preset ? [a.preset] : []), ...(a.effects || [])]);
+    for (const it of add) if (!AFX[it.type]) fail(`Unknown audio effect "${it.type}". Effects: ${Object.keys(AFX).join(', ')}; presets: ${Object.keys(AFX_PRESETS).join(', ')}`);
+    const mode = a.mode || 'replace';
+    const apply = (cur) => (mode === 'clear' ? null : normalizeAfx(mode === 'append' ? [...(cur || []), ...add] : add));
+    const out = { clips: [], track: null };
+    for (const id of a.clipIds || []) {
+      const c = clipById(p, id);
+      if (!c) fail(`Unknown clip ${id}`);
+      if (c.type !== 'audio' && c.type !== 'video') fail(`Clip ${c.name} has no sound.`);
+      c.afx = apply(c.afx);
+      out.clips.push({ id: c.id, afx: c.afx });
+    }
+    if (a.track) {
+      const t = resolveTrack(p, a.track, 'audio');
+      t.afx = apply(t.afx);
+      if (a.pan !== undefined) t.pan = Number(a.pan) || 0;
+      normalizeTrack(t);
+      out.track = { id: t.id, name: t.name, afx: t.afx, pan: t.pan };
+    }
+    if (!out.clips.length && !out.track) fail('Give clipIds and/or track.');
+    return out;
+  },
+
+  /** Colour grade / look on clips (adjustment layers included). a: { ids, look?, color?, reset? } */
+  setColorGrade(p, a) {
+    if (a.look && !LOOKS[a.look]) fail(`Unknown look "${a.look}". Looks: ${Object.keys(LOOKS).join(', ')}`);
+    const out = [];
+    for (const id of a.ids || (a.id ? [a.id] : [])) {
+      const c = clipById(p, id);
+      if (!c) fail(`Unknown clip ${id}`);
+      if (c.type === 'audio') continue;
+      let col = a.reset || a.look ? {} : { ...(c.color || {}) };
+      if (a.look) col = { ...col, ...LOOKS[a.look].color };
+      if (a.color) col = { ...col, ...a.color };
+      for (const k of Object.keys(col)) if (!Number.isFinite(Number(col[k]))) delete col[k];
+      c.color = Object.keys(col).length ? col : null;
+      normalizeClip(c);
+      out.push(c);
+    }
+    if (!out.length) fail('No visual clip to grade.');
+    return out;
+  },
+
+  /**
+   * Adjustment layer: { start, duration | end, track?, name?, fx: {blur, pixelate}, color, mask, opacity, videoFadeIn/Out }
+   * Placed on the top video track (or a new one above) unless track is given.
+   */
+  addAdjustmentLayer(p, a, ctx) {
+    currentProject = p;
+    const dur = a.duration ?? (a.end != null ? Number(a.end) - Number(a.start || 0) : 5);
+    const clip = OPS.addClip(p, { ...a, type: 'adjust', duration: dur, track: a.track || a.trackId, name: a.name || 'Adjustment', mode: a.mode || 'overwrite' }, ctx);
+    if (a.mask) clip.mask = normalizeMask(a.mask);
+    if (!clip.fx && !clip.color) ctx.warn('The adjustment layer has no effect yet (set fx.blur, fx.pixelate or color).');
+    normalizeClip(clip);
+    return clip;
+  },
+
+  // --- trackings ------------------------------------------------------------------------------------
+  addTracking(p, a) {
+    const tr = a.tracking;
+    if (!tr?.points?.length || !tr.mediaId) fail('tracking needs mediaId and points');
+    const t = { id: tr.id || uid('trk'), name: String(tr.name || 'Tracking'), mediaId: tr.mediaId, kind: tr.kind === 'face' ? 'face' : 'object', points: tr.points, createdAt: tr.createdAt || new Date().toISOString(), ...(tr.source ? { source: tr.source } : {}), ...(tr.anchors ? { anchors: tr.anchors } : {}) };
+    p.trackings = (p.trackings || []).filter((x) => x.id !== t.id);
+    p.trackings.push(t);
+    return { id: t.id, name: t.name, points: t.points.length };
+  },
+  updateTracking(p, a) {
+    const t = (p.trackings || []).find((x) => x.id === a.id);
+    if (!t) fail(`Unknown tracking ${a.id}`);
+    if (a.name !== undefined) t.name = String(a.name);
+    if (a.points) t.points = a.points;
+    if (a.anchors) t.anchors = a.anchors;
+    return { id: t.id, name: t.name };
+  },
+  removeTrackings(p, a) {
+    const ids = new Set(a.ids || (a.id ? [a.id] : []));
+    p.trackings = (p.trackings || []).filter((t) => !ids.has(t.id));
+    let detached = 0;
+    for (const c of p.clips) {
+      if (c.follow && ids.has(c.follow.tracking)) { c.follow = null; detached++; }
+      if (c.mask?.follow && ids.has(c.mask.follow.tracking)) { delete c.mask.follow; detached++; }
+    }
+    return { removed: ids.size, detached };
+  },
+
+  // --- requests to the AI ("ask the AI here") --------------------------------------------------------
+  addRequest(p, a) {
+    const text = String(a.text || '').trim();
+    if (!text) fail('Empty request');
+    const r = {
+      id: uid('req'), time: r4(Math.max(0, Number(a.time) || 0)), end: a.end != null && Number(a.end) > Number(a.time) ? r4(Number(a.end)) : null,
+      trackId: a.trackId || null, clipId: a.clipId || null, text, status: 'open', createdAt: new Date().toISOString(), by: a.by || 'user', reply: null,
+    };
+    p.requests = [...(p.requests || []), r];
+    return r;
+  },
+  updateRequest(p, a) {
+    const r = (p.requests || []).find((x) => x.id === a.id);
+    if (!r) fail(`Unknown request ${a.id}`);
+    if (a.status !== undefined) {
+      if (!['open', 'done', 'dismissed', 'working'].includes(a.status)) fail('status: open | working | done | dismissed');
+      r.status = a.status;
+    }
+    if (a.reply !== undefined) r.reply = a.reply ? String(a.reply) : null;
+    if (a.text !== undefined) r.text = String(a.text);
+    if (a.repliedBy) r.repliedBy = a.repliedBy;
+    if (a.status === 'done' || a.status === 'dismissed') r.closedAt = new Date().toISOString();
+    return r;
+  },
+  removeRequests(p, a) {
+    const ids = new Set(a.ids || (a.id ? [a.id] : []));
+    const before = (p.requests || []).length;
+    p.requests = (p.requests || []).filter((r) => (a.closed ? r.status === 'open' || r.status === 'working' : !ids.has(r.id)));
+    return { removed: before - p.requests.length };
+  },
+
+  // --- style references --------------------------------------------------------------------------
+  addStyleRef(p, a) {
+    if (!a.ref?.id) fail('ref needed');
+    p.styleRefs = [...(p.styleRefs || []).filter((x) => x.id !== a.ref.id), a.ref];
+    return { id: a.ref.id, name: a.ref.name };
+  },
+  removeStyleRefs(p, a) {
+    const ids = new Set(a.ids || (a.id ? [a.id] : []));
+    p.styleRefs = (p.styleRefs || []).filter((x) => !ids.has(x.id));
+    return { styleRefs: p.styleRefs.length };
+  },
+
+  // --- AI proposals ------------------------------------------------------------------------------
+  acceptProposal(p, a) {
+    const prop = (p.proposals || []).find((x) => x.id === a.id);
+    if (!prop) fail(`Unknown proposal ${a.id}`);
+    if (!OPEN_STATUSES.has(prop.status)) fail(`Proposal already ${prop.status}`);
+    keepProposal(p, prop);
+    prop.status = 'accepted';
+    prop.decidedAt = new Date().toISOString();
+    return { id: prop.id, status: prop.status };
+  },
+  rejectProposal(p, a) {
+    const prop = (p.proposals || []).find((x) => x.id === a.id);
+    if (!prop) fail(`Unknown proposal ${a.id}`);
+    if (!OPEN_STATUSES.has(prop.status)) fail(`Proposal already ${prop.status}`);
+    revertProposal(p, prop);
+    prop.status = 'rejected';
+    prop.decidedAt = new Date().toISOString();
+    return { id: prop.id, status: prop.status };
+  },
+  removeProposals(p, a) {
+    const ids = new Set(a.ids || (a.id ? [a.id] : []));
+    p.proposals = (p.proposals || []).filter((x) => (a.decided ? OPEN_STATUSES.has(x.status) : !ids.has(x.id)));
+    return { proposals: p.proposals.length };
   },
 
   removeTrack(p, a) {
@@ -346,6 +518,7 @@ export const OPS = {
    * mode: 'overwrite' (default) | 'insert' (ripple later clips) | 'auto' (pick a free track if occupied)
    */
   addClip(p, a, ctx) {
+    currentProject = p;
     const media = a.mediaId ? mediaById(p, a.mediaId) : null;
     if (a.mediaId && !media) fail(`Unknown mediaId ${a.mediaId}`);
     const wantType = media?.type === 'audio' ? 'audio' : 'video';
@@ -383,8 +556,15 @@ export const OPS = {
     }
     // resolve the track and start
     let track = probeTrack;
-    const defaultSpec = deferred && spec ? spec : trackType === 'audio' ? 'auto' : type === 'video' ? 'V1' : 'overlay';
+    const defaultSpec = deferred && spec ? spec : trackType === 'audio' ? 'auto' : type === 'video' ? 'V1' : type === 'adjust' ? 'top' : 'overlay';
     let start = a.start;
+    if (defaultSpec === 'top' && !track) {
+      // adjustment layers go above everything: the top video track if free there, else a new one
+      const vids = tracksOfType(p, 'video');
+      const top = vids[vids.length - 1];
+      const s0 = start === undefined || start === null || start === 'end' ? 0 : Number(start);
+      track = vids.length > 1 && isRangeFree(p, top.id, s0, s0 + duration) && !top.locked ? top : addTrackInternal(p, 'video');
+    }
     if (start === undefined || start === null || start === 'end') {
       track = track || resolveTrack(p, defaultSpec === 'V1' ? 'V1' : defaultSpec, trackType, { start: 0, end: 1e9 });
       start = trackEnd(p, track.id);
@@ -405,9 +585,9 @@ export const OPS = {
     }
     const clip = makeClip({
       type, trackId: track.id, mediaId: media?.id || null, start, duration, in: inPoint, speed,
-      name: a.name || media?.name || (a.template ? ctx.template?.(a.template)?.name : null) || (type === 'color' ? 'Color' : type === 'html' ? 'Motion' : 'Clip'),
+      name: a.name || media?.name || (a.template ? ctx.template?.(a.template)?.name : null) || (type === 'color' ? 'Color' : type === 'html' ? 'Motion' : type === 'adjust' ? 'Adjustment' : 'Clip'),
     });
-    if (type === 'image' || type === 'html' || type === 'color') clip.in = 0;
+    if (type === 'image' || type === 'html' || type === 'color' || type === 'adjust') clip.in = 0;
     if (type === 'html') {
       clip.html = media && (media.type === 'html' || media.type === 'lottie') && !a.template && !a.htmlCode && !a.html ? htmlFromMedia(media, a) : buildHtml(a, null);
       if (!clip.html) fail('html clip needs a template (with params) or htmlCode.');
@@ -456,8 +636,14 @@ export const OPS = {
   },
 
   updateClip(p, a, ctx) {
+    currentProject = p;
     const c = clipById(p, a.id);
     if (!c) fail(`Unknown clip ${a.id}`);
+    if (a.mediaId !== undefined && a.mediaId !== c.mediaId && (c.type === 'video' || c.type === 'audio' || c.type === 'image')) {
+      const nm = mediaById(p, a.mediaId);
+      if (!nm) fail(`Unknown media ${a.mediaId}`);
+      c.mediaId = nm.id; // swap the source (derived renders: reversed / stabilized copy)
+    }
     const media = mediaById(p, c.mediaId);
     const oldTrack = c.trackId;
     if (a.speed !== undefined && a.duration === undefined && (c.type === 'video' || c.type === 'audio')) {
@@ -465,7 +651,7 @@ export const OPS = {
       c.speed = Math.min(16, Math.max(0.0625, Number(a.speed)));
       c.duration = r4(src / c.speed);
     }
-    if (a.in !== undefined && c.type !== 'image' && c.type !== 'html' && c.type !== 'color') c.in = r4(Math.max(0, Number(a.in)));
+    if (a.in !== undefined && !STILL_TYPES.has(c.type)) c.in = r4(Math.max(0, Number(a.in)));
     if (a.out !== undefined && a.duration === undefined) a.duration = (Number(a.out) - c.in) / (a.speed || c.speed);
     if (a.duration !== undefined) c.duration = r4(Math.max(1 / 240, Number(a.duration)));
     if (a.start !== undefined) c.start = r4(Math.max(0, Number(a.start)));

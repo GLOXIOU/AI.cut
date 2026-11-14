@@ -18,10 +18,13 @@ export const TEMPLATE_NAMES_EN = {
   'search-bar': 'Search bar', timer: 'Stopwatch', 'cta-link': 'Link in description', 'circle-wipe': 'Circle wipe',
   'glitch-transition': 'Glitch transition', 'film-burn': 'Film burn', 'frame-border': 'Rounded frame',
   'scribble-underline': 'Marker underline', 'promo-badge': 'Promo badge', 'sound-wave': 'Sound wave',
+  'track-label': 'Tracking label',
 };
 
 /** French setting label of a motion template → English. */
 export const PARAM_LABELS_EN = {
+  'Direction (°)': 'Direction (°)', 'Distance': 'Distance', 'Couleur du texte': 'Text color', 'Couleur du trait': 'Line color',
+  'Point sur la cible': 'Dot on target',
   'Texte': 'Text', 'Police': 'Font', 'Taille': 'Size', 'Graisse': 'Weight', 'Couleur': 'Color', 'Contour': 'Outline',
   'Épaisseur contour': 'Outline width', 'Fond (couleur ou none)': 'Background (color or none)', 'Position': 'Position',
   'Entrée': 'In', 'Sortie': 'Out', 'Majuscules': 'Uppercase', 'Ombre': 'Shadow', 'Alignement': 'Alignment', 'Espacement': 'Spacing',

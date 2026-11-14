@@ -30,6 +30,15 @@ import * as S from '../services.js';
 import { importMotionFiles } from '../library/motion-library.js';
 import { AUDIO_FX, AUDIO_FX_IDS } from '../../shared/audiofx.js';
 import * as PRO from '../edit-pro.js';
+import * as CR from '../creative.js';
+import { startCutout, placeBehind } from '../segment/cutout.js';
+import { separateStems } from '../segment/stems.js';
+import { analyzeStyleJob, styleRef, styleRecipe } from '../style/reference.js';
+import { AFX, AFX_PRESETS, AFX_TYPES } from '../../shared/dsp.js';
+import { LOOKS, LOOK_IDS, GRADE_KEYS } from '../../shared/grade.js';
+import { MASK_SHAPES, ANCHORS } from '../../shared/fx.js';
+import { startProposal, finishProposal, sessionKey, requestContext } from './proposals.js';
+import { proposalInfo } from '../../shared/proposals.js';
 import { ensureBeats } from '../analysis/index.js';
 
 export const TOOLS = [];
@@ -92,7 +101,16 @@ const tr = () => z.string().describe('Track: name like "V1"/"V2"/"A1", a track i
 const colorSchema = z.object({
   brightness: num().optional(), contrast: num().optional(), saturation: num().optional(), hue: num().optional(),
   grayscale: num().optional(), sepia: num().optional(), invert: num().optional(), blur: num().optional(),
-}).partial().nullable().describe('Color grade: brightness/contrast/saturation multipliers (1 = neutral), hue degrees, grayscale/sepia/invert 0–1, blur px');
+  exposure: num().optional(), temperature: num().optional(), tint: num().optional(), highlights: num().optional(), shadows: num().optional(),
+  whites: num().optional(), blacks: num().optional(), fade: num().optional(), splitShadow: num().optional(), splitShadowHue: num().optional(),
+  splitHighlight: num().optional(), splitHighlightHue: num().optional(),
+}).partial().nullable().describe('Color grade. Basic: brightness/contrast/saturation multipliers (1 = neutral), hue degrees, grayscale/sepia/invert 0–1, blur px. Lumetri-like: exposure (stops -4..4), temperature (-1 cool..1 warm), tint (-1 green..1 magenta), highlights/shadows/whites/blacks (-1..1), fade (0..1 matte blacks), split toning splitShadow/splitHighlight (0..1) with splitShadowHue/splitHighlightHue (degrees). Preview = export.');
+const maskSchema = z.object({
+  shape: z.enum(MASK_SHAPES).optional(), cx: num().optional(), cy: num().optional(), w: num().optional(), h: num().optional(),
+  feather: num().optional(), invert: z.boolean().optional(),
+  follow: z.object({ tracking: z.string(), clip: z.string().optional(), anchor: z.enum(ANCHORS).optional(), offsetX: num().optional(), offsetY: num().optional(), size: z.boolean().optional() }).optional(),
+}).nullable().describe('Mask of an adjustment layer in FRAME fractions: centre cx/cy (0..1), size w/h (0..1), feather px, invert (effect OUTSIDE the shape). follow {tracking} makes it move with a tracked object.');
+const afxItem = z.object({ type: z.enum(AFX_TYPES) }).passthrough();
 const visualProps = {
   name: z.string().optional(),
   volume: num().min(0).max(8).optional().describe('Audio gain: 1 = original, 0.25 ≈ background music'),
@@ -119,6 +137,11 @@ const visualProps = {
   radius: num().min(0).optional().describe('Rounded corners in px (fitted space, scales with the clip). 24–60 for B-roll cards'),
   border: z.object({ width: num(), color: z.string() }).partial().nullable().optional().describe('Border inside the rounded frame, e.g. {width: 8, color: "#ffffff"}'),
   shadow: z.object({ blur: num(), x: num(), y: num(), opacity: num(), color: z.string() }).partial().nullable().optional().describe('Drop shadow in frame px, e.g. {blur: 40, y: 14, opacity: 0.45}'),
+  fx: z.object({ blur: num().optional(), pixelate: num().optional() }).nullable().optional().describe('Adjustment layers only: blur (px σ) and pixelate (block px) of everything below'),
+  mask: maskSchema.optional(),
+  follow: z.object({ tracking: z.string(), clip: z.string().optional(), anchor: z.enum(ANCHORS).optional(), offsetX: num().optional(), offsetY: num().optional(), scale: z.boolean().optional() }).nullable().optional()
+    .describe('Attach the clip to a tracking: its centre follows the tracked object (anchor on the tracked box + offset px; scale=true also follows its size). null detaches.'),
+  afx: z.array(z.union([afxItem, z.string()])).nullable().optional().describe(`Audio effect chain of the clip (preview = export): items {type, ...params} or preset names. Types: ${AFX_TYPES.join(', ')}. Presets: ${Object.keys(AFX_PRESETS).join(', ')}`),
 };
 const placement = {
   track: tr().optional(),
@@ -149,14 +172,18 @@ tool('get_project', {
         open: true, name: p.name, file: store.file, folder: store.dir,
         settings: p.settings,
         duration: projectDuration(p),
-        tracks: p.tracks.map((t) => ({ id: t.id, name: t.name, type: t.type, clips: p.clips.filter((c) => c.trackId === t.id).length, ...(t.muted ? { muted: true } : {}), ...(t.hidden ? { hidden: true } : {}), ...(t.locked ? { locked: true } : {}), ...(t.volume !== 1 ? { volume: t.volume } : {}) })),
+        tracks: p.tracks.map((t) => ({ id: t.id, name: t.name, type: t.type, clips: p.clips.filter((c) => c.trackId === t.id).length, ...(t.muted ? { muted: true } : {}), ...(t.hidden ? { hidden: true } : {}), ...(t.locked ? { locked: true } : {}), ...(t.volume !== 1 ? { volume: t.volume } : {}), ...(t.pan ? { pan: t.pan } : {}), ...(t.afx ? { audioEffects: t.afx.map((x) => x.type) } : {}) })),
         media: p.media.map(mediaInfo),
         clipCount: p.clips.length,
         ...(includeClips ? { clips: p.clips } : {}),
         subtitles: { cues: p.subtitles.cues.length, enabled: p.subtitles.enabled, style: p.subtitles.style },
         markers: p.markers,
         notes: p.notes,
-        ui: { playhead: r4(S.uiState.playhead), selectedClips: S.uiState.selection, playing: S.uiState.playing },
+        trackings: (p.trackings || []).map((t) => ({ id: t.id, name: t.name, kind: t.kind, mediaId: t.mediaId })),
+        openRequests: (p.requests || []).filter((r) => r.status === 'open' || r.status === 'working').map((r) => ({ id: r.id, text: r.text, where: requestContext(p, r) })),
+        proposals: (p.proposals || []).filter((x) => x.status === 'pending' || x.status === 'recording').map(proposalInfo),
+        styleReferences: (p.styleRefs || []).map((x) => ({ id: x.id, name: x.name, pacing: x.profile?.pacing?.feel })),
+        ui: { playhead: r4(S.uiState.playhead), selectedClips: S.uiState.selection, playing: S.uiState.playing, ...(S.uiState.inPoint != null ? { inPoint: S.uiState.inPoint, outPoint: S.uiState.outPoint } : {}) },
         activeJobs: jobs.list({ active: true }).map((j) => ({ id: j.id, title: j.title, progress: Math.round(j.progress * 100) + '%' })),
       },
     };
@@ -984,17 +1011,198 @@ tool('text_to_speech', {
   },
 });
 
+// ======================================================================================== TRACKING
+tool('track_object', {
+  title: 'Track an object / a head',
+  description: 'Motion tracking on a video clip: follows a region (or a face / head) through the shot, forward and backward. Give the clip, a timeline time where the object is visible and its box {x, y, w, h} as FRACTIONS of the clip\'s picture (top-left corner + size, 0..1) — use render_frames with grid=true or view_media_frames to measure it — or face=true to find the face automatically (biggest one, or faceIndex from detect_faces, or the one nearest to near {x, y}). Returns a trackingId (job: wait_job). Then: attach_to_tracking (label with arrow, image, sticker, any clip follows it) or track_effect (blur / pixelate / spotlight that follows it).',
+  schema: {
+    clipId: z.string(), time: num().optional().describe('Timeline time where the box is right (default: clip start)'),
+    box: z.object({ x: num(), y: num(), w: num(), h: num() }).optional(), face: z.boolean().optional(), faceIndex: num().optional(),
+    near: z.object({ x: num(), y: num() }).optional(), name: z.string().optional(), from: num().optional().describe('Timeline start of the range to track (default clip start)'), to: num().optional(),
+    fix: z.string().optional().describe('Correct an existing tracking: give its id + the RIGHT box at `time` (check with render_frames grid=true where it drifts); it is re-tracked between the neighbouring corrections and merged'),
+  },
+  annotations: EDIT,
+  handler: async (a, ctx) => jobOutcome(CR.trackObject(a, meta(ctx)), 50),
+});
+tool('detect_faces', {
+  title: 'Detect faces', description: 'Faces visible in a video clip at a timeline time: boxes as fractions of the picture (x, y = top-left, w, h, cx, cy), biggest first. Use with track_object(face=true, faceIndex).',
+  schema: { clipId: z.string(), time: num().optional() }, annotations: RO,
+  handler: async (a) => ({ json: await CR.facesAt(a) }),
+});
+tool('list_trackings', {
+  title: 'List trackings', description: 'Trackings of the project: id, name, kind, tracked source range, where they are visible on the timeline, attached clips.',
+  schema: {}, annotations: RO, handler: async () => ({ json: CR.listTrackings() }),
+});
+tool('tracking_at', {
+  title: 'Where is the tracked object', description: 'Position (frame px) and size of a tracked object at a timeline time.',
+  schema: { tracking: z.string(), time: num() }, annotations: RO, handler: async ({ tracking, time }) => ({ json: CR.trackingAt(tracking, time) }),
+});
+tool('remove_tracking', {
+  title: 'Remove trackings', description: 'Delete trackings (attached clips stop following them).',
+  schema: { ids: z.array(z.string()) }, annotations: DESTRUCTIVE,
+  handler: async ({ ids }, ctx) => editResult(store.apply('removeTrackings', { ids }, meta(ctx, 'remove tracking'))),
+});
+tool('attach_to_tracking', {
+  title: 'Attach to a tracked object',
+  description: 'Make something follow a tracked object / head during the shot. Without clipIds it ADDS an element: label (text with a pointer line and a dot on the target — template "track-label", params angle 0 = above / 90 = right / 270 = left, distance px), or template + params (any motion template; the frame centre lands on the target), or mediaId (image / sticker / video, size = scale). With clipIds it attaches existing clips. anchor = point of the tracked box (center, top, bottom, left, right, corners), offsetX / offsetY px, scale=true follows the size.',
+  schema: {
+    tracking: z.string(), clipIds: z.array(z.string()).optional(), label: z.string().optional(), template: z.string().optional(), params: z.record(z.string(), z.any()).optional(),
+    mediaId: z.string().optional(), size: num().optional(), anchor: z.enum(ANCHORS).optional(), offsetX: num().optional(), offsetY: num().optional(), scale: z.boolean().optional(),
+    start: num().optional(), end: num().optional(), duration: num().optional(), track: z.string().optional(), name: z.string().optional(),
+  },
+  annotations: EDIT,
+  handler: async (a, ctx) => editResult(CR.attachToTracking(a, meta(ctx))),
+});
+tool('track_effect', {
+  title: 'Blur / pixelate / spotlight a tracked object',
+  description: 'Adds an adjustment layer whose mask follows a tracking: mode "blur" or "pixelate" (anonymize a face, hide a logo / plate), "spotlight" (darken + desaturate everything AROUND the subject) or "darken". amount = blur px / block px / brightness. padding enlarges the mask (0.25 = +25 %).',
+  schema: { tracking: z.string(), mode: z.enum(['blur', 'pixelate', 'spotlight', 'darken']).optional(), amount: num().optional(), padding: num().optional(), shape: z.enum(MASK_SHAPES).optional(), feather: num().optional(), start: num().optional(), end: num().optional() },
+  annotations: EDIT,
+  handler: async (a, ctx) => editResult(CR.effectOnTracking(a, meta(ctx))),
+});
+
+tool('auto_reframe', {
+  title: 'Auto reframe (keep the subject in frame)',
+  description: 'Premiere-style Auto Reframe for vertical / square exports of wider footage: the clip is set to cover the frame and its position is keyframed (smooth, camera-like) so the person (face tracked automatically, or the given tracking) stays in the frame. smooth = reaction time in s (0.3 nervous … 1.5 very calm), offsetX = keep the subject left / right of centre (-0.3..0.3).',
+  schema: { clipId: z.string(), tracking: z.string().optional(), smooth: num().optional(), offsetX: num().optional(), time: num().optional() },
+  annotations: EDIT,
+  handler: async (a, ctx) => editResult(await CR.autoReframe(a, meta(ctx))),
+});
+tool('derive_clip', {
+  title: 'Reverse / stabilize a clip',
+  description: 'Renders a processed copy of the source range of the clip and swaps it in: kind "reverse" (plays backwards, sound too — rewind effect), "stabilize" (removes camera shake, two-pass vidstab; strength = smoothing frames, default 20) or "slowmo" (SMOOTH slow motion with motion-interpolated frames, factor 0.1–0.9 = new speed; the clip gets longer). Returns a jobId (wait_job).',
+  schema: { clipId: z.string(), kind: z.enum(['reverse', 'stabilize', 'slowmo']), strength: num().optional(), factor: num().optional() },
+  annotations: EDIT,
+  handler: async (a, ctx) => jobOutcome(CR.deriveClip(a, meta(ctx)), 50),
+});
+
+// ======================================================================================== CUTOUT (subject segmentation)
+tool('cutout_subject', {
+  title: 'Cut out a person or an object (text / photo behind it)',
+  description: 'Separates a subject of a video clip from the background, frame by frame (GPU): the result is a transparent video laid on a new track right above the clip, perfectly aligned. Anything placed between the clip and this cutout appears BEHIND the subject (the classic "text behind the subject" effect) — use place_behind_subject for that. PEOPLE: just clipId (video matting model). ANY OBJECT (car, product, animal, logo…): give tracking (from track_object) or box {x, y, w, h} (picture fractions, top-left) + time — it is tracked then segmented with SAM. from / to (timeline s) limit the range (faster). Returns a jobId (wait_job); the first run downloads the model (15–40 MB).',
+  schema: { clipId: z.string(), from: num().optional(), to: num().optional(), quality: z.enum(['fast', 'high']).optional(), tracking: z.string().optional(), box: z.object({ x: num(), y: num(), w: num(), h: num() }).optional(), time: num().optional() },
+  annotations: EDIT,
+  handler: async (a, ctx) => jobOutcome(startCutout(a, meta(ctx)), 50),
+});
+tool('place_behind_subject', {
+  title: 'Put text / an image behind the subject',
+  description: 'Adds an element on a track between a clip and its cutout (cutout_subject) so it appears BEHIND the person: text (big stacked title by default, template "title-stack"; params to style it), or template + params (any motion template), or mediaId (photo, logo, video; with scale / x / y). start / duration default to the cutout span. Use set_animation for an entrance.',
+  schema: {
+    cutoutClipId: z.string(), text: z.string().optional(), template: z.string().optional(), params: z.record(z.string(), z.any()).optional(), mediaId: z.string().optional(),
+    start: num().optional(), duration: num().optional(), ...visualProps,
+  },
+  annotations: EDIT,
+  handler: async (a, ctx) => editResult({ result: placeBehind(a, meta(ctx)), warnings: [] }),
+});
+
+tool('separate_stems', {
+  title: 'Separate voice / music',
+  description: 'Splits the sound of an audio or video clip into VOICE and MUSIC (MDX-Net vocal model, GPU; first run downloads 67 MB): both stems are laid on audio tracks aligned with the clip and the clip is muted, so you can lower / replace the music under a voice, remove a voice from a song (karaoke), clean a vlog recorded with music… keep = both | voice | music. Returns a jobId (wait_job).',
+  schema: { clipId: z.string(), keep: z.enum(['both', 'voice', 'music']).optional() },
+  annotations: EDIT,
+  handler: async (a, ctx) => jobOutcome(separateStems(a, meta(ctx)), 50),
+});
+
+// ======================================================================================== STYLE REFERENCE
+tool('analyze_style_reference', {
+  title: 'Learn the editing style of a video (YouTube link)',
+  description: 'The user wants the edit to look like another video: give its url (YouTube, TikTok, Instagram, Vimeo… — a section of `seconds` from `start` is downloaded in 720p) or the mediaId of an imported video. It is analysed (cuts / pacing, shot lengths, speech rate, pauses, hook, loudness, BPM, light / saturation / warmth / motion, suggested grade) and summarised with contact sheets (one frame per shot). Returns a jobId (wait_job), then call get_style_reference to SEE it and get the recipe.',
+  schema: { url: z.string().optional(), mediaId: z.string().optional(), start: num().optional(), seconds: num().optional(), name: z.string().optional() },
+  annotations: NET,
+  handler: async (a, ctx) => jobOutcome(analyzeStyleJob(a, meta(ctx)), 50),
+});
+tool('get_style_reference', {
+  title: 'Style reference: profile, recipe and frames',
+  description: 'A style reference of the project (id, default the latest): the measured profile, a step-by-step recipe to reproduce the style on the user footage, and (frames=true) the contact sheets of its shots so you can see the captions, titles, motion designs, framing and colors to imitate with your OWN texts and motion designs (add_html_clip). page = which sheet (16 shots each).',
+  schema: { id: z.string().optional(), frames: z.boolean().optional(), page: num().optional() },
+  annotations: RO,
+  handler: async ({ id, frames = true, page = 1 }) => {
+    const ref = styleRef(id);
+    const sheet = ref.sheets?.[Math.max(0, Math.min((ref.sheets?.length || 1) - 1, page - 1))];
+    return { json: { id: ref.id, name: ref.name, url: ref.url, referenceMediaId: ref.mediaId, sheets: ref.sheets?.length || 0, profile: ref.profile, recipe: styleRecipe(ref) }, ...(frames && sheet && fs.existsSync(sheet) ? { image: sheet } : {}) };
+  },
+});
+
+// ======================================================================================== EFFECTS / COLOR / AUDIO FX
+tool('add_adjustment_layer', {
+  title: 'Adjustment layer (blur, pixelate, grade a region or the whole frame)',
+  description: `Adds an adjustment layer (Premiere-style): from start for duration it modifies EVERYTHING BELOW it — fx.blur (px) / fx.pixelate (block px) / color grade (color or look) — on the whole frame, or only inside mask {shape rect|ellipse, cx, cy, w, h (frame fractions), feather px, invert}. invert=true applies OUTSIDE the shape (e.g. darken around a subject: color {brightness: 0.4}). opacity blends it, videoFadeIn/Out fade it. Looks: ${LOOK_IDS.join(', ')}.`,
+  schema: {
+    start: num(), duration: num().optional(), end: num().optional(), track: z.string().optional(), name: z.string().optional(),
+    fx: z.object({ blur: num().optional(), pixelate: num().optional() }).optional(), color: colorSchema.optional(), look: z.enum(LOOK_IDS).optional(),
+    mask: maskSchema.optional(), opacity: num().optional(), videoFadeIn: num().optional(), videoFadeOut: num().optional(),
+  },
+  annotations: EDIT,
+  handler: async ({ look, color, ...a }, ctx) => editResult(store.apply('addAdjustmentLayer', { ...a, color: look ? { ...LOOKS[look].color, ...(color || {}) } : color }, meta(ctx, 'adjustment layer'))),
+});
+tool('set_color_grade', {
+  title: 'Color grade / look',
+  description: `Grade clips (video, image, motion or adjustment layers): look = ready-made look (${LOOK_IDS.map((id) => `${id} (${LOOKS[id].en})`).join(', ')}) and/or color = individual values merged on top (${GRADE_KEYS.join(', ')}, brightness, contrast, saturation, hue…). reset=true starts from neutral. To grade the whole video at once use add_adjustment_layer over the full timeline with a look.`,
+  schema: { ids: z.array(z.string()), look: z.enum(LOOK_IDS).optional(), color: colorSchema.optional(), reset: z.boolean().optional() },
+  annotations: EDIT,
+  handler: async (a, ctx) => editResult(store.apply('setColorGrade', a, meta(ctx, a.look ? `look ${a.look}` : 'color grade'))),
+});
+tool('list_audio_effects', {
+  title: 'Audio effects catalogue', description: 'Audio effects (types with their parameters, defaults and ranges) and one-click presets for set_audio_effects.',
+  schema: {}, annotations: RO,
+  handler: async () => ({ json: {
+    effects: Object.fromEntries(Object.entries(AFX).map(([k, v]) => [k, { name: v.en, params: Object.fromEntries(Object.entries(v.params).map(([pk, pv]) => [pk, { default: pv[0], min: pv[1], max: pv[2], ...(pv[3] ? { unit: pv[3] } : {}) }])) }])),
+    presets: Object.fromEntries(Object.entries(AFX_PRESETS).map(([k, v]) => [k, { name: v.en, chain: v.chain }])),
+  } }),
+});
+tool('set_audio_effects', {
+  title: 'Audio effects on clips / tracks',
+  description: `Audio effects (same sound in the preview and the export): on clips (clipIds: audio or video clips) and/or on a whole track (track: "A1"… — a track bus, so a reverb keeps ringing across cuts; pan -1..1). preset: ${Object.keys(AFX_PRESETS).join(', ')}. effects: [{type, ...params}] with types ${AFX_TYPES.join(', ')} (list_audio_effects gives the parameters). mode replace (default) | append | clear.`,
+  schema: { clipIds: z.array(z.string()).optional(), track: z.string().optional(), preset: z.enum(Object.keys(AFX_PRESETS)).optional(), effects: z.array(afxItem).optional(), mode: z.enum(['replace', 'append', 'clear']).optional(), pan: num().optional() },
+  annotations: EDIT,
+  handler: async (a, ctx) => ({ json: store.apply('setAudioEffects', a, meta(ctx, `audio fx ${a.preset || (a.effects || []).map((e) => e.type).join('+') || a.mode}`)).result }),
+});
+
+// ======================================================================================== USER REQUESTS & AI PROPOSALS
+tool('list_requests', {
+  title: 'User requests on the timeline',
+  description: 'Requests the user pinned at a precise place of the timeline ("ask the AI here"): text, time / range, track, clip and what is there. Handle the open ones exactly at that place, then resolve_request.',
+  schema: { status: z.enum(['open', 'working', 'done', 'dismissed', 'all']).optional() }, annotations: RO,
+  handler: async ({ status = 'open' }) => {
+    const p = needProject();
+    const list = (p.requests || []).filter((r) => status === 'all' || r.status === status || (status === 'open' && r.status === 'working'));
+    return { json: list.map((r) => ({ id: r.id, status: r.status, text: r.text, time: r.time, end: r.end, trackId: r.trackId, clipId: r.clipId, where: requestContext(p, r), reply: r.reply || undefined })) };
+  },
+});
+tool('resolve_request', {
+  title: 'Answer a user request', description: 'Close a request pinned on the timeline once handled (status done), or dismissed with the reason; reply = one short line shown to the user on the pin.',
+  schema: { id: z.string(), status: z.enum(['done', 'dismissed', 'working']).optional(), reply: z.string().optional() }, annotations: EDIT,
+  handler: async ({ id, status = 'done', reply }, ctx) => ({ json: store.apply('updateRequest', { id, status, reply, repliedBy: ctx.client }, meta(ctx, `request ${status}`)).result }),
+});
+tool('start_proposal', {
+  title: 'Propose a creative idea',
+  description: 'Start a PROPOSAL: a bold / crazy / creative idea you would not put in the final cut without asking (an unexpected effect, a meme, a speed ramp, a wild transition, a different music drop…). Every edit you make after this call (with the normal tools) is recorded into the proposal until end_proposal. The user sees a "💡 AI proposal" marker on the timeline with your title + description, previews it, and accepts or rejects it (rejecting undoes exactly those edits). Pending proposals are NOT exported. Keep each proposal small and self-contained; one idea per proposal.',
+  schema: { title: z.string().describe('Short title shown on the marker'), description: z.string().optional().describe('What it does and why it could be great (1–3 lines)'), time: num().optional(), end: num().optional() },
+  annotations: EDIT,
+  handler: async (a, ctx) => ({ json: { ...startProposal(sessionKey(ctx), a, meta(ctx)), hint: 'Now make the edits of the idea, then call end_proposal.' } }),
+});
+tool('end_proposal', {
+  title: 'Finish the proposal', description: 'Close the proposal started with start_proposal: it becomes pending, waiting for the user\'s decision.',
+  schema: {}, annotations: EDIT,
+  handler: async (_a, ctx) => ({ json: finishProposal(sessionKey(ctx), meta(ctx)) || { status: 'no proposal was open' } }),
+});
+tool('list_proposals', {
+  title: 'AI proposals', description: 'Proposals and their status (recording, pending, accepted, rejected): learn what the user liked.',
+  schema: {}, annotations: RO,
+  handler: async () => ({ json: (needProject().proposals || []).map(proposalInfo) }),
+});
+
 // ======================================================================================== RENDER / EXPORT / JOBS
 tool('render_frames', {
-  title: 'See the edit', description: 'Render what the viewer sees at given timeline times (all tracks, motion graphics, subtitles) and return the image(s). Use it to verify framing, text, graphics and transitions.',
-  schema: { times: z.array(num()).min(1).max(16), width: num().optional(), subtitles: z.boolean().optional() },
+  title: 'See the edit', description: 'Render what the viewer sees at given timeline times (all tracks, motion graphics, subtitles) and return the image(s). Use it to verify framing, text, graphics and transitions. grid=true (single time) draws a labelled 10×10 grid of frame fractions to measure positions / boxes (track_object, masks).',
+  schema: { times: z.array(num()).min(1).max(16), width: num().optional(), subtitles: z.boolean().optional(), grid: z.boolean().optional() },
   annotations: RO,
-  handler: async ({ times, width, subtitles }) => { const r = await S.renderFrames(times, { width, subtitles }); return { json: { times: r.frames.map((f) => f.time), image: r.image }, image: r.image }; },
+  handler: async ({ times, width, subtitles, grid }) => { const r = await S.renderFrames(times, { width, subtitles, grid }); return { json: { times: r.frames.map((f) => f.time), image: r.image }, image: r.image }; },
 });
 
 tool('export_video', {
   title: 'Export video', description: `Render the final file. presets: ${EXPORT_PRESETS.map((p) => p.id).join(', ')}. quality: draft|good|high|max. hardware=true uses the GPU encoder when available. range {start,end} exports a part. subtitlesFile srt|vtt writes a sidecar file. Returns a jobId (wait_job).`,
-  schema: { preset: z.enum(EXPORT_PRESETS.map((p) => p.id)).optional(), path: z.string().optional(), quality: z.enum(['draft', 'good', 'high', 'max']).optional(), range: z.object({ start: num(), end: num() }).optional(), burnSubtitles: z.boolean().optional(), subtitlesFile: z.enum(['srt', 'vtt']).optional(), hardware: z.boolean().optional(), normalize: z.boolean().optional(), fps: num().optional() },
+  schema: { preset: z.enum(EXPORT_PRESETS.map((p) => p.id)).optional(), path: z.string().optional(), quality: z.enum(['draft', 'good', 'high', 'max']).optional(), range: z.object({ start: num(), end: num() }).optional(), burnSubtitles: z.boolean().optional(), subtitlesFile: z.enum(['srt', 'vtt']).optional(), hardware: z.boolean().optional(), normalize: z.boolean().optional(), fps: num().optional(), includeProposals: z.boolean().optional().describe('Also export the AI proposals still pending (default: no)') },
   annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
   handler: async (a, ctx) => jobOutcome(S.startExport(a, meta(ctx)), 20),
 });

@@ -1,0 +1,44 @@
+<svg id="s" class="s"><path id="ln" fill="none" stroke-linecap="round"/><circle id="dot"/><circle id="ring" fill="none"/></svg>
+<div id="lbl" class="lbl"><span class="t">{{label}}</span></div>
+<style>
+.s{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.lbl{position:absolute;white-space:nowrap;font:800 calc(var(--k) * {{size}} / 1080) '{{font}}', Inter, sans-serif;color:{{textColor}};background:{{color}};padding:.28em .7em;border-radius:.6em;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.lbl.plain{background:none;box-shadow:none;padding:0;text-shadow:0 3px 12px rgba(0,0,0,.65)}
+</style>
+<script>
+(function(){
+  // The TARGET is the centre of the frame: attach the clip to a tracking (follow) and the dot stays on the tracked
+  // object / head while the label floats beside it.
+  var P = AICUT.params, W = AICUT.width, H = AICUT.height, k = Math.min(W, H) / 1080;
+  var cx = W / 2, cy = H / 2;
+  var ang = (Number(P.angle) || 0) * Math.PI / 180, dist = (Number(P.distance) || 220) * k;
+  var ex = cx + Math.sin(ang) * dist, ey = cy - Math.cos(ang) * dist;
+  var ln = document.getElementById('ln'), dot = document.getElementById('dot'), ring = document.getElementById('ring'), lbl = document.getElementById('lbl');
+  if (P.style === 'plain') lbl.classList.add('plain');
+  var sx = cx + Math.sin(ang) * 16 * k, sy = cy - Math.cos(ang) * 16 * k;
+  ln.setAttribute('d', 'M' + sx + ',' + sy + ' L' + ex + ',' + ey);
+  ln.setAttribute('stroke', P.lineColor || P.color); ln.setAttribute('stroke-width', 5 * k);
+  dot.setAttribute('cx', cx); dot.setAttribute('cy', cy); dot.setAttribute('r', 9 * k); dot.setAttribute('fill', P.lineColor || P.color);
+  ring.setAttribute('cx', cx); ring.setAttribute('cy', cy); ring.setAttribute('stroke', P.lineColor || P.color); ring.setAttribute('stroke-width', 3 * k);
+  [ln, dot, ring].forEach(function(e){ e.style.filter = 'drop-shadow(0 2px 4px rgba(0,0,0,.5))'; });
+  if (P.dot === false || P.dot === 'false') { dot.style.display = 'none'; ring.style.display = 'none'; }
+  var r = lbl.getBoundingClientRect();
+  // label anchored by the side facing the target
+  var lx = ex - r.width / 2 + Math.sin(ang) * r.width / 2, ly = ey - r.height / 2 - Math.cos(ang) * r.height / 2;
+  lbl.style.left = lx + 'px'; lbl.style.top = ly + 'px';
+  var len = Math.hypot(ex - sx, ey - sy);
+  AICUT.onFrame(function(t){
+    var d = AICUT.progress(t, 0, 0.25);
+    dot.style.transform = 'scale(' + AICUT.ease.outBack(d) + ')'; dot.style.transformOrigin = cx + 'px ' + cy + 'px';
+    var pr = (t % 1.2) / 1.2;
+    ring.setAttribute('r', (10 + pr * 26) * k); ring.style.opacity = String(0.9 * (1 - pr));
+    var a = AICUT.ease.out(AICUT.progress(t, 0.15, 0.35));
+    ln.style.strokeDasharray = len; ln.style.strokeDashoffset = len * (1 - a);
+    var b = AICUT.progress(t, 0.4, 0.3);
+    lbl.style.opacity = String(Math.min(1, b * 1.5));
+    lbl.style.transform = 'scale(' + (0.6 + 0.4 * AICUT.ease.outBack(b)) + ')';
+    lbl.style.transformOrigin = (Math.sin(ang) >= 0 ? 'left' : 'right') + ' center';
+    document.body.style.opacity = String(1 - AICUT.progress(t, AICUT.duration - 0.3, 0.3));
+  });
+})();
+</script>

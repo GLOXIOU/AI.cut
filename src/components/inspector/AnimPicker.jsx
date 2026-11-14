@@ -29,7 +29,11 @@ export function AnimTile({ slot, type, active, label, onClick, draggable }) {
     let raf;
     const t0 = performance.now();
     const cycle = slot === 'loop' ? 6 : 2.1;
+    let lastFrame = 0;
     const tick = (now) => {
+      // the active tile animates for as long as it is shown: 30 fps is plenty for a 46 px demo
+      if (now - lastFrame < 32) { raf = requestAnimationFrame(tick); return; }
+      lastFrame = now;
       let t = ((now - t0) / 1000) % cycle;
       if (slot === 'out') t = Math.min(1.4, t + 0.8); // exit plays at the end of the 1.4 s demo clip
       if (slot === 'in') t = Math.min(1.4, t);

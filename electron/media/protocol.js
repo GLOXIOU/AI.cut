@@ -16,7 +16,7 @@ const MIME = {
   '.html': 'text/html; charset=utf-8', '.htm': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
   '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
   '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf', '.otf': 'font/otf', '.txt': 'text/plain; charset=utf-8',
-  '.peaks': 'application/octet-stream', '.ico': 'image/x-icon',
+  '.peaks': 'application/octet-stream', '.ico': 'image/x-icon', '.wasm': 'application/wasm',
 };
 export const mimeOf = (f) => MIME[path.extname(f).toLowerCase()] || 'application/octet-stream';
 

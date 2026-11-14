@@ -1,5 +1,6 @@
 // High-level services shared by the UI (IPC) and the AI (MCP tools).
 import fs from 'node:fs';
+import { runFfmpeg } from './media/ffmpeg.js';
 import { app } from 'electron';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
@@ -50,7 +51,7 @@ export function writeAgentFiles(dir, name) {
   } catch (e) { log.warn('agent files', e.message); }
 }
 
-export function createProject({ name = 'Untitled', preset = '1080p', fps = 30, folder = null } = {}) {
+export function createProject({ name = 'Untitled', preset = '1080p', fps = 60, folder = null } = {}) {
   if (store.isOpen) store.close();
   const parent = folder || getSettings().defaultProjectsDir || defaultProjectsDir();
   fs.mkdirSync(parent, { recursive: true });
@@ -928,7 +929,7 @@ export async function autoSfx(opts = {}, meta = {}) {
 }
 
 // ------------------------------------------------------------------ visuals for the AI
-export async function renderFrames(times, { width = 960, subtitles = true } = {}) {
+export async function renderFrames(times, { width = 960, subtitles = true, grid = false } = {}) {
   const p = store.requireOpen();
   if (!p.clips.length) throw new Error('The timeline is empty.');
   const dir = store.cacheDir('render', 'frames');
@@ -939,9 +940,24 @@ export async function renderFrames(times, { width = 960, subtitles = true } = {}
     await renderTimelineFrame(snapshot, store.dir, Number(t), { out, width: times.length > 1 ? Math.min(width, 640) : width, subtitles });
     frames.push({ time: Number(t), path: out });
   }
-  if (frames.length === 1) return { image: frames[0].path, frames };
+  if (frames.length === 1) {
+    if (grid) await drawGrid(frames[0].path);
+    return { image: frames[0].path, frames };
+  }
   const sheet = await contactSheet(frames.map((f) => ({ ...f, label: `timeline ${fmtTime(f.time)}` })), path.join(dir, `sheet_${Date.now()}.jpg`), { cols: frames.length <= 4 ? 2 : frames.length <= 9 ? 3 : 4, cellWidth: 400, title: `${p.name} — composed timeline frames` });
   return { image: sheet.path, frames };
+}
+
+/** Labelled 10×10 grid of frame fractions over an image (helps an AI measure boxes / positions). */
+async function drawGrid(file) {
+  const tmp = file.replace(/\.(\w+)$/, '_grid.$1');
+  const labels = [];
+  for (let i = 1; i < 10; i++) {
+    labels.push(`drawtext=text='${i / 10}':x=w*${i / 10}+3:y=3:fontsize=h/40:fontcolor=yellow:box=1:boxcolor=black@0.5`);
+    labels.push(`drawtext=text='${i / 10}':x=3:y=h*${i / 10}+3:fontsize=h/40:fontcolor=yellow:box=1:boxcolor=black@0.5`);
+  }
+  await runFfmpeg(['-y', '-i', file, '-vf', ['drawgrid=w=iw/10:h=ih/10:t=1:c=white@0.55', ...labels].join(','), '-q:v', '3', tmp], { quiet: true });
+  fs.renameSync(tmp, file);
 }
 
 export async function viewMediaFrames(mediaId, { start = 0, end = null, count = 12, times = null, cols = null, width = 360 } = {}) {

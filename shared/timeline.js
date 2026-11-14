@@ -1,12 +1,13 @@
 // Pure timeline helpers shared by the Electron main process (ops, export) and the renderer (player, timeline UI).
 // All times are in seconds (floats). Tracks: video tracks are listed bottom → top (V1 is the base layer).
 import { animStateAt, animContext } from './anim.js';
+import { GRADE_DEFAULTS, ffGradeFilter } from './grade.js';
 
 export const EPS = 1e-4;
 export const r4 = (x) => Math.round((Number(x) || 0) * 10000) / 10000;
 export const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 
-export const VISUAL_TYPES = new Set(['video', 'image', 'html', 'color']);
+export const VISUAL_TYPES = new Set(['video', 'image', 'html', 'color', 'adjust']);
 export const isVisual = (c) => VISUAL_TYPES.has(c.type);
 export const clipEnd = (c) => r4(c.start + c.duration);
 export const sortByStart = (a, b) => a.start - b.start || String(a.id).localeCompare(String(b.id));
@@ -46,7 +47,7 @@ export const sourceTimeAt = (clip, t) => (clip.in || 0) + (t - clip.start) * (cl
 
 /** Max timeline duration a clip can have given its media length. */
 export function maxClipDuration(clip, media) {
-  if (!media || clip.type === 'image' || clip.type === 'html' || clip.type === 'color') return Infinity;
+  if (!media || clip.type === 'image' || clip.type === 'html' || clip.type === 'color' || clip.type === 'adjust') return Infinity;
   if (media.type === 'image') return Infinity;
   const d = media.duration || 0;
   return Math.max(0, (d - (clip.in || 0)) / (clip.speed || 1));
@@ -107,7 +108,7 @@ export const FITS = ['contain', 'cover', 'stretch', 'none'];
 
 /** Intrinsic (pixel) size of the clip content before fit. */
 export function contentSize(clip, media, W, H) {
-  if (clip.type === 'html' || clip.type === 'color') return [W, H];
+  if (clip.type === 'html' || clip.type === 'color' || clip.type === 'adjust') return [W, H];
   const mw = media?.width || W;
   const mh = media?.height || H;
   return [mw, mh];
@@ -205,7 +206,7 @@ export function parseColor(c, fallback = [0, 0, 0, 1]) {
 // ----------------------------------------------------------------------------------------------
 // Color adjustments: CSS filter functions in the preview, equivalent ffmpeg filters in the export.
 // ----------------------------------------------------------------------------------------------
-export const COLOR_DEFAULTS = { brightness: 1, contrast: 1, saturation: 1, hue: 0, grayscale: 0, sepia: 0, invert: 0, blur: 0 };
+export const COLOR_DEFAULTS = { brightness: 1, contrast: 1, saturation: 1, hue: 0, grayscale: 0, sepia: 0, invert: 0, blur: 0, ...GRADE_DEFAULTS };
 
 export function normalizedColor(c) {
   return { ...COLOR_DEFAULTS, ...(c || {}) };
@@ -267,11 +268,13 @@ export function sepiaMatrix(g) {
   ];
 }
 
-/** ffmpeg filters (operating on rgba) equivalent to cssColorFilter, in the same order. */
+/** ffmpeg filters (operating on rgba) equivalent to the preview: tone grade (shared/grade.js) then cssColorFilter, in order. */
 export function ffColorChain(c) {
   if (!c) return [];
   const n = normalizedColor(c);
   const out = [];
+  const grade = ffGradeFilter(c);
+  if (grade) out.push(grade);
   if (n.brightness !== 1) out.push(mixer([n.brightness, 0, 0, 0, n.brightness, 0, 0, 0, n.brightness]));
   if (n.contrast !== 1) {
     const e = `clip((val-127.5)*${f6(n.contrast)}+127.5\\,0\\,255)`;

@@ -1,0 +1,79 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>AI.cut ML</title></head>
+<body>
+<script type="module">
+// Hidden page running person matting (Robust Video Matting) with ONNX Runtime Web (WebGPU, else wasm), driven by
+// electron/segment/cutout.js through window.seg (seg-preload.cjs): init → frame → alpha. (Objects and voice / music
+// separation run with native ONNX Runtime in electron/segment/ml-worker.js: faster for those models.)
+// WebGPU runs with preferredLayout NCHW (the NHWC layout transform returned wrong results for RVM with ORT 1.31) and
+// every model's first GPU result is compared with the CPU one: a GPU / driver that disagrees is dropped.
+import * as ort from '../vendor/ort/ort.webgpu.bundle.min.mjs';
+
+ort.env.wasm.wasmPaths = new URL('../vendor/ort/', location.href).href;
+ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.max(1, Math.min(8, (navigator.hardwareConcurrency || 4) - 2)) : 1;
+const GPU = { name: 'webgpu', preferredLayout: 'NCHW' };
+
+/** Session on the GPU if possible. Returns { sess, ep, model }. */
+async function open(bytes, providers) {
+  const model = new Uint8Array(bytes);
+  const tries = providers ? [providers] : [...(navigator.gpu ? [[GPU]] : []), ['wasm']];
+  let lastErr = null;
+  for (const p of tries) {
+    try {
+      const sess = await ort.InferenceSession.create(model, { executionProviders: p, graphOptimizationLevel: 'all' });
+      return { sess, ep: typeof p[0] === 'string' ? p[0] : p[0].name, model, checked: p[0] === 'wasm' || !!providers };
+    } catch (e) { lastErr = e; }
+  }
+  throw lastErr || new Error('no execution provider');
+}
+const meanAbsDiff = (a, b) => { let d = 0; const n = Math.min(a.length, b.length); for (let i = 0; i < n; i++) d += Math.abs(a[i] - b[i]); return d / n; };
+
+/** Run feeds; on the first GPU run, also run on the CPU and switch to it when the results disagree. */
+async function runChecked(m, feeds, outName, tol) {
+  const out = await m.sess.run(feeds);
+  if (!m.checked) {
+    m.checked = true;
+    try {
+      const cpu = await ort.InferenceSession.create(m.model, { executionProviders: ['wasm'], graphOptimizationLevel: 'all' });
+      const ref = await cpu.run(feeds);
+      const d = meanAbsDiff(out[outName].data, ref[outName].data);
+      const scale = meanAbsDiff(ref[outName].data, new Float32Array(Math.min(ref[outName].data.length, 1 << 22))) || 1;
+      if (d / scale > tol) { console.warn(`GPU result differs from the CPU (${(d / scale).toFixed(3)}): using the CPU`); m.sess = cpu; m.ep = 'wasm'; return ref; }
+      await cpu.release?.();
+    } catch (e) { console.warn('CPU check skipped', e); }
+  }
+  return out;
+}
+
+// ------------------------------------------------------------------------------------------------ RVM (people)
+const rvm = { m: null, W: 0, H: 0, ratio: 0.25, rec: null, src: null };
+const zeros = () => { const z = () => new ort.Tensor('float32', new Float32Array(1), [1, 1, 1, 1]); return { r1i: z(), r2i: z(), r3i: z(), r4i: z() }; };
+async function rvmInit(d) {
+  rvm.m = await open(d.model, d.providers);
+  rvm.W = d.width; rvm.H = d.height; rvm.ratio = d.downsample;
+  rvm.src = new Float32Array(3 * rvm.W * rvm.H);
+  rvm.rec = zeros();
+  return { ep: rvm.m.ep };
+}
+async function rvmFrame(rgb) {
+  const { W, H } = rvm, n = W * H, src = rvm.src;
+  for (let i = 0; i < n; i++) { src[i] = rgb[i * 3] / 255; src[n + i] = rgb[i * 3 + 1] / 255; src[2 * n + i] = rgb[i * 3 + 2] / 255; }
+  const feeds = { src: new ort.Tensor('float32', src, [1, 3, H, W]), ...rvm.rec, downsample_ratio: new ort.Tensor('float32', new Float32Array([rvm.ratio]), [1]) };
+  const out = await runChecked(rvm.m, feeds, 'pha', 0.08);
+  rvm.rec = { r1i: out.r1o, r2i: out.r2o, r3i: out.r3o, r4i: out.r4o };
+  const pha = out.pha.data, alpha = new Uint8Array(n);
+  for (let i = 0; i < n; i++) { const v = pha[i] * 255; alpha[i] = v < 0 ? 0 : v > 255 ? 255 : v + 0.5; }
+  return { alpha, ep: rvm.m.ep };
+}
+
+window.seg.onRequest(async (type, data) => {
+  switch (type) {
+    case 'init': return rvmInit(data);
+    case 'reset': rvm.rec = zeros(); return true;
+    case 'frame': return rvmFrame(data);
+    default: throw new Error(`unknown request ${type}`);
+  }
+});
+window.seg.ready();
+</script>
+</body></html>

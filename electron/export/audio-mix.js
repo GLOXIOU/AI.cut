@@ -13,6 +13,7 @@ import { requireFfmpeg } from '../media/ffmpeg.js';
 import { spawnTracked } from '../core/proc.js';
 import { audioSpans, kfExpr, sourceRangeFor, atempoChain } from './graph.js';
 import { audioFxFilters } from '../../shared/audiofx.js';
+import { AfxChain } from '../../shared/dsp.js';
 import { log } from '../core/log.js';
 
 const SR = 48000;
@@ -72,7 +73,7 @@ class PcmSource {
 }
 
 /** One clip's decode + processing args (raw float stereo 48 kHz, exactly n frames). */
-function clipJob(project, s, w0, w1) {
+function clipJob(project, s, w0, w1) { // eslint-disable-line complexity
   const a = Math.max(s.start, w0), b = Math.min(s.end, w1);
   if (b - a < 0.005) return null;
   const { clip, media, track } = s;
@@ -108,7 +109,30 @@ function clipJob(project, s, w0, w1) {
   chain.push(`apad=whole_len=${n}`, `atrim=end_sample=${n}`);
   const args = ['-hide_banner', '-nostdin', '-loglevel', 'error', '-ss', f(r.a), '-t', f(r.b - r.a + 0.05), '-i', media.path,
     '-vn', '-sn', '-dn', '-af', chain.join(','), '-f', 'f32le', '-ac', '2', '-ar', String(SR), 'pipe:1'];
-  return { s0, s1: s0 + n, args, label: `${clip.name} @${a.toFixed(2)}s` };
+  // clip insert effects (shared/dsp.js, same code as the preview): their tail (reverb, echo…) rings past the clip end
+  let afx = null, tailN = 0;
+  if (clip.afx?.length) {
+    afx = new AfxChain(clip.afx, SR);
+    if (afx.active) {
+      afx.setPosition(Math.round((la + p) * SR));
+      tailN = Math.round(afx.tail * SR);
+    } else afx = null;
+  }
+  const end = Math.min(Math.round((w1 - w0) * SR), s0 + n + tailN);
+  return { s0, s1: s0 + n, end, args, afx, trackId: track.id, label: `${clip.name} @${a.toFixed(2)}s` };
+}
+
+/** Track buses: effect chain + pan of each track (timeline-positioned, so LFOs match the preview). */
+function trackBuses(project, w0) {
+  const buses = new Map();
+  for (const t of project.tracks) {
+    if (t.muted) continue;
+    const chain = new AfxChain(t.afx || [], SR, { pan: t.pan || 0 });
+    if (!chain.active) continue;
+    chain.setPosition(Math.round(w0 * SR));
+    buses.set(t.id, { chain, L: null, R: null });
+  }
+  return buses;
 }
 
 /**
@@ -134,6 +158,10 @@ export async function renderAudioMix(project, w0, w1, out, { signal, onProgress,
   });
   const active = [];
   let next = 0;
+  const buses = trackBuses(project, w0);
+  const mL = new Float32Array(BLOCK), mR = new Float32Array(BLOCK);
+  const tL = new Float32Array(BLOCK), tR = new Float32Array(BLOCK);
+  for (const b of buses.values()) { b.L = new Float32Array(BLOCK); b.R = new Float32Array(BLOCK); }
   try {
     for (let pos = 0; pos < total; pos += BLOCK) {
       if (signal?.aborted) throw new Error('Aborted');
@@ -142,18 +170,35 @@ export async function renderAudioMix(project, w0, w1, out, { signal, onProgress,
         const j = jobs[next++];
         active.push({ ...j, src: new PcmSource(j.args, j.label) });
       }
-      const mix = new Float32Array(n * 2);
+      mL.fill(0, 0, n); mR.fill(0, 0, n);
+      for (const b of buses.values()) { b.L.fill(0, 0, n); b.R.fill(0, 0, n); }
       for (let i = active.length - 1; i >= 0; i--) {
         const it = active[i];
-        const a = Math.max(pos, it.s0), b = Math.min(pos + n, it.s1);
+        const a = Math.max(pos, it.s0), b = Math.min(pos + n, it.end);
         if (b > a) {
-          const buf = await it.src.read((b - a) * 8);
-          const v = new Float32Array(buf.buffer, buf.byteOffset, (b - a) * 2);
-          const o = (a - pos) * 2;
-          for (let k = 0; k < v.length; k++) mix[o + k] += v[k];
+          const len = b - a;
+          const dec = Math.max(0, Math.min(b, it.s1) - a); // decoded samples in this block (the rest is effect tail)
+          if (dec > 0 && !it.src.closed) {
+            const buf = await it.src.read(dec * 8);
+            const v = new Float32Array(buf.buffer, buf.byteOffset, dec * 2);
+            for (let k = 0; k < dec; k++) { tL[k] = v[2 * k]; tR[k] = v[2 * k + 1]; }
+          }
+          tL.fill(0, dec, len); tR.fill(0, dec, len);
+          if (it.s1 <= b && !it.src.closed) { it.src.close(); it.src.closed = true; }
+          if (it.afx) it.afx.process(tL.subarray(0, len), tR.subarray(0, len), len);
+          const bus = buses.get(it.trackId);
+          const L = bus ? bus.L : mL, R = bus ? bus.R : mR;
+          const o = a - pos;
+          for (let k = 0; k < len; k++) { L[o + k] += tL[k]; R[o + k] += tR[k]; }
         }
-        if (it.s1 <= pos + n) { it.src.close(); active.splice(i, 1); }
+        if (it.end <= pos + n) { if (!it.src.closed) it.src.close(); active.splice(i, 1); }
       }
+      for (const bus of buses.values()) {
+        bus.chain.process(bus.L.subarray(0, n), bus.R.subarray(0, n), n);
+        for (let k = 0; k < n; k++) { mL[k] += bus.L[k]; mR[k] += bus.R[k]; }
+      }
+      const mix = new Float32Array(n * 2);
+      for (let k = 0; k < n; k++) { mix[2 * k] = mL[k]; mix[2 * k + 1] = mR[k]; }
       if (!enc.stdin.write(Buffer.from(mix.buffer))) await once(enc.stdin, 'drain');
       if (onProgress && (pos / BLOCK) % 20 === 0) onProgress(pos / total);
     }
@@ -163,7 +208,7 @@ export async function renderAudioMix(project, w0, w1, out, { signal, onProgress,
     try { enc.kill('SIGKILL'); } catch { /* */ }
     throw e;
   } finally {
-    for (const it of active) it.src.close();
+    for (const it of active) if (!it.src.closed) it.src.close();
   }
   onProgress?.(1);
   return { out, clips: jobs.length, seconds: total / SR, size: fs.statSync(out).size };

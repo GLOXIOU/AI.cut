@@ -91,7 +91,7 @@ export function SubtitlesPanel() {
   const askAi = async () => {
     try {
       await call('copilot:send', { text: t('askAiKeywordsPrompt') });
-      useStore.setState({ rightTab: 'ai' });
+      useStore.getState().focusPanel('chat');
     } catch (e) { useStore.getState().toast('error', e.message); }
   };
   const redetect = async () => {
@@ -209,7 +209,7 @@ export function SubtitlesPanel() {
       <Section title={`${t('cues')} (${subs.cues.length})`} defaultOpen={false} right={subs.cues.length ? <button className="icon-btn xs" title={t('deleteAll')} onClick={() => op('clearSubtitles', {}, 'clear subtitles')}><Trash2 size={11} /></button> : null}>
         <div className="cue-list">
           {subs.cues.map((q) => (
-            <div key={q.id} className="cue-row" onClick={() => { playhead.set(q.start, 'ui'); useStore.setState({ selectedCue: q.id, selection: [], rightTab: 'inspector' }); }}>
+            <div key={q.id} className="cue-row" onClick={() => { playhead.set(q.start, 'ui'); useStore.setState({ selectedCue: q.id, selection: [] }); }}>
               <span className="md-time">{fmtTime(q.start)}</span>
               {flags ? (q.words || q.text.split(/\s+/).map((text) => ({ text }))).map((w, i) => <span key={i} className={flags.get(q.id)?.[i] ? 'kw' : ''}>{w.text} </span>) : <span>{q.text}</span>}
             </div>

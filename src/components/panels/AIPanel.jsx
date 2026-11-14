@@ -1,32 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Send, Square, Plus, Loader2, CheckCircle2, XCircle, Terminal, Plug, Unplug, Copy, Bot, User, Sparkles, Activity, Link, ChevronDown, ChevronRight, Wrench } from 'lucide-react';
+import { Send, Square, Loader2, CheckCircle2, XCircle, Bot, User, Sparkles, Lightbulb, MapPin, Check, X, Trash2, Wand2, Plug, Link } from 'lucide-react';
+import { op } from '../../app/api.js';
+import { fmtTime } from '@shared/timeline.js';
 import { useStore } from '../../app/store.js';
 import { call } from '../../app/api.js';
 import { playhead } from '../../app/playhead.js';
 import { useT } from '../../app/i18n.js';
 
+// The AI panels (chat, ideas, style) are three dockable panels: grouped by default, movable separately.
 const SUGGESTIONS = ['sugg1', 'sugg2', 'sugg3', 'sugg4', 'sugg5', 'sugg6'];
-
-let lastTab = 'copilot'; // remembered across remounts (the panel unmounts when the inspector tab is shown)
-
-export function AIPanel() {
-  const t = useT();
-  const [tab, setTabState] = useState(lastTab);
-  const setTab = (x) => { lastTab = x; setTabState(x); };
-  const sessions = useStore((s) => s.sessions);
-  return (
-    <div className="panel ai-panel">
-      <div className="ai-tabs">
-        <button className={tab === 'copilot' ? 'on' : ''} onClick={() => setTab('copilot')}><Sparkles size={13} /> {t('copilot')}</button>
-        <button className={tab === 'connect' ? 'on' : ''} onClick={() => setTab('connect')}><Plug size={13} /> {t('connections')} {sessions.length > 0 && <span className="dot-ok" />}</button>
-        <button className={tab === 'activity' ? 'on' : ''} onClick={() => setTab('activity')}><Activity size={13} /> {t('activity')}</button>
-      </div>
-      {tab === 'copilot' && <Copilot />}
-      {tab === 'connect' && <Connections />}
-      {tab === 'activity' && <ActivityFeed />}
-    </div>
-  );
-}
 
 function renderText(s) {
   // tiny markdown: **bold**, `code`, line breaks, bullet lists
@@ -38,43 +20,46 @@ function renderText(s) {
   });
 }
 
-function Copilot() {
+/** Built-in chat (drives the local Claude Code CLI through the AI.cut MCP server). */
+export function ChatPanel() {
   const t = useT();
   const cp = useStore((s) => s.copilot);
   const project = useStore((s) => s.project);
   const [text, setText] = useState('');
+  const [sent, setSent] = useState(false); // hides the suggestions right away, before the reply starts streaming
   const listRef = useRef(null);
+  const inputRef = useRef(null);
   useEffect(() => { call('copilot:state').then((s) => useStore.setState({ copilot: s })).catch(() => {}); }, []);
-  useEffect(() => { const el = listRef.current; if (el) el.scrollTop = el.scrollHeight; }, [cp?.messages]);
+  useEffect(() => { const el = listRef.current; if (el) el.scrollTop = el.scrollHeight; }, [cp?.messages, cp?.busy]);
 
   const send = async (msg) => {
     const m = (msg ?? text).trim();
-    if (!m) return;
+    if (!m || !project) return;
     setText('');
+    setSent(true);
     try { await call('copilot:send', { text: m, ui: { playhead: playhead.time, selection: useStore.getState().selection } }); }
-    catch (e) { useStore.getState().toast('error', e.message); }
+    catch (e) { setSent(false); useStore.getState().toast('error', e.message); }
   };
 
   if (cp && !cp.available) {
     return (
-      <div className="copilot empty-state">
-        <Bot size={30} />
+      <div className="chat-empty">
+        <Bot size={28} />
         <p>{renderText(t('copilotNeedsClaude'))}</p>
         <p className="dim small">{renderText(t('copilotInstall'))}</p>
+        <button className="btn primary" onClick={() => useStore.getState().openSettings('connect')}><Plug size={13} /> {t('aiConnect')}</button>
       </div>
     );
   }
   const msgs = cp?.messages || [];
+  const showSuggestions = !msgs.length && !sent && !cp?.busy;
   return (
-    <div className="copilot">
+    <div className="chat">
       <div className="chat-list" ref={listRef}>
-        {!msgs.length && (
-          <div className="chat-welcome">
-            <div className="cw-title"><Sparkles size={16} /> {t('whatToEdit')}</div>
-            <div className="dim small">{t('copilotIntro')}</div>
-            <div className="suggestions">
-              {SUGGESTIONS.map((k) => <button key={k} className="chip" disabled={!project} onClick={() => send(t(k))}>{t(k)}</button>)}
-            </div>
+        {showSuggestions && (
+          <div className="chat-sugg">
+            <div className="cs-title"><Sparkles size={13} /> {t('suggestions')}</div>
+            {SUGGESTIONS.map((k) => <button key={k} className="sugg" disabled={!project} onClick={() => send(t(k))}>{t(k)}</button>)}
           </div>
         )}
         {msgs.map((m) => (
@@ -98,106 +83,106 @@ function Copilot() {
         ))}
         {cp?.busy && <div className="msg msg-assistant"><div className="msg-avatar ai"><Bot size={12} /></div><div className="msg-body"><span className="typing"><i /><i /><i /></span></div></div>}
       </div>
-      <div className="chat-input">
-        <textarea rows={3} placeholder={project ? t('askAnything') : t('openProjectFirst')} value={text} disabled={!project}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }} />
-        <div className="chat-actions">
-          <button className="icon-btn" title={t('newChat')} onClick={() => call('copilot:reset')}><Plus size={15} /></button>
-          {cp?.busy
-            ? <button className="btn sm danger" onClick={() => call('copilot:stop')}><Square size={12} /> {t('stop')}</button>
-            : <button className="btn primary sm" disabled={!text.trim() || !project} onClick={() => send()}><Send size={12} /> {t('send')}</button>}
+      <div className="composer">
+        <div className={`composer-box ${project ? '' : 'disabled'}`} onMouseDown={(e) => { if (e.target === e.currentTarget) { e.preventDefault(); inputRef.current?.focus(); } }}>
+          <textarea ref={inputRef} rows={3} placeholder={project ? t('askAnything') : t('openProjectFirst')} value={text} disabled={!project}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }} />
+          <div className="composer-bar">
+            {cp?.busy
+              ? <button className="send-btn stop" onClick={() => call('copilot:stop')}><Square size={11} fill="currentColor" /> {t('stop')}</button>
+              : <button className="send-btn" disabled={!text.trim() || !project} onClick={() => send()}><Send size={14} /> {t('send')}</button>}
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-function Connections() {
+/** AI proposals (accept / reject) and the requests pinned on the timeline. */
+export function IdeasPanel() {
   const t = useT();
-  const sessions = useStore((s) => s.sessions);
-  const [status, setStatus] = useState(null);
-  const [snips, setSnips] = useState(null);
-  const [busy, setBusy] = useState(null);
-  const [open, setOpen] = useState(false);
-  const refresh = () => call('ai:status').then(setStatus).catch(() => {});
-  useEffect(() => { refresh(); call('ai:snippets').then(setSnips).catch(() => {}); }, []);
-  const act = async (fn, id) => {
-    setBusy(id);
-    try { const r = await fn(); if (r?.message) useStore.getState().toast('success', r.message); } catch (e) { useStore.getState().toast('error', e.message); }
-    setBusy(null);
-    refresh();
-  };
-  const copy = (s) => { navigator.clipboard.writeText(s); useStore.getState().toast('success', t('copied')); };
+  const project = useStore((s) => s.project);
+  if (!project) return <div className="dim pad">{t('openProjectFirst')}</div>;
+  const props = [...(project.proposals || [])].reverse();
+  const reqs = [...(project.requests || [])].reverse();
+  const go = (tm) => playhead.set(Math.max(0, tm), 'ui');
   return (
-    <div className="connections">
-      <div className="mcp-card">
-        <div className="mcp-row"><span className={`dot ${status?.mcp?.running ? 'ok' : 'err'}`} /> <b>{t('mcpServer')}</b> <code className="url" onClick={() => copy(status?.mcp?.url || '')}>{status?.mcp?.url || '…'}</code></div>
-        <div className="dim small">{t('mcpToolsInfo', { n: status?.mcp?.tools || 0, m: sessions.length })}</div>
-        {sessions.map((s) => <div key={s.id} className="session-row"><span className={`dot ${s.active ? 'ok' : ''}`} /> {s.client} <span className="dim small">{t('callsN', { n: s.calls })}{s.active ? '' : ` · ${t('inactive')}`}</span></div>)}
-      </div>
-      <div className="how-to">
-        <div className="sub-title">{t('oneClickConnect')}</div>
-        {(status?.clients || []).map((c) => (
-          <div key={c.id} className="client-row">
-            <div className="client-info">
-              <b>{c.label}</b>
-              <span className={`small ${c.connected ? 'ok-text' : 'dim'}`}>{c.connected ? t('configured') : c.installed ? t('detected') : t('notDetected')}</span>
-            </div>
-            <div className="client-actions">
-              {c.connected
-                ? <button className="btn sm" disabled={busy === c.id} onClick={() => act(() => call('ai:disconnect', { id: c.id }), c.id)}><Unplug size={12} /></button>
-                : <button className="btn primary sm" disabled={busy === c.id} onClick={() => act(() => call('ai:connect', { id: c.id }), c.id)}>{busy === c.id ? <Loader2 size={12} className="spin" /> : <Plug size={12} />} {t('connect')}</button>}
-              {(c.id === 'claude-code' || c.id === 'codex' || c.id === 'gemini') && c.installed && (
-                <button className="btn sm" title={t('openTerminal')} onClick={() => act(() => call('ai:terminal', { cli: c.id === 'claude-code' ? 'claude' : c.id }), `t-${c.id}`)}><Terminal size={12} /></button>
-              )}
-            </div>
+    <div className="ideas">
+      <div className="sub-title"><Lightbulb size={12} /> {t('proposalsTitle')}</div>
+      {!props.length && <div className="dim small pad">{t('noProposals')}</div>}
+      {props.map((p) => (
+        <div key={p.id} className={`idea-row ${p.status}`}>
+          <div className="idea-head" onClick={() => p.time != null && go(p.time)}>
+            <b>{p.title}</b> <span className="dim small">{p.by} · {p.time != null ? fmtTime(p.time) : ''} · {t(`prop_${p.status}`)}</span>
           </div>
-        ))}
-      </div>
-      <div className="steps small">
-        <b>{t('howItWorks')}</b>
-        <ol>
-          <li>{t('howStep1')}</li>
-          <li>{renderText(t('howStep2'))}</li>
-          <li>{t('howStep3')}</li>
-        </ol>
-      </div>
-      <div className="snippets">
-        <div className="section-head" onClick={() => setOpen(!open)}>{open ? <ChevronDown size={13} /> : <ChevronRight size={13} />} {t('manualConfig')}</div>
-        {open && snips && (
-          <div className="snip-list">
-            {[['Claude Code', snips.claudeCode], ['Codex (config.toml)', snips.codex], ['Codex (HTTP)', snips.codexHttp], ['Claude Desktop', snips.claudeDesktop], ['Cursor / Windsurf', snips.cursor], ['Gemini CLI', snips.gemini], [t('genericMcp'), snips.generic], [t('shellRest'), snips.rest]].map(([label, s]) => (
-              <div key={label} className="snip">
-                <div className="snip-head"><span>{label}</span><button className="icon-btn xs" onClick={() => copy(s)}><Copy size={11} /></button></div>
-                <pre>{s}</pre>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function ActivityFeed() {
-  const t = useT();
-  const activity = useStore((s) => s.activity);
-  useEffect(() => { call('ai:activity').then((list) => { for (const a of list) useStore.getState().pushActivity(a); }).catch(() => {}); }, []);
-  const list = [...activity].reverse();
-  return (
-    <div className="activity">
-      {!list.length && <div className="dim pad">{t('noActivity')}</div>}
-      {list.map((a) => (
-        <div key={a.id} className={`act-row ${a.status}`}>
-          {a.status === 'running' ? <Loader2 size={11} className="spin" /> : a.status === 'error' ? <XCircle size={11} /> : <Wrench size={11} />}
-          <span className="act-client">{a.client}</span>
-          <span className="act-tool">{a.tool}</span>
-          <span className="act-ms dim">{a.ms != null ? `${a.ms} ms` : ''}</span>
-          {a.error && <div className="act-err">{a.error}</div>}
-          {!a.error && a.args && a.args !== '{}' && <div className="act-args dim">{a.args}</div>}
+          {p.description && <div className="small">{p.description}</div>}
+          {(p.status === 'pending' || p.status === 'recording') && (
+            <div className="pop-actions">
+              <button className="btn sm primary" onClick={() => op('acceptProposal', { id: p.id }, 'accept proposal')}><Check size={12} /> {t('accept')}</button>
+              <button className="btn sm danger" onClick={() => op('rejectProposal', { id: p.id }, 'reject proposal')}><X size={12} /> {t('reject')}</button>
+            </div>
+          )}
         </div>
       ))}
+      {props.some((p) => p.status === 'accepted' || p.status === 'rejected') && <button className="btn sm quiet" onClick={() => op('removeProposals', { decided: true }, 'clean proposals')}>{t('clearDecided')}</button>}
+      <div className="sub-title"><MapPin size={12} /> {t('requestsTitle')}</div>
+      {!reqs.length && <div className="dim small pad">{t('noRequests')}</div>}
+      {reqs.map((r) => (
+        <div key={r.id} className={`idea-row req ${r.status}`}>
+          <div className="idea-head" onClick={() => go(r.time)}>
+            <span className={`req-status ${r.status}`}>{t(`req_${r.status}`)}</span> <span className="dim small">{fmtTime(r.time)}{r.end != null ? ` → ${fmtTime(r.end)}` : ''}</span>
+            <button className="icon-btn xs" style={{ marginLeft: 'auto' }} onClick={(e) => { e.stopPropagation(); op('removeRequests', { ids: [r.id] }, 'delete request'); }}><Trash2 size={11} /></button>
+          </div>
+          <div className="small">« {r.text} »</div>
+          {r.reply && <div className="small dim">↳ {r.repliedBy || 'IA'} : {r.reply}</div>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** "Edit like this video": analyse a link, then ask the AI to reproduce its style. */
+export function StylePanel() {
+  const t = useT();
+  const project = useStore((s) => s.project);
+  const copilot = useStore((s) => s.copilot);
+  const [url, setUrl] = useState('');
+  const [jobId, setJobId] = useState(null);
+  const job = useStore((s) => (jobId ? s.jobs[jobId] : null)); // only its own analysis job, not every job update
+  const [extra, setExtra] = useState('');
+  if (!project) return <div className="dim pad">{t('openProjectFirst')}</div>;
+  const refs = [...(project.styleRefs || [])].reverse();
+  const analyze = async () => {
+    try { const j = await call('style:analyze', { url: url.trim() }); setJobId(j.id); setUrl(''); } catch (e) { useStore.getState().toast('error', e.message); }
+  };
+  const apply = async (id) => {
+    try { const r = await call('style:apply', { id, text: extra.trim(), target: copilot?.available ? 'copilot' : 'mcp' }); useStore.getState().toast('success', r.sentTo === 'copilot' ? t('styleSentCopilot') : t('mcpRequestHint')); } catch (e) { useStore.getState().toast('error', e.message); }
+  };
+  return (
+    <div className="ideas style-panel">
+      <div className="sp-card">
+        <div className="sp-title"><Wand2 size={14} /> {t('styleTitle')}</div>
+        <div className="sp-sub">{t('styleIntro')}</div>
+        <div className="sp-input">
+          <Link size={13} />
+          <input value={url} placeholder={t('stylePlaceholder')} onChange={(e) => setUrl(e.target.value)} onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter' && url.trim()) analyze(); }} />
+        </div>
+        <button className="btn primary block sp-go" disabled={!url.trim()} onClick={analyze}><Sparkles size={13} /> {t('analyze')}</button>
+      </div>
+      {job && job.status !== 'done' && <div className="small">{job.status === 'error' ? `⚠ ${job.error}` : `${Math.round((job.progress || 0) * 100)} % · ${job.message || ''}`}</div>}
+      {refs.map((r) => {
+        const pr = r.profile || {};
+        return (
+          <div key={r.id} className="idea-row">
+            <div className="idea-head"><b>🎬 {r.name}</b><button className="icon-btn xs" style={{ marginLeft: 'auto' }} onClick={() => op('removeStyleRefs', { ids: [r.id] }, 'remove style')}><Trash2 size={11} /></button></div>
+            <div className="small">{t('stylePacing', { cpm: Math.round(pr.pacing?.cutsPerMinute || 0), shot: pr.pacing?.medianShot ?? '?' })}{pr.speech?.wordsPerMinute ? ` · ${t('styleWpm', { n: Math.round(pr.speech.wordsPerMinute) })}` : ''}{pr.sound?.bpm ? ` · ${Math.round(pr.sound.bpm)} BPM` : ''}</div>
+            <div className="dim small">{pr.source?.aspect} · {t('styleLook', { s: pr.look?.saturation, w: pr.look?.warmth })}</div>
+            <textarea rows={2} value={extra} placeholder={t('styleExtra')} onChange={(e) => setExtra(e.target.value)} onKeyDown={(e) => e.stopPropagation()} />
+            <button className="btn sm primary" onClick={() => apply(r.id)}><Sparkles size={12} /> {t('applyStyle')}</button>
+          </div>
+        );
+      })}
     </div>
   );
 }

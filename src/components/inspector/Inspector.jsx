@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Film, Music, Image as ImageIcon, Sparkles, Square, Trash2, Scissors, Copy, Unlink, Captions, Settings2, FileText, Wand2, Camera } from 'lucide-react';
+import { Film, Music, Image as ImageIcon, Sparkles, Square, Trash2, Scissors, Copy, Unlink, Captions, Settings2, FileText, Wand2, Camera, SlidersHorizontal } from 'lucide-react';
 import { AUDIO_FX } from '@shared/audiofx.js';
 import { useStore } from '../../app/store.js';
 import { op, call } from '../../app/api.js';
 import { playhead } from '../../app/playhead.js';
 import { useT, useLang, tplName, paramLabel } from '../../app/i18n.js';
 import { engineRef } from '../player/Player.jsx';
-import { NumberField, Slider, Select, Toggle, ColorField, TextField, Section, Row } from '../ui/fields.jsx';
+import { NumberField, Slider, Select, Toggle, ColorField, TextField, Section, Row, SectionDefaults } from '../ui/fields.jsx';
 import { TRANSITIONS } from '@shared/transitions.js';
 import { mediaById, COLOR_DEFAULTS, fmtTime, r4 } from '@shared/timeline.js';
 import { ANIM_IN_IDS, ANIM_OUT_IDS, ANIM_LOOP_IDS, ANIM_LOOP, animCatalog, DEFAULT_IN_DURATION, DEFAULT_OUT_DURATION } from '@shared/anim.js';
@@ -14,15 +14,25 @@ import { cueWords, keywordFlags, resolveSubtitleStyle } from '@shared/subtitles.
 import { emojiFor } from '@shared/keywords.js';
 import { useTemplates } from '../panels/MotionPanel.jsx';
 import { AnimGrid } from './AnimPicker.jsx';
+import { GradeSection, AdjustSection, FollowSection, ClipAfxSection, TrackInspector, VideoTools, CutoutTools } from './FxSections.jsx';
 
-const ICONS = { video: Film, audio: Music, image: ImageIcon, html: Sparkles, color: Square };
+const ICONS = { video: Film, audio: Music, image: ImageIcon, html: Sparkles, color: Square, adjust: SlidersHorizontal };
+
+// in the effect controls every section starts folded (sequence, notes, credits, clip, transform…)
+const FOLDED = { collapsed: true, scope: 'insp' };
 
 export function Inspector() {
+  return <SectionDefaults value={FOLDED}><InspectorBody /></SectionDefaults>;
+}
+
+function InspectorBody() {
   const project = useStore((s) => s.project);
   const selection = useStore((s) => s.selection);
   const selectedCue = useStore((s) => s.selectedCue);
+  const selectedTrack = useStore((s) => s.selectedTrack);
   if (!project) return null;
   if (selectedCue) return <CueEditor project={project} cueId={selectedCue} />;
+  if (selectedTrack && !selection.length) return <TrackInspector project={project} trackId={selectedTrack} />;
   if (selection.length > 1) return <MultiInspector project={project} ids={selection} />;
   const clip = selection.length === 1 ? project.clips.find((c) => c.id === selection[0]) : null;
   if (!clip) return <ProjectInspector project={project} />;
@@ -38,13 +48,9 @@ function ClipInspector({ project, clip: c }) {
   const lang = useLang();
   const media = mediaById(project, c.mediaId);
   const Icon = ICONS[c.type] || Film;
-  const visual = c.type !== 'audio';
+  const adjust = c.type === 'adjust';
+  const visual = c.type !== 'audio' && !adjust;
   const hasAudio = c.type === 'audio' || (c.type === 'video' && media?.hasAudio);
-  const color = { ...COLOR_DEFAULTS, ...(c.color || {}) };
-  const setColor = (k, v, done) => {
-    const nc = { ...color, [k]: v };
-    if (done) commit(c, { color: nc }, 'color'); else live(c, { color: nc });
-  };
   const crop = { top: 0, right: 0, bottom: 0, left: 0, ...(c.crop || {}) };
   const setCrop = (k, v, done) => { const nc = { ...crop, [k]: v }; if (done) commit(c, { crop: nc }, 'crop'); else live(c, { crop: nc }); };
   const ck = c.chromaKey;
@@ -82,6 +88,12 @@ function ClipInspector({ project, clip: c }) {
 
       {c.type === 'html' && <MotionParams clip={c} />}
 
+      {adjust && <AdjustSection clip={c} project={project} />}
+      {adjust && <GradeSection clip={c} />}
+      {c.type === 'video' && <VideoTools clip={c} project={project} />}
+      {c.cutoutOf && <CutoutTools clip={c} />}
+      {visual && <FollowSection clip={c} project={project} />}
+
       {visual && <AnimationSection clip={c} />}
 
       {visual && (
@@ -113,23 +125,7 @@ function ClipInspector({ project, clip: c }) {
 
       {visual && <FrameLookSection clip={c} />}
 
-      {visual && c.type !== 'color' && (
-        <Section title={t('colorGrade')} fx defaultOpen={!!c.color} onReset={() => op('updateClip', { id: c.id, color: null }, 'reset color')}>
-          <Slider label={t('brightness')} value={color.brightness} min={0} max={2} defaultValue={1} onChange={(v) => setColor('brightness', v)} onCommit={(v) => setColor('brightness', v, true)} />
-          <Slider label={t('contrast')} value={color.contrast} min={0} max={2} defaultValue={1} onChange={(v) => setColor('contrast', v)} onCommit={(v) => setColor('contrast', v, true)} />
-          <Slider label={t('saturation')} value={color.saturation} min={0} max={3} defaultValue={1} onChange={(v) => setColor('saturation', v)} onCommit={(v) => setColor('saturation', v, true)} />
-          <Slider label={t('hue')} value={color.hue} min={-180} max={180} step={1} defaultValue={0} onChange={(v) => setColor('hue', v)} onCommit={(v) => setColor('hue', v, true)} format={(v) => `${Math.round(v)}°`} />
-          <Slider label={t('bw')} value={color.grayscale} defaultValue={0} onChange={(v) => setColor('grayscale', v)} onCommit={(v) => setColor('grayscale', v, true)} />
-          <Slider label={t('sepia')} value={color.sepia} defaultValue={0} onChange={(v) => setColor('sepia', v)} onCommit={(v) => setColor('sepia', v, true)} />
-          <Slider label={t('invert')} value={color.invert} defaultValue={0} onChange={(v) => setColor('invert', v)} onCommit={(v) => setColor('invert', v, true)} />
-          <Slider label={t('blur')} value={color.blur} min={0} max={40} step={0.5} defaultValue={0} onChange={(v) => setColor('blur', v)} onCommit={(v) => setColor('blur', v, true)} format={(v) => `${v}px`} />
-          <div className="preset-chips">
-            {[['cinema', t('lookCinema'), { contrast: 1.12, saturation: 0.85, brightness: 0.97 }], ['punchy', 'Punchy', { contrast: 1.18, saturation: 1.35 }], ['vintage', 'Vintage', { sepia: 0.35, contrast: 0.92, saturation: 0.8 }], ['bw', t('bw'), { grayscale: 1, contrast: 1.15 }], ['cold', t('lookCold'), { hue: -12, saturation: 0.9 }], ['warm', t('lookWarm'), { hue: 10, saturation: 1.1, brightness: 1.03 }]].map(([id, n, v]) => (
-              <button key={id} className="chip" onClick={() => op('updateClip', { id: c.id, color: { ...COLOR_DEFAULTS, ...v } }, `look ${id}`)}>{n}</button>
-            ))}
-          </div>
-        </Section>
-      )}
+      {visual && c.type !== 'color' && <GradeSection clip={c} />}
 
       {visual && (
         <Section title={t('effects')} fx defaultOpen={!!(ck || c.vignette)}>
@@ -183,6 +179,7 @@ function ClipInspector({ project, clip: c }) {
           {c.keyframes?.volume && <div className="insp-meta">{t('volumeAutomated', { n: c.keyframes.volume.length })} <button className="link" onClick={() => op('clearKeyframes', { id: c.id, property: 'volume' }, 'clear volume')}>{t('remove')}</button></div>}
         </Section>
       )}
+      {hasAudio && <ClipAfxSection clip={c} />}
 
       {c.type === 'color' && (
         <Section title={t('color')}>
@@ -194,7 +191,7 @@ function ClipInspector({ project, clip: c }) {
 }
 
 /** Entrance / exit / continuous animation of a visual clip ("B-roll" & "animated still image"). */
-function AnimationSection({ clip: c, ids }) {
+export function AnimationSection({ clip: c, ids }) {
   const t = useT();
   const [slot, setSlot] = useState('in');
   const targets = ids || [c.id];
@@ -412,7 +409,7 @@ function ProjectInspector({ project }) {
   return (
     <div className="inspector">
       <div className="insp-head"><div className="insp-icon"><Settings2 size={14} /></div><div className="insp-title"><b>{t('projectSettings')}</b><div className="insp-sub">{t('nothingSelected')}</div></div></div>
-      <Section title={t('sequence')}>
+      <Section title={t('sequence')} primary>
         <TextField label={t('projectName')} value={project.name} onCommit={(v) => op('setProjectSettings', { name: v }, 'rename project')} />
         <div className="sub-title">{t('resolution')} — {s.width}×{s.height}</div>
         <div className="preset-chips">

@@ -14,6 +14,8 @@ import { store } from '../project/store.js';
 import { uid, readJson, writeJson } from '../core/util.js';
 import { userDir } from '../core/paths.js';
 import { tr } from '../core/settings.js';
+import { callCtx } from '../core/callctx.js';
+import { activeProposalId, sessionKey, unseenRequests, requestsNote } from './proposals.js';
 
 const VERSION = '0.1.0';
 const sessions = new Map(); // id -> session
@@ -85,7 +87,7 @@ function summarizeArgs(args) {
 }
 
 /** Execute a tool by name with plain args (used by MCP, REST bridge and copilot). */
-export async function callTool(name, args, { client = 'AI', sendProgress, signal } = {}) {
+export async function callTool(name, args, { client = 'AI', sendProgress, signal, session = null } = {}) {
   const t = toolByName(name);
   if (!t) throw new Error(`Unknown tool ${name}`);
   const entry = { id: uid('act', 6), client, tool: name, args: summarizeArgs(args), at: Date.now(), status: 'running' };
@@ -95,7 +97,9 @@ export async function callTool(name, args, { client = 'AI', sendProgress, signal
   const started = Date.now();
   try {
     const parsed = z.object(t.schema).parse(args || {});
-    const res = await t.handler(parsed, { client, progress: sendProgress || (() => {}), signal });
+    const key = sessionKey({ session, client });
+    const ctx = { client, session, progress: sendProgress || (() => {}), signal };
+    const res = await callCtx.run({ client, session, proposal: activeProposalId(key) }, () => t.handler(parsed, ctx));
     Object.assign(entry, { status: 'done', ms: Date.now() - started });
     bus.emit('ai:activity', entry);
     return res || { json: { ok: true } };
@@ -148,8 +152,13 @@ function buildServer(session) {
         extra.sendNotification({ method: 'notifications/progress', params: { progressToken: token, progress: Math.round((p || 0) * 100), total: 100, ...(message ? { message } : {}) } }).catch(() => {});
       } : null;
       try {
-        const res = await callTool(t.name, args, { client: session.client, sendProgress, signal: extra?.signal });
-        return { content: toMcpContent(res) };
+        const res = await callTool(t.name, args, { client: session.client, session: session.id, sendProgress, signal: extra?.signal });
+        const content = toMcpContent(res);
+        // requests the user pinned on the timeline reach the AI with its next tool result
+        session.seenRequests = session.seenRequests || new Set();
+        const note = t.name === 'list_requests' ? null : requestsNote(unseenRequests(session.seenRequests));
+        if (note) content.push({ type: 'text', text: note });
+        return { content };
       } catch (e) {
         return { isError: true, content: [{ type: 'text', text: `Error: ${e.message}` }] };
       }

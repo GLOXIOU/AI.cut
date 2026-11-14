@@ -20,6 +20,7 @@ const DEFAULTS = {
   copilot: { provider: 'claude', model: '', permissionMode: 'default' },
   openverseLicense: 'cc0', // cc0 | commercial
   theme: 'dark',
+  shortcuts: {}, // { actionId: ['Ctrl+K', …] } — only the shortcuts the user changed (src/app/shortcuts.js)
 };
 
 let settings = null;

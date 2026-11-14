@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
-import { Upload, FolderOpen, Film, Music, Image as ImageIcon, Sparkles, Loader2, AlertTriangle, Plus, ScanText, Trash2, FolderSearch, Search, Captions, LayoutGrid, List, X } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Upload, FolderOpen, Film, Music, Image as ImageIcon, Sparkles, Loader2, AlertTriangle, Plus, ScanText, Trash2, FolderSearch, Search, Captions, LayoutGrid, List, X, ImageOff } from 'lucide-react';
 import { useStore, localSet } from '../../app/store.js';
+import { useShallow } from 'zustand/react/shallow';
 import { call, op, fileUrl } from '../../app/api.js';
 import { playhead } from '../../app/playhead.js';
 import { useT } from '../../app/i18n.js';
@@ -8,10 +9,44 @@ import { fmtTime } from '@shared/timeline.js';
 
 const ICON = { video: Film, audio: Music, image: ImageIcon, html: Sparkles, lottie: Sparkles };
 
+/**
+ * Media thumbnail. When the picture cannot be loaded (file moved / deleted, cache cleared) a clean placeholder
+ * replaces the browser's broken-image icon.
+ */
+function Thumb({ m, Icon, size, caption }) {
+  const t = useT();
+  const [failed, setFailed] = useState(false);
+  useEffect(() => { setFailed(false); }, [m.thumb]);
+  if (m.thumb && !failed) return <img src={fileUrl(m.thumb)} alt="" draggable={false} onError={() => setFailed(true)} />;
+  if (failed || m.offline) {
+    return (
+      <span className="thumb-missing" title={m.offline ? t('fileNotFound') : t('previewUnavailable')}>
+        <ImageOff size={size} />
+        {caption && <small>{m.offline ? t('fileNotFound') : t('previewUnavailable')}</small>}
+      </span>
+    );
+  }
+  return <Icon size={size} />;
+}
+
+/** mediaId → true (a job runs for it) or the running proxy job's percentage. */
+function mediaJobs(s) {
+  const out = {};
+  for (const j of Object.values(s.jobs)) {
+    const id = j.meta?.mediaId;
+    if (!id || j.endedAt) continue;
+    if (j.type === 'proxy' && j.status === 'running') out[id] = Math.round((j.progress || 0) * 100);
+    else if (out[id] === undefined) out[id] = true;
+  }
+  return out;
+}
+
 export function MediaPanel() {
   const t = useT();
   const project = useStore((s) => s.project);
-  const jobs = useStore((s) => s.jobs);
+  // per-media job state, compared shallowly: the bin re-renders when a media starts / stops being busy or its
+  // proxy % changes, not on every progress event of every job of the session
+  const busyMedia = useStore(useShallow(mediaJobs));
   const view = useStore((s) => s.mediaView);
   const [q, setQ] = useState('');
   const [over, setOver] = useState(false);
@@ -30,8 +65,8 @@ export function MediaPanel() {
     if (paths.length) await call('media:import', { paths }).catch((err) => useStore.getState().toast('error', err.message));
   };
   const addToTimeline = (m) => op('addClip', { mediaId: m.id, ...(m.type === 'image' || m.type === 'html' || m.type === 'lottie' ? { start: playhead.time } : {}) }, 'add clip');
-  const analyzing = (m) => Object.values(jobs).some((j) => j.meta?.mediaId === m.id && !j.endedAt);
-  const proxyJob = (m) => Object.values(jobs).find((j) => j.type === 'proxy' && j.meta?.mediaId === m.id && j.status === 'running');
+  const analyzing = (m) => busyMedia[m.id] !== undefined;
+  const proxyPct = (m) => (typeof busyMedia[m.id] === 'number' ? busyMedia[m.id] : null);
   const setView = (v) => { useStore.setState({ mediaView: v }); localSet('aicut.mediaView', v); };
 
   const status = (m) => {
@@ -39,7 +74,7 @@ export function MediaPanel() {
     const busy = m.status === 'processing' || analyzing(m);
     return (
       <div className="media-status">
-        {busy && <span className="st busy"><Loader2 size={10} className="spin" /> {m.status === 'processing' && !proxyJob(m) ? t('importing') : a.transcript === 'running' ? t('transcribing') : proxyJob(m) ? `proxy ${Math.round((proxyJob(m).progress || 0) * 100)}%` : t('analysing')}</span>}
+        {busy && <span className="st busy"><Loader2 size={10} className="spin" /> {m.status === 'processing' && proxyPct(m) == null ? t('importing') : a.transcript === 'running' ? t('transcribing') : proxyPct(m) != null ? `proxy ${proxyPct(m)}%` : t('analysing')}</span>}
         {!busy && a.transcript === 'done' && a.words > 0 && <span className="st ok" title={`${a.words} · ${a.language}`}><Captions size={10} /> {a.language} · {a.words}</span>}
         {!busy && a.shots > 1 && <span className="st">{a.shots} {t('shots')}</span>}
         {a.bpm && <span className="st">{Math.round(a.bpm)} BPM</span>}
@@ -87,7 +122,7 @@ export function MediaPanel() {
             return (
               <div key={m.id} className={`media-card ${detail === m.id ? 'sel' : ''} ${m.offline ? 'offline' : ''}`} {...cardProps(m)}>
                 <div className="media-thumb">
-                  {m.thumb ? <img src={fileUrl(m.thumb)} alt="" draggable={false} /> : <Icon size={22} />}
+                  <Thumb m={m} Icon={Icon} size={20} caption />
                   {m.duration > 0 && m.type !== 'html' && <span className="media-dur">{fmtTime(m.duration).replace(/\.\d+$/, '')}</span>}
                   <span className="media-type"><Icon size={10} /></span>
                   <button className="media-add" title={t('addToTimeline')} onClick={(e) => { e.stopPropagation(); addToTimeline(m); }}><Plus size={12} /></button>
@@ -104,7 +139,7 @@ export function MediaPanel() {
             const Icon = ICON[m.type] || Film;
             return (
               <div key={m.id} className={`media-row ${detail === m.id ? 'sel' : ''}`} {...cardProps(m)}>
-                <div className="media-thumb">{m.thumb ? <img src={fileUrl(m.thumb)} alt="" draggable={false} /> : <Icon size={14} />}</div>
+                <div className="media-thumb"><Thumb m={m} Icon={Icon} size={14} /></div>
                 <div className="meta"><div className="media-name" title={m.path}>{m.name}</div>{status(m)}</div>
                 <span className="dim small">{m.duration > 0 && m.type !== 'html' ? fmtTime(m.duration).replace(/\.\d+$/, '') : ''}</span>
               </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronRight, RotateCcw } from 'lucide-react';
 import { t } from '../../app/i18n.js';
 
@@ -121,8 +121,19 @@ export function TextField({ label, value, onCommit, multiline, placeholder = '' 
   );
 }
 
-export function Section({ title, children, defaultOpen = true, onReset, right, fx }) {
-  const [open, setOpen] = useState(defaultOpen);
+/**
+ * Panels can make their sections start folded: <SectionDefaults value={{ collapsed: true, scope: 'insp' }}>.
+ * Inside such a scope a section opened / closed by the user stays that way for the session.
+ */
+const SectionCtx = createContext(null);
+export const SectionDefaults = SectionCtx.Provider;
+const rememberedOpen = new Map(); // "scope:title" → open
+
+export function Section({ title, children, defaultOpen = true, onReset, right, fx, primary = false }) {
+  const scope = useContext(SectionCtx);
+  const key = scope && typeof title === 'string' ? `${scope.scope}:${title}` : null;
+  const [open, setOpenState] = useState(() => (key && rememberedOpen.has(key) ? rememberedOpen.get(key) : scope?.collapsed && !primary ? false : defaultOpen)); // primary: stays open even where sections start folded
+  const setOpen = (v) => { if (key) rememberedOpen.set(key, v); setOpenState(v); };
   return (
     <div className={`section ${open ? 'open' : ''}`}>
       <div className="section-head" onClick={() => setOpen(!open)}>

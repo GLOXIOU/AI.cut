@@ -38,9 +38,15 @@ for (const f of BUNDLED_FONTS) {
 fs.writeFileSync(path.join(fontsOut, 'fonts.css'), css);
 console.log(`fonts: ${copied} files copied`);
 
+fs.mkdirSync(path.join(vendorOut, 'ort'), { recursive: true });
 for (const [from, to] of [
   ['lottie-web/build/player/lottie.min.js', 'lottie.min.js'],
+  // ONNX Runtime Web (WebGPU + wasm) for the subject cutout (electron/segment)
+  ['onnxruntime-web/dist/ort.webgpu.bundle.min.mjs', 'ort/ort.webgpu.bundle.min.mjs'],
+  ['onnxruntime-web/dist/ort-wasm-simd-threaded.asyncify.wasm', 'ort/ort-wasm-simd-threaded.asyncify.wasm'],
+  ['onnxruntime-web/dist/ort-wasm-simd-threaded.asyncify.mjs', 'ort/ort-wasm-simd-threaded.asyncify.mjs'],
 ]) {
+  if (!fs.existsSync(path.join(nm, from))) { console.warn('missing vendor file', from); continue; }
   fs.copyFileSync(path.join(nm, from), path.join(vendorOut, to));
 }
 console.log('vendor scripts copied');

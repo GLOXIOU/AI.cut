@@ -149,7 +149,7 @@ export function AudioPanel() {
         <>
           {kind === 'builtin' && !ql && <AutoSfxCard />}
           {kind === 'meme' && (
-            <div className="hint"><Laugh size={13} /> <span>{t('memeSoundsHint')} <button className="link" onClick={() => useStore.setState({ leftTab: 'memes', workspace: null })}>{t('openMemePanel')}</button></span></div>
+            <div className="hint"><Laugh size={13} /> <span>{t('memeSoundsHint')} <button className="link" onClick={() => useStore.getState().focusPanel('memes')}>{t('openMemePanel')}</button></span></div>
           )}
           {sfxGroups.map(([id, label, list]) => (
             <div key={id}>

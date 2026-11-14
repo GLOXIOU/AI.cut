@@ -57,7 +57,7 @@ function startProcess() {
     proc = null;
     if (busy) {
       busy = false;
-      pushSystem(code ? `${tr(`Le copilote s'est arrêté (code ${code}).`, `The copilot stopped (code ${code}).`)} ${errTail.trim().split('\n').slice(-2).join(' ')}` : tr('Session terminée.', 'Session ended.'));
+      pushSystem(code ? `${tr(`Le chat s'est arrêté (code ${code}).`, `The chat stopped (code ${code}).`)} ${errTail.trim().split('\n').slice(-2).join(' ')}` : tr('Session terminée.', 'Session ended.'));
     }
     emit();
   });

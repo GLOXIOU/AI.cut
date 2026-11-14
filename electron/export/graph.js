@@ -5,6 +5,8 @@ import {
 } from '../../shared/timeline.js';
 import { animUsage, animExprs, animStateAt, animOpacityRanges } from '../../shared/anim.js';
 import { audioFxFilters } from '../../shared/audiofx.js';
+import { maskAt, ffMaskLumExpr, maskParams } from '../../shared/fx.js';
+import { bakeProject } from '../../shared/follow.js';
 
 const f = (x) => {
   const v = Number(x);
@@ -25,19 +27,27 @@ function easeExpr(name, P) {
     default: return P;
   }
 }
-/** Piecewise expression of keyframes for variable tv (string). */
+/**
+ * Piecewise expression of keyframes for variable tv (string). Segments are selected by a BALANCED tree of if()s:
+ * ffmpeg's expression parser limits the nesting depth (~100), and follow / tracking paths have hundreds of keys.
+ */
 export function kfExpr(kfs, tv, base) {
   if (!kfs || !kfs.length) return f(base);
   const k = [...kfs].sort((a, b) => a.t - b.t);
-  let e = f(k[k.length - 1].v);
-  for (let i = k.length - 2; i >= 0; i--) {
+  if (k.length === 1) return f(k[0].v);
+  const last = k[k.length - 1];
+  const seg = (i) => {
     const a = k[i], b = k[i + 1];
     const span = Math.max(1e-6, b.t - a.t);
     const P = `((${tv}-${f(a.t)})/${f(span)})`;
-    const seg = `(${f(a.v)}+(${f(b.v - a.v)})*${easeExpr(a.ease, P)})`;
-    e = `if(lt(${tv},${f(b.t)}),${seg},${e})`;
-  }
-  return `if(lt(${tv},${f(k[0].t)}),${f(k[0].v)},${e})`;
+    return `(${f(a.v)}+(${f(b.v - a.v)})*${easeExpr(a.ease, P)})`;
+  };
+  const build = (lo, hi) => { // segments lo..hi (segment i covers [k[i].t, k[i+1].t))
+    if (lo === hi) return seg(lo);
+    const mid = (lo + hi + 1) >> 1;
+    return `if(lt(${tv},${f(k[mid].t)}),${build(lo, mid - 1)},${build(mid, hi)})`;
+  };
+  return `if(lt(${tv},${f(k[0].t)}),${f(k[0].v)},if(gte(${tv},${f(last.t)}),${f(last.v)},${build(0, k.length - 2)}))`;
 }
 const animated = (kfs) => kfs && kfs.length > 1;
 
@@ -59,6 +69,8 @@ class Graph {
  * other while every decoder is already open, the GPU frame pools ran dry and a chunk took minutes.
  */
 function decodeInputArgs(opts, media) {
+  // VP8 / VP9 with an alpha channel (cutouts, keyed memes): ffmpeg's native decoders drop the alpha, libvpx keeps it
+  if (media?.hasAlpha && (media.codec === 'vp9' || media.codec === 'vp8')) return ['-c:v', media.codec === 'vp9' ? 'libvpx-vp9' : 'libvpx'];
   if (!opts.decode || media?.type !== 'video') return [];
   if (opts.decode === 'cuda') return ['-hwaccel', 'cuda'];
   if (opts.decode === 'hwdec' && opts.hwdec) return ['-hwaccel', opts.hwdec];
@@ -438,6 +450,64 @@ function simpleSegment(g, project, span, segA, segB, opts) {
   return l;
 }
 
+// ----------------------------------------------------------------------------------------------
+// Adjustment layers (shared/fx.js): the composite below is split, processed (grade / blur / pixelate), masked and
+// laid back over itself while the layer is active. Mirrors PlayerEngine.renderAdjust (backdrop-filter + CSS mask).
+// ----------------------------------------------------------------------------------------------
+function adjustSegment(g, span, cur, w0, w1, opts) {
+  const { width: W, height: H, fps } = opts;
+  const c = span.clip;
+  const q = (t) => Math.round((t - w0) * fps) / fps;
+  const a = q(Math.max(c.start, w0)), b = q(Math.min(c.start + c.duration, w1));
+  if (b - a < 0.5 / fps) return cur;
+  const proc = [];
+  if (!isNeutralColor(c.color)) proc.push(...ffColorChain(c.color));
+  if (c.fx?.blur > 0) proc.push(`gblur=sigma=${f(c.fx.blur)}`);
+  if (c.fx?.pixelate > 1) {
+    const k = Math.round(c.fx.pixelate);
+    // blocks aligned on the frame origin, one source pixel per block (like the preview's SVG filter)
+    proc.push(`pad=w=ceil(iw/${k})*${k}:h=ceil(ih/${k})*${k}:x=0:y=0`, `scale=w=iw/${k}:h=ih/${k}:flags=neighbor`, `scale=w=iw*${k}:h=ih*${k}:flags=neighbor`, `crop=${W}:${H}:0:0`);
+  }
+  if (!proc.length || (c.opacity ?? 1) <= 0.001) return cur;
+  const dur = r4(b - a);
+  const m = g.label('am'), p = g.label('ap'), pl = g.label('ap');
+  g.add(`[${cur}]split[${m}][${p}]`);
+  g.add(`[${p}]trim=start=${f(a)}:end=${f(b)},format=rgba,${proc.join(',')},format=rgba[${pl}]`);
+  let fx = pl;
+  if (c.mask) {
+    const mk = maskAt(c, 0, W, H);
+    const ml = g.label('mk');
+    const path = c.mask._path;
+    if (!path?.length) {
+      g.add(`color=c=black:s=${W}x${H}:r=${fps}:d=${f(1 / fps)},format=gray,geq=lum='${ffMaskLumExpr(mk)}',loop=loop=-1:size=1:start=0,trim=duration=${f(dur)},setpts=PTS+${f(a)}/TB[${ml}]`);
+    } else {
+      // moving mask: one large still mask, cropped every frame around the tracked position (crop x/y are per-frame)
+      let mw = 0, mh = 0;
+      for (const pt of path) { mw = Math.max(mw, pt.w ?? mk.w); mh = Math.max(mh, pt.h ?? mk.h); }
+      const { Rx, Ry } = maskParams({ ...mk, w: mw, h: mh });
+      const bw = Math.ceil(Rx * 2) + 4, bh = Math.ceil(Ry * 2) + 4;
+      const CW = 2 * W + bw + (bw % 2), CH = 2 * H + bh + (bh % 2);
+      const cxc = CW / 2, cyc = CH / 2;
+      const local = `(t+${f(w0 - c.start)})`;
+      const X = kfExpr(path.map((pt) => ({ t: pt.t, v: pt.x })), local, path[0].x);
+      const Y = kfExpr(path.map((pt) => ({ t: pt.t, v: pt.y })), local, path[0].y);
+      g.add(`color=c=black:s=${CW}x${CH}:r=${fps}:d=${f(1 / fps)},format=gray,geq=lum='${ffMaskLumExpr({ ...mk, cx: cxc, cy: cyc })}',loop=loop=-1:size=1:start=0,trim=duration=${f(dur)},setpts=PTS+${f(a)}/TB,` +
+        `crop=w=${W}:h=${H}:x='clip(${f(cxc)}-(${X}),0,${CW - W})':y='clip(${f(cyc)}-(${Y}),0,${CH - H})'[${ml}]`);
+    }
+    const o = g.label('ap');
+    g.add(`[${fx}][${ml}]alphamerge[${o}]`);
+    fx = o;
+  }
+  const post = [];
+  if ((c.opacity ?? 1) < 0.999) post.push(`colorchannelmixer=aa=${f(c.opacity)}`);
+  if (c.videoFadeIn > 0) post.push(`fade=t=in:st=${f(Math.max(0, c.start - w0))}:d=${f(c.videoFadeIn)}:alpha=1`);
+  if (c.videoFadeOut > 0) post.push(`fade=t=out:st=${f(Math.max(0, c.start + c.duration - c.videoFadeOut - w0))}:d=${f(c.videoFadeOut)}:alpha=1`);
+  if (post.length) { const o = g.label('ap'); g.add(`[${fx}]${post.join(',')}[${o}]`); fx = o; }
+  const out = g.label('lay');
+  g.add(`[${m}][${fx}]overlay=0:0:eof_action=pass:format=auto[${out}]`);
+  return out;
+}
+
 /** Expand a window so it never cuts a transition. */
 export function expandWindow(project, w0, w1) {
   let a = w0, b = w1;
@@ -460,21 +530,33 @@ export function expandWindow(project, w0, w1) {
 export function buildVideoGraph(project, w0, w1, opts) {
   const g = new Graph();
   const { width: W, height: H, fps } = opts;
+  if (opts.bake !== false) project = bakeProject(project);
   const WD = r4(w1 - w0);
   const base = g.label('base');
   g.add(`color=c=${project.settings.background || '#000000'}:s=${W}x${H}:r=${fps}:d=${f(WD)},format=yuv420p[${base}]`);
   let cur = base;
-  const frameDur = 1 / fps;
-  const q = (t) => Math.round((t - w0) * fps) / fps + w0; // quantize to output frames
-
   let bottom = true;
   for (const track of videoTracks(project)) {
     if (track.hidden) continue;
-    const spans = trackSpans(project, track).filter((s) => s.end > w0 + EPS && s.start < w1 - EPS);
-    if (!spans.length) continue;
+    const inWindow = trackSpans(project, track).filter((s) => s.end > w0 + EPS && s.start < w1 - EPS);
+    const spans = inWindow.filter((s) => s.clip.type !== 'adjust');
+    const adjusts = inWindow.filter((s) => s.clip.type === 'adjust');
+    if (spans.length) cur = trackLayer(g, project, track, spans, cur, w0, w1, opts, bottom);
+    if (spans.length) bottom = false;
+    for (const s of adjusts) cur = adjustSegment(g, s, cur, w0, w1, opts);
+  }
+  return finishGraph(g, project, cur, w0, w1, opts);
+}
+
+/** One track of regular clips (concatenated segments + transitions) laid over `cur`. */
+function trackLayer(g, project, track, spans, cur, w0, w1, opts, bottom) {
+  const { width: W, height: H, fps } = opts;
+  const WD = r4(w1 - w0);
+  const frameDur = 1 / fps;
+  const q = (t) => Math.round((t - w0) * fps) / fps + w0; // quantize to output frames
+  {
     // bottom track made only of plain opaque shots: rendered in YUV and used as the base picture (fast path)
     const fast = bottom && opts.fastBase !== false && spans.every((s) => isSimpleSpan(project, s, W, H));
-    bottom = false;
     const gopts = fast ? { ...opts, opaque: true, background: project.settings.background } : opts;
     const groups = []; // each: {label, dur}
     let cursor = w0;
@@ -513,7 +595,7 @@ export function buildVideoGraph(project, w0, w1, opts) {
       }
       cursor = segB;
     }
-    if (!groups.length) continue;
+    if (!groups.length) return cur;
     if (w1 - cursor >= frameDur / 2) groups.push({ label: gapSegment(g, r4(w1 - cursor), gopts), dur: r4(w1 - cursor) });
     let trackLabel;
     if (groups.length === 1) trackLabel = groups[0].label;
@@ -527,9 +609,13 @@ export function buildVideoGraph(project, w0, w1, opts) {
       g.add(`[${trackLabel}]format=yuv420p,tpad=stop_mode=clone:stop_duration=${f(2 / fps)},trim=duration=${f(WD)},setpts=PTS-STARTPTS[${o}]`);
     }
     else g.add(`[${cur}][${trackLabel}]overlay=0:0:eof_action=pass[${o}]`);
-    cur = o;
+    return o;
   }
+}
 
+function finishGraph(g, project, cur, w0, w1, opts) {
+  const { width: W, height: H, fps } = opts;
+  const WD = r4(w1 - w0);
   if (opts.subtitles) {
     const idx = g.input(['-f', 'concat', '-safe', '0', '-i', opts.subtitles.list]);
     const sl = g.label('sub');

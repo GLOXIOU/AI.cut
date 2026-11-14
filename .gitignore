@@ -8,3 +8,4 @@ resources/vendor/
 # bundled content packs: rebuilt from scripts/packs/*.json with `npm run packs`
 resources/packs/
 scripts/packs/.tmp/
+ROADMAP.md
