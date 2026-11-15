@@ -519,6 +519,18 @@ Object.assign(D, {
   sc_zoomOut: ['Zoom arrière (timeline)', 'Zoom out (timeline)'], sc_zoomFit: ['Tout afficher (timeline)', 'Zoom to fit (timeline)'], sc_deselect: ['Désélectionner', 'Deselect'],
   sc_save: ['Enregistrer', 'Save'], sc_exportVideo: ['Exporter la vidéo', 'Export the video'], sc_exportFrame: ["Exporter l'image", 'Export the frame'],
 });
+
+// ---- chat composer: model, effort, plan usage
+Object.assign(D, {
+  aiModel: ['Modèle', 'Model'], aiEffort: ['Effort', 'Effort'], aiOtherModels: ['Autres versions', 'Other versions'],
+  aiModelsLoading: ['Chargement des modèles…', 'Loading models…'], aiModelsUnavailable: ['Liste des modèles indisponible', 'Model list unavailable'],
+  aiModelEffortTitle: ['{m} · effort {e}', '{m} · {e} effort'],
+  effort_low: ['Faible', 'Low'], effort_medium: ['Moyen', 'Medium'], effort_high: ['Élevé', 'High'], effort_xhigh: ['Très élevé', 'Extra high'], effort_max: ['Max', 'Max'],
+  aiUsage: ['Utilisation', 'Usage'], usageRefresh: ['Actualiser', 'Refresh'],
+  usageSession: ['Session (5 h)', 'Session (5 h)'], usageWeek: ['Semaine · tous modèles', 'Week · all models'], usageWeekModel: ['Semaine · {m}', 'Week · {m}'],
+  usageContext: ['Contexte du chat', 'Chat context'], usageTokens: ['{a} / {b} tokens', '{a} / {b} tokens'],
+  usageResetsAt: ['Remise à zéro à {t}', 'Resets at {t}'], usageResetsDay: ['Remise à zéro {d} à {t}', 'Resets {d} at {t}'],
+});
 export function t(key, vars) {
   const lang = useStore.getState().lang === 'en' ? 1 : 0;
   let s = D[key] ? D[key][lang] : key;

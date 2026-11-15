@@ -216,6 +216,9 @@ const API = {
   'copilot:send': ({ text, ui }) => copilot.send(text, { ui }),
   'copilot:stop': () => copilot.stop(),
   'copilot:reset': () => copilot.reset(),
+  'copilot:setModel': ({ model }) => copilot.setModel(model),
+  'copilot:setEffort': ({ effort }) => copilot.setEffort(effort),
+  'copilot:refresh': ({ maxAge }) => copilot.refreshMeta({ maxAge }),
 
   'ui:state': (s) => { S.setUiState(s); return true; },
 

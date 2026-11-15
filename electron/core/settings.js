@@ -17,7 +17,7 @@ const DEFAULTS = {
   defaultProjectsDir: null,
   recentProjects: [], // [{path, name, openedAt}]
   exportDefaults: { preset: 'youtube-1080p', quality: 'high', hardware: true },
-  copilot: { provider: 'claude', model: '', permissionMode: 'default' },
+  copilot: { provider: 'claude', model: '', effort: '', permissionMode: 'default' }, // model / effort: '' = Claude Code's own default
   openverseLicense: 'cc0', // cc0 | commercial
   theme: 'dark',
   shortcuts: {}, // { actionId: ['Ctrl+K', …] } — only the shortcuts the user changed (src/app/shortcuts.js)

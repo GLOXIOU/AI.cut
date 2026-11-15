@@ -6,6 +6,7 @@ import { useStore } from '../../app/store.js';
 import { call } from '../../app/api.js';
 import { playhead } from '../../app/playhead.js';
 import { useT } from '../../app/i18n.js';
+import { ModelPicker, UsageMeter } from './ChatControls.jsx';
 
 // The AI panels (chat, ideas, style) are three dockable panels: grouped by default, movable separately.
 const SUGGESTIONS = ['sugg1', 'sugg2', 'sugg3', 'sugg4', 'sugg5', 'sugg6'];
@@ -29,7 +30,10 @@ export function ChatPanel() {
   const [sent, setSent] = useState(false); // hides the suggestions right away, before the reply starts streaming
   const listRef = useRef(null);
   const inputRef = useRef(null);
-  useEffect(() => { call('copilot:state').then((s) => useStore.setState({ copilot: s })).catch(() => {}); }, []);
+  useEffect(() => {
+    call('copilot:state').then((s) => useStore.setState({ copilot: s })).catch(() => {});
+    call('copilot:refresh', { maxAge: 120000 }).catch(() => {}); // models + plan usage, no tokens spent
+  }, []);
   useEffect(() => { const el = listRef.current; if (el) el.scrollTop = el.scrollHeight; }, [cp?.messages, cp?.busy]);
 
   const send = async (msg) => {
@@ -89,9 +93,11 @@ export function ChatPanel() {
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => { e.stopPropagation(); if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }} />
           <div className="composer-bar">
+            <ModelPicker meta={cp?.meta} />
+            <UsageMeter meta={cp?.meta} />
             {cp?.busy
-              ? <button className="send-btn stop" onClick={() => call('copilot:stop')}><Square size={11} fill="currentColor" /> {t('stop')}</button>
-              : <button className="send-btn" disabled={!text.trim() || !project} onClick={() => send()}><Send size={14} /> {t('send')}</button>}
+              ? <button className="send-btn stop" title={t('stop')} onClick={() => call('copilot:stop')}><Square size={11} fill="currentColor" /> <span className="sb-label">{t('stop')}</span></button>
+              : <button className="send-btn" title={t('send')} disabled={!text.trim() || !project} onClick={() => send()}><Send size={14} /> <span className="sb-label">{t('send')}</span></button>}
           </div>
         </div>
       </div>

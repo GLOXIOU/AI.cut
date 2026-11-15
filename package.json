@@ -1,7 +1,7 @@
 {
   "name": "ai-cut",
   "productName": "AI.cut",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A video editing software powered entirely by AI, featuring capabilities such as motion design and much more.",
   "license": "MIT",
   "type": "module",

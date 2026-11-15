@@ -73,6 +73,7 @@ Or you can use the [release version](https://github.com/GLOXIOU/AI.cut/releases)
 
 **AI**
 - Any AI can edit through the MCP server (Claude Code, Codex, Cursor, Gemini…) or the built-in chat
+- Built-in chat: pick the Claude model and effort right in the composer, and see your plan usage (5-hour session, week, per-model limits) and how full the chat context is
 - "Ask the AI here": the Ask button above the playhead, the bubble that appears when the mouse rests on the timeline, or a right-click — the instruction is pinned at that precise spot
 - AI ideas shown as ★ Idea flags right on the timeline: preview, compare with / without, keep or reject
 - The AI saves checkpoints of the whole edit before big changes
